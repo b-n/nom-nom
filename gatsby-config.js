@@ -1,6 +1,7 @@
 require('dotenv').config({
   path: `.env.${process.env.NODE_ENV}`
 })
+const locales = require('./src/data/languages')
 
 const contentfulConfig = {
   spaceId: process.env.CONTENTFUL_SPACE_ID,
@@ -18,14 +19,16 @@ if (!spaceId || !accessToken) {
 
 module.exports = {
   siteMetadata: {
-    title: 'Gatsby Contentful starter',
+    title: 'Nom-nom. Om nom nom nom',
+    locales
   },
-  pathPrefix: '/gatsby-contentful-starter',
+  pathPrefix: '/nom-nom',
   plugins: [
     'gatsby-transformer-remark',
     'gatsby-transformer-sharp',
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-sharp',
+    'gatsby-plugin-styled-components',
     {
       resolve: 'gatsby-source-contentful',
       options: contentfulConfig,
