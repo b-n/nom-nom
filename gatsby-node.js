@@ -17,7 +17,7 @@ const createMeals = ({ graphql, actions }) => {
       graphql(
         `
           {
-            allContentfulMeal {
+            allContentfulMeal(filter: {title: {ne: null}}) {
               edges {
                 node {
                   slug
@@ -36,7 +36,6 @@ const createMeals = ({ graphql, actions }) => {
         }
         
         result.data.allContentfulMeal.edges
-          .filter(meal => meal.node && meal.node.title)
           .forEach((meal) => {
             createPage({
               url: `/${meal.node.node_locale}/meal/${meal.node.slug}/`,
