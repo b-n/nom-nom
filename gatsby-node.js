@@ -2,14 +2,17 @@ const Promise = require('bluebird')
 const path = require('path')
 
 exports.createPages = (gatsby) => {
-  return Promise.all([ createMeals(gatsby), createIndexes(gatsby) ])
+  return Promise.all([
+    createMeals(gatsby),
+    createIndexes(gatsby),
+  ])
 }
+
 const createMeals = ({ graphql, actions }) => {
-  const { createPage } = actions
+  const template = path.resolve('./src/templates/meal.js')
+  const createPage = makePage(actions.createPage, template);
 
   return new Promise((resolve, reject) => {
-    const mealTemplate = path.resolve('./src/templates/meal.js')
-    
     resolve(
       graphql(
         `
@@ -18,6 +21,7 @@ const createMeals = ({ graphql, actions }) => {
               edges {
                 node {
                   slug
+                  title
                   id
                   node_locale
                 }
@@ -28,22 +32,20 @@ const createMeals = ({ graphql, actions }) => {
       )
       .then(result => {
         if (result.errors) {
-          console.log(result.errors)
-          reject(result.errors)
+          throw new Error(result.errors)
         }
         
-        result.data.allContentfulMeal.edges.forEach((meal) => {
-          const url = `/${meal.node.node_locale}/meal/${meal.node.slug}/`;
-          console.log(`Creating: ${url}`)
-          createPage({
-            path: url,
-            component: mealTemplate,
-            context: {
-              id: meal.node.id,
-              locale: meal.node.node_locale
-            },
+        result.data.allContentfulMeal.edges
+          .filter(meal => meal.node && meal.node.title)
+          .forEach((meal) => {
+            createPage({
+              url: `/${meal.node.node_locale}/meal/${meal.node.slug}/`,
+              context: {
+                id: meal.node.id,
+                locale: meal.node.node_locale
+              },
+            })
           })
-        })
 
         return Promise.resolve();
       })
@@ -52,11 +54,10 @@ const createMeals = ({ graphql, actions }) => {
 }
 
 const createIndexes = ({ graphql, actions }) => {
-  const { createPage } = actions
+  const template = path.resolve('./src/templates/index.js')
+  const createPage = makePage(actions.createPage, template);
 
   return new Promise((resolve, reject) => {
-    const indexTemplate = path.resolve('./src/templates/index.js')
-    
     resolve(
       graphql(
         `
@@ -73,16 +74,12 @@ const createIndexes = ({ graphql, actions }) => {
       )
       .then(result => {
         if (result.errors) {
-          console.log(result.errors)
-          reject(result.errors)
+          throw new Error(result.errors)
         }
         
         result.data.site.siteMetadata.locales.languages.forEach((language) => {
-          const url = `/${language}/`;
-          console.log(`Creating: ${url}`)
           createPage({
-            path: url,
-            component: indexTemplate,
+            url: `/${language}/`,
             context: {
               language
             },
@@ -92,5 +89,14 @@ const createIndexes = ({ graphql, actions }) => {
         return Promise.resolve();
       })
     )
+  })
+}
+
+const makePage = (createPage, component) => ({ url, context }) => {
+  console.log(`Creating: ${url}`)
+  createPage({
+    path: url,
+    component,
+    context
   })
 }
