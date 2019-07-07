@@ -23,5 +23,12 @@ jobs:
           name: lint
           command: yarn run lint
       - run:
+          name: vars
+          command: |
+            git config user.name $GH_NAME
+            git config user.email $GH_EMAIL
+            printf "CONTENTFUL_SPACE_ID=$CONTENTFUL_SPACE_ID" > .env.production
+            prtinf "CONTENTFUL_ACCESS_TOKEN=$CONTENTFUL_ACCESS_TOKEN" >> .env.production
+      - run:
           name: deploy
           command: yarn run deploy
