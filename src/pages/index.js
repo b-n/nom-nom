@@ -1,5 +1,5 @@
 import React from 'react'
-import { graphql, navigate, withPrefix } from 'gatsby'
+import { graphql, navigate } from 'gatsby'
 import { getUserLangKey } from 'ptz-i18n'
 
 class RouteIndex extends React.Component {
@@ -9,7 +9,7 @@ class RouteIndex extends React.Component {
     if (typeof window !== 'undefined') {
       const { languages, defaultLocale } = props.data.site.siteMetadata.locales;
       const langKey = getUserLangKey(languages, defaultLocale);
-      navigate(withPrefix(`/${langKey}`))
+      navigate(`/${langKey}`)
     }
   }
 
