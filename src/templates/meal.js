@@ -55,7 +55,7 @@ class MealTemplate extends React.Component {
               __html: shortDescription.childMarkdownRemark.html,
             }}
           />
-          {recipes.map(recipe => (
+          {recipes && recipes.map(recipe => (
             <Recipe
               key={recipe.id}
               recipe={recipe}
