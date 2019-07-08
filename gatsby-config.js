@@ -22,7 +22,7 @@ module.exports = {
     title: 'Nom-nom. Om nom nom nom',
     locales
   },
-  pathPrefix: '/nom-nom',
+  pathPrefix: '',
   plugins: [
     'gatsby-transformer-remark',
     'gatsby-transformer-sharp',
