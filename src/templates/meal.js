@@ -36,7 +36,6 @@ const ShortDescription = styled.div`
 `
 
 const Meal = ({ data, location }) => {
-  console.log(data);
   const meal = data.contentfulMeal
   const { title, updatedAt, shortDescription, recipes } = meal
   const siteTitle = data.site.siteMetadata.title;

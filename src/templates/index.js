@@ -28,7 +28,6 @@ const ItemWrapper = styled.div`
 
 const Index = ({ location, pageContext, data }) => (
   <Layout location={location} >
-    {console.log(data.allContentfulMeal.edges[0].node)}
     <Helmet title={data.site.siteMetadata.title} />
     <ItemWrapper>
       {data.allContentfulMeal.edges.map(({ node }) => (
