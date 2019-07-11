@@ -20,7 +20,8 @@ if (!spaceId || !accessToken) {
 module.exports = {
   siteMetadata: {
     title: 'Nom-nom. Om nom nom nom',
-    locales
+    languages: locales.languages,
+    defaultLocale: locales.defaultLocale,
   },
   pathPrefix: '/nom-nom',
   plugins: [

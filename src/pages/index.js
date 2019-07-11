@@ -7,8 +7,8 @@ class RouteIndex extends React.Component {
     super(props)
 
     if (typeof window !== 'undefined') {
-      const { languages, defaultLocale } = props.data.site.siteMetadata.locales;
-      const langKey = getUserLangKey(languages, defaultLocale);
+      const { languages, defaultLocale } = props.data.site.siteMetadata;
+      const langKey = getUserLangKey(languages.map(({locale}) => locale), defaultLocale);
       navigate(`/${langKey}`)
     }
   }
@@ -26,10 +26,10 @@ export const pageQuery = graphql`
   query RouteQuery {
     site {
       siteMetadata {
-        locales {
-          languages
-          defaultLocale
+        languages {
+          locale
         }
+        defaultLocale
       }
     }
   }

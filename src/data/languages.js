@@ -1,8 +1,34 @@
-const languages = [ 'en-NZ', 'nl-NL' ]
+const formatDistanceToNow = require('date-fns/formatDistanceToNow').default;
+
+const languages = [
+  {
+    locale: 'en-NZ',
+    label: '🇳🇿 English',
+  },
+  {
+    locale: 'nl-NL',
+    label: '🇳🇱 Nederlands',
+  }
+]
 
 const defaultLocale = 'en-NZ'
 
+const messages = {
+  'en-NZ': require('./messages/en-NZ'),
+  'nl-NL': require('./messages/nl-NL'),
+}
+
+const formatLocales = {
+  'en-NZ': require('date-fns/locale/en-GB'),
+  'nl-NL': require('date-fns/locale/nl'),
+}
+
+const getMessage = locale => message => messages[locale][message];  
+const getFormatDistanceToNow = locale => date => formatDistanceToNow(date, { locale: formatLocales[locale] })
+
 module.exports = {
   languages,
-  defaultLocale
+  defaultLocale,
+  getMessage,
+  getFormatDistanceToNow,
 }

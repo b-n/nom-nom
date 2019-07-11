@@ -1,31 +1,39 @@
 import React from 'react';
 import { Link } from 'gatsby';
+import Img from 'gatsby-image';
 import styled from 'styled-components'
+import { getMessage, getFormatDistanceToNow } from '../data/languages'
 
 const Item = styled.div`
-  background-color: #C0C0C0;
   width: 265px;
   height: 375px;
+  background-color: #FFFFF8;
   border: 1px solid #000;
   flex: none;
   border-width: 2px;
   border-style: solid;
-  border-color: #FFFFFF #808080 #808080 #FFFFFF;
+  border-color: #606060 #303030 #303030 #606060;
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px 2px #D0D0D0;
   display: flex;
   flex-direction: column;
   margin: 10px;
 `
 
+const HeroImage = styled(props => <Img {...props} />)`
+  max-width: 100%;
+  border-radius: 3px 3px 0px 0px;
+`
+
 const Title = styled.h1`
-  background-color: #000080;
+  background-color: #303080;
   width: 100%;
   text-align: left;
   font-family: Arial;
-  font-size: 15px;
-  font-weight: bold;
+  font-size: 1.5rem;
   color: white;
   margin: 0;
-  padding: 2px 10px;
+  padding: 3px 13px;
 `
 
 const Description = styled.div`
@@ -39,34 +47,45 @@ const LastUpdate = styled.div`
   padding-left: 10px;
 `
 
-const GoLink = styled(props => <Link {...props} />)`
+const CTA = styled(props => <Link {...props} />)`
   display: block;
-  width: 60px;
+  width: 70px;
   margin: 19px auto;
   text-align: center;
   text-decoration: none;
-  outline: 1px solid #000000;
-  border-width: 1px;
-  border-style: solid;
-  border-color: #FFFFFF #808080 #808080 #FFFFFF;
-  padding: 1px;
+  border-top: 1px solid #333;
+  border-left: 1px solid #333;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+  background-color: #F7F7F7;
+  padding: 3px;
+  border-radius: 14px;
 
   &:active {
-    border-color: #808080 #FFFFFF #FFFFFF #808080;
-    outline: 0;
-    padding: 2px 0px 0px 2px;
+    border-top: 2px solid #000;
+    border-left: 2px solid #000;
+    border-right: 1px solid #333;
+    border-bottom: 1px solid #333;
+    padding: 3px;
   }
 `
 
-export default ({ meal, language }) => (
-  <Item>
-    <Title>{meal.title}</Title>
-    <Description
+const MealPreview = ({ meal, locale }) => {
+  const messages = getMessage(locale)
+  const formatDistanceToNow = getFormatDistanceToNow(locale)
+  return (
+    <Item>
+      <HeroImage resolutions={meal.heroImage.resolutions}/>
+      <Title>{meal.title}</Title>
+      <Description
         dangerouslySetInnerHTML={{
           __html:meal.shortDescription.childMarkdownRemark.html,
         }}
-    />
-    <LastUpdate>Last Updated: {meal.updatedAt}</LastUpdate>
-    <GoLink to={`/${language}/meal/${meal.slug}`}>Go</GoLink>
-  </Item>
-)
+      />
+      <LastUpdate>{messages('LAST_UPDATED')} {formatDistanceToNow(new Date(meal.updatedAt), { locale })} {messages('AGO')}</LastUpdate>
+      <CTA to={`/${locale}/meal/${meal.slug}`}>{messages('VIEW')}</CTA>
+    </Item>
+  )
+}
+
+export default MealPreview

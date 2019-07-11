@@ -10,45 +10,49 @@ const ItemWrapper = styled.div`
   padding: 20px;
   overflow-x: hidden;
   flex-wrap: wrap;
-  justify-content: space-between;
+  background-color: #fff;
+  max-width: 1180px;
+
+  @media (max-width: 610px) {
+    max-width: 328px;
+  }
+
+  @media (min-width: 611px) and (max-width: 895px) {
+    max-width: 610px;
+  }
+
+  @media (min-width: 896px) and (max-width: 1180px) {
+    max-width: 895px;
+  }
 `
 
-class RootIndex extends React.Component {
-  render() {
-    const { language } = this.props.pageContext
-    const siteTitle = this.props.data.site.siteMetadata.title
-    const meals = this.props.data.allContentfulMeal.edges
+const Index = ({ location, pageContext, data }) => (
+  <Layout location={location} >
+    {console.log(data.allContentfulMeal.edges[0].node)}
+    <Helmet title={data.site.siteMetadata.title} />
+    <ItemWrapper>
+      {data.allContentfulMeal.edges.map(({ node }) => (
+        <MealPreview
+          key={node.slug}
+          meal={node}
+          locale={pageContext.locale}
+        />
+      ))}
+    </ItemWrapper>
+  </Layout>
+)
 
-    return (
-      <Layout location={this.props.location} >
-        <div style={{ background: '#fff' }}>
-          <Helmet title={siteTitle} />
-          <ItemWrapper>
-            {meals.map(({ node }) => (
-              <MealPreview
-                key={node.slug}
-                meal={node}
-                language={language}
-              />
-            ))}
-          </ItemWrapper>
-        </div>
-      </Layout>
-    )
-  }
-}
-
-export default RootIndex
+export default Index
 
 export const pageQuery = graphql`
-  query IndexByLanguage($language: String!) {
+  query IndexByLanguage($locale: String!) {
     site {
       siteMetadata {
         title
       }
     }
     allContentfulMeal(
-      filter: { node_locale: { eq: $language }, title: { ne: null }}
+      filter: { node_locale: { eq: $locale }, availableLocales: { eq: $locale }, title: { ne: null }}
       sort: { fields: updatedAt, order: DESC }
     ) {
       edges {
@@ -60,7 +64,12 @@ export const pageQuery = graphql`
               html
             }
           }
-          updatedAt(fromNow: true)
+          updatedAt
+          heroImage {
+            resolutions(width: 400) {
+              ...GatsbyContentfulResolutions
+            }
+          }
         }
       }
     }

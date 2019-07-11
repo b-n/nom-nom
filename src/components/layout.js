@@ -1,13 +1,18 @@
 import React from 'react'
 import { Link } from 'gatsby'
+import { css, ThemeProvider } from 'styled-components'
 import styled from 'styled-components'
+
+import LanguageSelector from './LanguageSelector'
 
 import './base.css'
 import 'normalize.css'
 
+  //max-width: 1180px;
 const Container = styled.div`
-  max-width: 1180px;
-  margin: 0 auto;
+  display: flex;
+  width: 100%;
+  justify-content: center;
 `
 
 const Navigation = styled.nav`
@@ -24,22 +29,46 @@ const NavigationItem = styled.div`
   margin: 0 1em;
 `
 
-class Layout extends React.Component {
-  render() {
-    const { location, children } = this.props
-    const language = location.pathname.split('/')[1];
+const sizes = {
+  phone: [0, 480],
+  tablet: [481, 768],
+  landscape: [769, 1024],
+  desktop: [1025, 1280]
+}
 
-    return (
-      <Container>
+const mediaQueries = Object.keys(sizes).reduce((accumulator, current) => {
+  accumulator[current] = (...args) => css`
+    @media (min-width: ${sizes[current][0]}px) and (max-width: ${sizes[current][1]}px) {
+      ${css(...args)};
+    }
+  `
+  return accumulator
+}, {})
+
+const theme = {
+  ...mediaQueries 
+}
+
+const Layout = ({ location, children }) => {
+  const locale = location.pathname.split('/')[1];
+
+  return (
+    <ThemeProvider theme={theme}>
+      <>
         <Navigation>
           <NavigationItem>
-            <Link to={`/${language}`}>Home</Link>
+            <Link to={`/${locale}/`}>Home</Link>
+          </NavigationItem>
+          <NavigationItem>
+            <LanguageSelector currentLocale={locale} />
           </NavigationItem>
         </Navigation>
-        {children}
-      </Container>
-    )
-  }
+        <Container>
+          {children}
+        </Container>
+      </>
+    </ThemeProvider>
+  )
 }
 
 export default Layout

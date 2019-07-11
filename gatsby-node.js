@@ -40,8 +40,7 @@ const createMeals = ({ graphql, actions }) => {
             createPage({
               url: `/${meal.node.node_locale}/meal/${meal.node.slug}/`,
               context: {
-                id: meal.node.id,
-                locale: meal.node.node_locale
+                id: meal.node.id
               },
             })
           })
@@ -63,8 +62,8 @@ const createIndexes = ({ graphql, actions }) => {
           {
             site {
               siteMetadata {
-                locales {
-                  languages
+                languages {
+                  locale
                 }
               }
             }
@@ -76,11 +75,11 @@ const createIndexes = ({ graphql, actions }) => {
           throw new Error(result.errors)
         }
         
-        result.data.site.siteMetadata.locales.languages.forEach((language) => {
+        result.data.site.siteMetadata.languages.forEach((language) => {
           createPage({
-            url: `/${language}/`,
+            url: `/${language.locale}/`,
             context: {
-              language
+              locale: language.locale
             },
           })
         })

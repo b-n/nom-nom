@@ -35,42 +35,41 @@ const ShortDescription = styled.div`
   margin-bottom: 1rem;
 `
 
-class MealTemplate extends React.Component {
-  render() {
-    const meal = this.props.data.contentfulMeal
-    const { title, updatedAt, shortDescription, recipes }= meal
-    const siteTitle = this.props.data.site.siteMetadata.title;
+const Meal = ({ data, location }) => {
+  console.log(data);
+  const meal = data.contentfulMeal
+  const { title, updatedAt, shortDescription, recipes } = meal
+  const siteTitle = data.site.siteMetadata.title;
 
-    return (
-      <Layout location={this.props.location} >
-        <Helmet title={`${meal.title} | ${siteTitle}`} />
-        <Content>
-          <HeaderWrapper>
-            <Header>{title}</Header>
-            <SubHeader>Last Updated: {updatedAt}</SubHeader>
-          </HeaderWrapper>
+  return (
+    <Layout location={location} >
+      <Helmet title={`${meal.title} | ${siteTitle}`} />
+      <Content>
+        <HeaderWrapper>
+          <Header>{title}</Header>
+          <SubHeader>Last Updated: {updatedAt}</SubHeader>
+        </HeaderWrapper>
 
-          <ShortDescription
-            dangerouslySetInnerHTML={{
-              __html: shortDescription.childMarkdownRemark.html,
-            }}
+        <ShortDescription
+          dangerouslySetInnerHTML={{
+            __html: shortDescription.childMarkdownRemark.html,
+          }}
+        />
+        {recipes && recipes.map(recipe => (
+          <Recipe
+            key={recipe.id}
+            recipe={recipe}
           />
-          {recipes && recipes.map(recipe => (
-            <Recipe
-              key={recipe.id}
-              recipe={recipe}
-            />
-          ))}
-        </Content>
-      </Layout>
-    )
-  }
+        ))}
+      </Content>
+    </Layout>
+  )
 }
 
-export default MealTemplate
+export default Meal
 
 export const pageQuery = graphql`
-  query MealById($id: String!, $locale: String!) {
+  query MealById($id: String!) {
     site {
       siteMetadata {
         title
@@ -78,7 +77,7 @@ export const pageQuery = graphql`
     }
     contentfulMeal(id: { eq: $id }) {
       title
-      updatedAt(locale: $locale, fromNow: true)
+      updatedAt
       shortDescription {
         childMarkdownRemark {
           html
