@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'gatsby';
 import Img from 'gatsby-image';
 import styled from 'styled-components'
-import { getMessage, getFormatDistanceToNow } from '../data/languages'
+import { getMessage, formatDateDistanceToNow } from '../data/languages'
 
 const Item = styled.div`
   width: 265px;
@@ -72,7 +72,6 @@ const CTA = styled(props => <Link {...props} />)`
 
 const MealPreview = ({ meal, locale }) => {
   const messages = getMessage(locale)
-  const formatDistanceToNow = getFormatDistanceToNow(locale)
   return (
     <Item>
       <HeroImage resolutions={meal.heroImage.resolutions}/>
@@ -82,7 +81,7 @@ const MealPreview = ({ meal, locale }) => {
           __html:meal.shortDescription.childMarkdownRemark.html,
         }}
       />
-      <LastUpdate>{messages('LAST_UPDATED')} {formatDistanceToNow(new Date(meal.updatedAt), { locale })} {messages('AGO')}</LastUpdate>
+      <LastUpdate>{formatDateDistanceToNow(locale, new Date(meal.updatedAt))}</LastUpdate>
       <CTA to={`/${locale}/meal/${meal.slug}`}>{messages('VIEW')}</CTA>
     </Item>
   )

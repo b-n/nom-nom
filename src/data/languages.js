@@ -24,11 +24,14 @@ const formatLocales = {
 }
 
 const getMessage = locale => message => messages[locale][message];  
-const getFormatDistanceToNow = locale => date => formatDistanceToNow(date, { locale: formatLocales[locale] })
+const formatDateDistanceToNow = (locale, date)  => {
+  const messages = getMessage(locale);
+  return `${messages('LAST_UPDATED')} ${formatDistanceToNow(date, { locale: formatLocales[locale] })} ${messages('AGO')}`
+}
 
 module.exports = {
   languages,
   defaultLocale,
   getMessage,
-  getFormatDistanceToNow,
+  formatDateDistanceToNow,
 }

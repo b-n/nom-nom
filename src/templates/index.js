@@ -51,7 +51,7 @@ export const pageQuery = graphql`
       }
     }
     allContentfulMeal(
-      filter: { node_locale: { eq: $locale }, availableLocales: { eq: $locale }, title: { ne: null }}
+      filter: { node_locale: { eq: $locale }, title: { ne: null }}
       sort: { fields: updatedAt, order: DESC }
     ) {
       edges {
