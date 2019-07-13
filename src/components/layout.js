@@ -50,7 +50,9 @@ const theme = {
 }
 
 const Layout = ({ location, children }) => {
-  const locale = location.pathname.split('/')[1];
+  const locationParts = location.pathname.substring(1).split('/');
+  const locale = locationParts.shift();
+  const path = locationParts.join('/')
 
   return (
     <ThemeProvider theme={theme}>
@@ -60,7 +62,7 @@ const Layout = ({ location, children }) => {
             <Link to={`/${locale}/`}>Home</Link>
           </NavigationItem>
           <NavigationItem>
-            <LanguageSelector currentLocale={locale} />
+            <LanguageSelector currentLocale={locale} path={path}/>
           </NavigationItem>
         </Navigation>
         <Container>

@@ -59,7 +59,7 @@ const Item = styled.div`
   padding: 10px;
 `
 
-const LanguageSelector = ({ currentLocale }) => {
+const LanguageSelector = ({ currentLocale, path }) => {
   const messages = getMessage(currentLocale);
   const data = useStaticQuery(graphql`
     query LanguageQuery {
@@ -80,7 +80,7 @@ const LanguageSelector = ({ currentLocale }) => {
       <Items>
         {data.site.siteMetadata.languages.map(({label, locale}) =>(
           <Item key={locale}>
-            <Link to={`/${locale}/`}>{label}</Link>
+            <Link to={`/${locale}/${path}`}>{label}</Link>
           </Item>
         ))}
       </Items>
