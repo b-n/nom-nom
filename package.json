@@ -1,10 +1,10 @@
 {
-  "name": "gatsby-contentful-starter",
-  "description": "Starter Contentful Gatsby Blog",
+  "name": "nom-nom",
+  "description": "A Gatsby recipe website powered by Contentful",
   "version": "1.0.0",
-  "author": "Stefan Judis <stefanjudis@gmail.com>",
+  "author": "Ben Naylor (nayben@gmail.com)",
   "bugs": {
-    "url": "https://github.com/contentful-userland/gatsby-contentful-starter/issues"
+    "url": "https://github.com/nzchicken/nom-nom/issues"
   },
   "dependencies": {
     "@contentful/rich-text-react-renderer": "^13.2.0",
@@ -39,16 +39,17 @@
     "prettier": "^1.17.0",
     "yargs-parser": "^13.0.0"
   },
-  "homepage": "https://github.com/contentful-userland/gatsby-contentful-starter#readme",
+  "homepage": "https://nom-nom.nl/",
   "keywords": [
     "gatsby",
-    "contentful"
+    "contentful",
+    "nom-nom"
   ],
   "license": "MIT",
   "main": "n/a",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/contentful-userland/gatsby-contentful-starter.git"
+    "url": "git+https://github.com/nzchicken/nom-nom.git"
   },
   "scripts": {
     "dev": "npm run develop",
