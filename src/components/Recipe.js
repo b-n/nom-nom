@@ -7,9 +7,7 @@ import ContentfulRichText from './ContentfulRichText'
 const Wrapper = styled.div`
   width: 100%;
   display: flex;
-  border-width: 2px;
-  border-style: solid;
-  border-color: #606060 #303030 #303030 #606060;
+  border: 2px outset #606060;
   border-radius: 20px;
   box-shadow: 2px 2px 2px 2px #D0D0D0;
   ${px({ mobile: 3, tablet: 4, desktop: 4 })}

@@ -10,9 +10,7 @@ const Item = styled.div`
   background-color: #FFFFF8;
   border: 1px solid #000;
   flex: none;
-  border-width: 2px;
-  border-style: solid;
-  border-color: #606060 #303030 #303030 #606060;
+  border: 2px outset #606060;
   border-radius: 5px;
   box-shadow: 2px 2px 2px 2px #D0D0D0;
   display: flex;
