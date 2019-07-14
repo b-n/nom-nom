@@ -33,8 +33,7 @@ const SubHeader = styled.div`
 const ShortDescription = styled.div`
   width: 100%;
   color: #223;
-  ${pb({ mobile: 3, tablet: 4, desktop: 4 })};
-  border-bottom: 1px solid #000;
+  ${pb({ mobile: 2, tablet: 3, desktop: 4 })};
 `
 
 const Meal = ({ meal, children }) => {

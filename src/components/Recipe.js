@@ -1,14 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
 import breakpoint from 'styled-components-breakpoint'
-import { py, mb } from 'styled-components-spacing'
+import { px, py, mb } from 'styled-components-spacing'
 import ContentfulRichText from './ContentfulRichText'
  
 const Wrapper = styled.div`
   width: 100%;
   display: flex;
-  border-bottom: 1px solid #000;
-  ${py({ mobile: 3, tablet: 4, desktop: 4 })}
+  border-width: 2px;
+  border-style: solid;
+  border-color: #606060 #303030 #303030 #606060;
+  border-radius: 20px;
+  box-shadow: 2px 2px 2px 2px #D0D0D0;
+  ${px({ mobile: 3, tablet: 4, desktop: 4 })}
+  ${py({ mobile: 2, tablet: 3, desktop: 3 })}
+  ${mb({ mobile: 3, tablet: 3, desktop: 4 })}
   flex-wrap: wrap;
 `
 
