@@ -14,18 +14,27 @@ import Recipe from '../components/Recipe'
 const HeaderWrapper = styled.div`
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   ${mb({ mobile: 2, tablet: 3, desktop: 3 })};
+  ${breakpoint('tablet')`
+    flex-wrap: nowrap;
+  `}
 `
 
 const Header = styled.h1`
   margin: 0;
+  width: 100%;
+  ${breakpoint('tablet')`
+    width: auto;
+  `}
 `
 
 const SubHeader = styled.div`
   margin: 0;
   font-size: 0.8em;
   color: #777;
+  flex-shrink: 0;
 `
 
 const Content = styled.div`
