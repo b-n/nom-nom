@@ -1,6 +1,7 @@
 import React from 'react'
 import { graphql } from 'gatsby'
 import Helmet from 'react-helmet'
+import _ from 'lodash'
 import Layout from '../components/Layout'
 import MealInspiration from '../components/MealInspiration'
 import styled from 'styled-components'
@@ -32,12 +33,14 @@ const Wrapper = styled.div`
 `
 
 const InspirationPage = ({ location, pageContext, data }) => {
+  const messages = getMessage(pageContext.locale);
+  const meals = _.shuffle(data.allContentfulMeal.edges)
 
   return (
     <Layout location={location} >
-      <Helmet title={`${data.site.siteMetadata.title} | ${'test'}`} />
+      <Helmet title={`${data.site.siteMetadata.title} | ${messages('INSPIRATION')}`} />
       <Wrapper>
-          {data.allContentfulMeal.edges.map(({ node }) => (
+          {meals.map(({ node }) => (
             <MealInspiration
               key={node.slug}
               meal={node}

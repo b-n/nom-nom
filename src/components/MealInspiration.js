@@ -33,15 +33,13 @@ const Title = styled.h1`
   }
 `
 
-const MealInspiration = ({ meal, locale }) => {
-  return (
-    <Item>
-      <Link to={`/${locale}/meal/${meal.slug}/`}>
-        <HeroImage resolutions={meal.heroImage.resolutions} />
-        <Title>{meal.title}</Title>
-      </Link>
-    </Item>
-  )
-}
+const MealInspiration = ({ meal, locale }) => (
+  <Item>
+    <Link to={`/${locale}/meal/${meal.slug}/`}>
+      <HeroImage resolutions={meal.heroImage.resolutions} />
+      <Title>{meal.title}</Title>
+    </Link>
+  </Item>
+)
 
 export default MealInspiration
