@@ -23,7 +23,7 @@ const formatLocales = {
   'nl-NL': require('date-fns/locale/nl'),
 }
 
-const getMessage = locale => message => messages[locale][message];  
+const getMessage = locale => message => messages[locale][message];
 const formatDateDistanceToNow = (locale, date)  => {
   const messages = getMessage(locale);
   return `${messages('LAST_UPDATED')} ${formatDistanceToNow(date, { locale: formatLocales[locale] })} ${messages('AGO')}`

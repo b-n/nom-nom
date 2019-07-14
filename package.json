@@ -52,8 +52,8 @@
     "url": "git+https://github.com/nzchicken/nom-nom.git"
   },
   "scripts": {
-    "dev": "npm run develop",
-    "develop": "gatsby develop",
+    "dev": "NODE_ENV=development gatsby develop",
+    "develop": "NODE_ENV=development gatsby develop",
     "lint": "eslint --ext .js,.jsx --ignore-pattern public .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --trailing-comma es5 --no-semi --single-quote --write 'src/**/*.js' 'src/**/*.md' 'bin/*.js'",
