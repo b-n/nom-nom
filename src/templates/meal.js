@@ -61,10 +61,8 @@ export const pageQuery = graphql`
       title
       updatedAt
       node_locale
-      shortDescription {
-        childMarkdownRemark {
-          html
-        }
+      description {
+        json
       }
       recipes {
         id
