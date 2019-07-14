@@ -1,7 +1,7 @@
 import React from 'react'
 import { graphql } from 'gatsby'
 import Helmet from 'react-helmet'
-import Layout from '../components/layout'
+import Layout from '../components/Layout'
 import MealPreview from '../components/MealPreview'
 import styled from 'styled-components'
 
@@ -26,7 +26,7 @@ const ItemWrapper = styled.div`
   }
 `
 
-const Index = ({ location, pageContext, data }) => (
+const IndexPage = ({ location, pageContext, data }) => (
   <Layout location={location} >
     <Helmet title={data.site.siteMetadata.title} />
     <ItemWrapper>
@@ -41,7 +41,7 @@ const Index = ({ location, pageContext, data }) => (
   </Layout>
 )
 
-export default Index
+export default IndexPage
 
 export const pageQuery = graphql`
   query IndexByLanguage($locale: String!) {

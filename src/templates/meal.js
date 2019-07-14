@@ -1,41 +1,13 @@
 import React from 'react'
 import { graphql } from 'gatsby'
 import Helmet from 'react-helmet'
-import Img from 'gatsby-image'
 import styled from 'styled-components'
 import breakpoint from 'styled-components-breakpoint'
-import { p, pb, mb } from 'styled-components-spacing'
-import { formatDateDistanceToNow } from '../data/languages'
+import { p } from 'styled-components-spacing'
 
-import Layout from '../components/layout'
+import Layout from '../components/Layout'
+import Meal from '../components/Meal'
 import Recipe from '../components/Recipe'
-
-
-const HeaderWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  ${mb({ mobile: 2, tablet: 3, desktop: 3 })};
-  ${breakpoint('tablet')`
-    flex-wrap: nowrap;
-  `}
-`
-
-const Header = styled.h1`
-  margin: 0;
-  width: 100%;
-  ${breakpoint('tablet')`
-    width: auto;
-  `}
-`
-
-const SubHeader = styled.div`
-  margin: 0;
-  font-size: 0.8em;
-  color: #777;
-  flex-shrink: 0;
-`
 
 const Content = styled.div`
   background-color: white;
@@ -53,45 +25,30 @@ const Content = styled.div`
   `}
 `
 
-const ShortDescription = styled.div`
-  width: 100%;
-  color: #223;
-  ${pb({ mobile: 3, tablet: 4, desktop: 4 })};
-  border-bottom: 1px solid #000;
-`
-
-const Meal = ({ data, location }) => {
+const MealPage = ({ data, location }) => {
   const meal = data.contentfulMeal
-  const { title, updatedAt, shortDescription, recipes, node_locale } = meal
+  const { title, recipes } = meal
   const siteTitle = data.site.siteMetadata.title;
 
   return (
     <Layout location={location} >
-      <Helmet title={`${meal.title} | ${siteTitle}`} />
+      <Helmet title={`${title} | ${siteTitle}`} />
       <Content>
-        <HeaderWrapper>
-          <Header>{title}</Header>
-          <SubHeader>{formatDateDistanceToNow(node_locale, new Date(updatedAt))}</SubHeader>
-        </HeaderWrapper>
-
-        <ShortDescription
-          dangerouslySetInnerHTML={{
-            __html: shortDescription.childMarkdownRemark.html,
-          }}
-        />
-        {recipes && recipes.map(recipe => (
-          <Recipe
-            key={recipe.id}
-            showTitle={recipes.length > 1}
-            recipe={recipe}
-          />
-        ))}
+        <Meal meal={meal}>
+          {recipes && recipes.map(recipe => (
+            <Recipe
+              key={recipe.id}
+              showTitle={recipes.length > 1}
+              recipe={recipe}
+            />
+          ))}
+        </Meal>
       </Content>
     </Layout>
   )
 }
 
-export default Meal
+export default MealPage
 
 export const pageQuery = graphql`
   query MealById($id: String!) {
