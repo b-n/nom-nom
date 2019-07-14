@@ -4,6 +4,7 @@ import { css, ThemeProvider } from 'styled-components'
 import styled from 'styled-components'
 
 import LanguageSelector from './LanguageSelector'
+import { getMessage } from '../data/languages'
 
 import './base.css'
 import 'normalize.css'
@@ -27,40 +28,37 @@ const NavigationItem = styled.div`
   display: inline-flex;
   align-items: center;
   margin: 0 1em;
+
+  & a {
+    text-decoration: none;
+  }
 `
 
-const sizes = {
-  phone: [0, 480],
-  tablet: [481, 768],
-  landscape: [769, 1024],
-  desktop: [1025, 1280]
-}
+const NavigationSpacer = styled.div`
+  display: inline-flex;
+  width: 100%;
+`;
 
-const mediaQueries = Object.keys(sizes).reduce((accumulator, current) => {
-  accumulator[current] = (...args) => css`
-    @media (min-width: ${sizes[current][0]}px) and (max-width: ${sizes[current][1]}px) {
-      ${css(...args)};
-    }
-  `
-  return accumulator
-}, {})
-
-const theme = {
-  ...mediaQueries 
-}
+const theme = {}
 
 const Layout = ({ location, children }) => {
   const locationParts = location.pathname.substring(1).split('/');
   const locale = locationParts.shift();
   const path = locationParts.join('/')
 
+  const messages = getMessage(locale)
+
   return (
     <ThemeProvider theme={theme}>
       <>
         <Navigation>
           <NavigationItem>
-            <Link to={`/${locale}/`}>Home</Link>
+            <Link to={`/${locale}/`}>{messages('HOME')}</Link>
           </NavigationItem>
+          <NavigationItem>
+            <Link to={`/${locale}/inspiration`}>{messages('INSPIRATION')}</Link>
+          </NavigationItem>
+          <NavigationSpacer />
           <NavigationItem>
             <LanguageSelector currentLocale={locale} path={path}/>
           </NavigationItem>

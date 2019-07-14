@@ -5,6 +5,7 @@ exports.createPages = (gatsby) => {
   return Promise.all([
     createMeals(gatsby),
     createIndexes(gatsby),
+    createInspirations(gatsby),
   ])
 }
 
@@ -78,6 +79,45 @@ const createIndexes = ({ graphql, actions }) => {
         result.data.site.siteMetadata.languages.forEach((language) => {
           createPage({
             url: `/${language.locale}/`,
+            context: {
+              locale: language.locale
+            },
+          })
+        })
+
+        return Promise.resolve();
+      })
+    )
+  })
+}
+
+const createInspirations = ({ graphql, actions }) => {
+  const template = path.resolve('./src/templates/inspiration.js')
+  const createPage = makePage(actions.createPage, template);
+
+  return new Promise((resolve, reject) => {
+    resolve(
+      graphql(
+        `
+          {
+            site {
+              siteMetadata {
+                languages {
+                  locale
+                }
+              }
+            }
+          }
+        `
+      )
+      .then(result => {
+        if (result.errors) {
+          throw new Error(result.errors)
+        }
+        
+        result.data.site.siteMetadata.languages.forEach((language) => {
+          createPage({
+            url: `/${language.locale}/inspiration`,
             context: {
               locale: language.locale
             },

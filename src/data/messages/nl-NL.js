@@ -3,4 +3,6 @@ module.exports = {
   'AGO': 'geleden',
   'VIEW': 'Kijk',
   'LANGUAGE': 'Taal',
+  'HOME': 'Start',
+  'INSPIRATION': 'Inspiratie',
 }
