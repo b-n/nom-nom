@@ -10,7 +10,7 @@ exports.createPages = (gatsby) => {
 }
 
 const createMeals = ({ graphql, actions }) => {
-  const template = path.resolve('./src/templates/meal.js')
+  const template = path.resolve('./src/templates/meal.tsx')
   const createPage = makePage(actions.createPage, template);
 
   return new Promise((resolve, reject) => {
@@ -39,7 +39,8 @@ const createMeals = ({ graphql, actions }) => {
         result.data.allContentfulMeal.edges
           .forEach((meal) => {
             createPage({
-              url: `/${meal.node.node_locale}/meal/${meal.node.slug}/`,
+              url: `meal/${meal.node.slug}/`,
+              locale: meal.node.node_locale,
               context: {
                 id: meal.node.id
               },
@@ -53,7 +54,7 @@ const createMeals = ({ graphql, actions }) => {
 }
 
 const createIndexes = ({ graphql, actions }) => {
-  const template = path.resolve('./src/templates/index.js')
+  const template = path.resolve('./src/templates/index.tsx')
   const createPage = makePage(actions.createPage, template);
 
   return new Promise((resolve, reject) => {
@@ -78,10 +79,8 @@ const createIndexes = ({ graphql, actions }) => {
         
         result.data.site.siteMetadata.languages.forEach((language) => {
           createPage({
-            url: `/${language.locale}/`,
-            context: {
-              locale: language.locale
-            },
+            url: ``,
+            locale: `${language.locale}`,
           })
         })
 
@@ -92,7 +91,7 @@ const createIndexes = ({ graphql, actions }) => {
 }
 
 const createInspirations = ({ graphql, actions }) => {
-  const template = path.resolve('./src/templates/inspiration.js')
+  const template = path.resolve('./src/templates/inspiration.tsx')
   const createPage = makePage(actions.createPage, template);
 
   return new Promise((resolve, reject) => {
@@ -117,10 +116,8 @@ const createInspirations = ({ graphql, actions }) => {
         
         result.data.site.siteMetadata.languages.forEach((language) => {
           createPage({
-            url: `/${language.locale}/inspiration`,
-            context: {
-              locale: language.locale
-            },
+            url: `inspiration`,
+            locale: `${language.locale}`,
           })
         })
 
@@ -130,11 +127,12 @@ const createInspirations = ({ graphql, actions }) => {
   })
 }
 
-const makePage = (createPage, component) => ({ url, context }) => {
-  console.log(`Creating: ${url}`)
+const makePage = (createPage, component) => ({ locale, url, context = {} }) => {
+  const fullUrl = `/${locale}/${url}`
+  console.log(`Creating: ${fullUrl}`)
   createPage({
-    path: url,
+    path: fullUrl,
     component,
-    context
+    context: {...context, locale, url},
   })
 }

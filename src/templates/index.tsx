@@ -1,9 +1,11 @@
 import React from 'react'
+
 import { graphql } from 'gatsby'
 import Helmet from 'react-helmet'
+import styled from 'styled-components'
+
 import Layout from '../components/Layout'
 import MealPreview from '../components/MealPreview'
-import styled from 'styled-components'
 
 const ItemWrapper = styled.div`
   display: flex;
@@ -26,16 +28,17 @@ const ItemWrapper = styled.div`
   }
 `
 
-const IndexPage = ({ location, pageContext, data }) => (
-  <Layout location={location} >
+interface IProps {
+  pageContext: IPageContext
+  data: ISite & IAllContentfulMeals
+}
+
+const IndexPage: React.FC<IProps> = ({ pageContext, data }) => (
+  <Layout pageContext={pageContext}>
     <Helmet title={data.site.siteMetadata.title} />
     <ItemWrapper>
       {data.allContentfulMeal.edges.map(({ node }) => (
-        <MealPreview
-          key={node.slug}
-          meal={node}
-          locale={pageContext.locale}
-        />
+        <MealPreview key={node.slug} meal={node} locale={pageContext.locale} />
       ))}
     </ItemWrapper>
   </Layout>
@@ -51,7 +54,7 @@ export const pageQuery = graphql`
       }
     }
     allContentfulMeal(
-      filter: { node_locale: { eq: $locale }, title: { ne: null }}
+      filter: { node_locale: { eq: $locale }, title: { ne: null } }
       sort: { fields: publishDate, order: DESC }
     ) {
       edges {
@@ -65,7 +68,7 @@ export const pageQuery = graphql`
           }
           updatedAt
           heroImage {
-            resolutions(width: 400) {
+            resolutions(width: 265) {
               ...GatsbyContentfulResolutions
             }
           }

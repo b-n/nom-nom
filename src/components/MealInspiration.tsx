@@ -1,8 +1,8 @@
 import React from 'react'
+
 import { Link } from 'gatsby'
 import Img from 'gatsby-image'
 import styled from 'styled-components'
-import { mb } from 'styled-components-spacing'
 
 const Item = styled.div`
   width: 250px;
@@ -33,7 +33,12 @@ const Title = styled.h1`
   }
 `
 
-const MealInspiration = ({ meal, locale }) => (
+interface IProps {
+  meal: IMeal
+  locale: string
+}
+
+const MealInspiration: React.FC<IProps> = ({ meal, locale }) => (
   <Item>
     <Link to={`/${locale}/meal/${meal.slug}/`}>
       <HeroImage resolutions={meal.heroImage.resolutions} />

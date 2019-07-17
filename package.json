@@ -9,12 +9,20 @@
   "dependencies": {
     "@contentful/rich-text-react-renderer": "^13.2.0",
     "@contentful/rich-text-types": "^13.1.0",
+    "@types/lodash": "^4.14.136",
+    "@types/react": "^16.8.23",
+    "@types/react-dom": "^16.8.4",
+    "@types/react-helmet": "^5.0.8",
+    "@types/styled-components": "^4.1.18",
     "babel-plugin-styled-components": "^1.10.5",
     "date-fns": "^2.0.0-beta.2",
+    "gatsby": "^2.3.22",
     "gatsby-image": "^2.0.38",
     "gatsby-plugin-react-helmet": "^3.0.12",
     "gatsby-plugin-sharp": "^2.0.34",
     "gatsby-plugin-styled-components": "^3.1.0",
+    "gatsby-plugin-tslint": "^0.0.2",
+    "gatsby-plugin-typescript": "^2.1.2",
     "gatsby-source-contentful": "^2.0.48",
     "gatsby-transformer-remark": "^2.3.8",
     "gatsby-transformer-sharp": "^2.1.18",
@@ -27,14 +35,20 @@
     "sharp": "^0.22.0",
     "styled-components": "^4.3.2",
     "styled-components-breakpoint": "^2.1.1",
-    "styled-components-spacing": "^3.1.1"
+    "styled-components-spacing": "^3.1.1",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.18.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-loader": "^3.5.4",
+    "tslint-plugin-prettier": "^2.0.1",
+    "tslint-react": "^4.0.0",
+    "typescript": "^3.5.3"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
     "dotenv": "^8.0.0",
     "eslint": "^5.16.0",
     "eslint-plugin-react": "^7.12.4",
-    "gatsby": "^2.3.22",
     "gh-pages": "^2.0.1",
     "prettier": "^1.17.0",
     "yargs-parser": "^13.0.0"
@@ -54,12 +68,12 @@
   "scripts": {
     "dev": "NODE_ENV=development gatsby develop",
     "develop": "NODE_ENV=development gatsby develop",
-    "lint": "eslint --ext .js,.jsx --ignore-pattern public .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "format": "prettier --trailing-comma es5 --no-semi --single-quote --write 'src/**/*.js' 'src/**/*.md' 'bin/*.js'",
     "build": "gatsby build",
+    "format": "prettier --config .prettierrc --write 'src/**/*.tsx'",
     "deploy": "gatsby build && gh-pages -d public -m \"[ci skip]\"",
-    "fix-semi": "eslint --quiet --ignore-pattern node_modules --ignore-pattern public --parser babel-eslint --no-eslintrc --rule '{\"semi\": [2, \"never\"], \"no-extra-semi\": [2]}' --fix *.js bin/*.js",
-    "start": "npm run develop"
+    "start": "npm run develop",
+    "type-check": "tsc --noEmit",
+    "lint": "tslint --project"
   }
 }

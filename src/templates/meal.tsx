@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { graphql } from 'gatsby'
 import Helmet from 'react-helmet'
 import styled from 'styled-components'
@@ -25,23 +26,29 @@ const Content = styled.div`
   `}
 `
 
-const MealPage = ({ data, location }) => {
+interface IProps {
+  data: ISite & IContentfulMeal
+  pageContext: IPageContext
+}
+
+const MealPage: React.FC<IProps> = ({ data, pageContext }) => {
   const meal = data.contentfulMeal
   const { title, recipes } = meal
-  const siteTitle = data.site.siteMetadata.title;
+  const siteTitle = data.site.siteMetadata.title
 
   return (
-    <Layout location={location} >
+    <Layout pageContext={pageContext}>
       <Helmet title={`${title} | ${siteTitle}`} />
       <Content>
         <Meal meal={meal}>
-          {recipes && recipes.map(recipe => (
-            <Recipe
-              key={recipe.id}
-              showTitle={recipes.length > 1}
-              recipe={recipe}
-            />
-          ))}
+          {recipes &&
+            recipes.map(recipe => (
+              <Recipe
+                key={recipe.id}
+                showTitle={recipes.length > 1}
+                recipe={recipe}
+              />
+            ))}
         </Meal>
       </Content>
     </Layout>

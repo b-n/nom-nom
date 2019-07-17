@@ -1,9 +1,11 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { ReactNode } from 'react'
+
+import styled from 'styled-components'
 import breakpoint from 'styled-components-breakpoint'
 import { mb, pb } from 'styled-components-spacing'
-import ContentfulRichText from './ContentfulRichText'
+
 import { formatDateDistanceToNow } from '../data/languages'
+import ContentfulRichText from './ContentfulRichText'
 
 const HeaderWrapper = styled.div`
   width: 100%;
@@ -37,20 +39,25 @@ const Description = styled.div`
   ${pb({ mobile: 2, tablet: 3, desktop: 4 })};
 `
 
-const Meal = ({ meal, children }) => {
+interface IProps {
+  meal: IMeal
+  children: ReactNode
+}
+
+const Meal: React.FC<IProps> = ({ meal, children }) => {
   const { title, updatedAt, description, node_locale } = meal
 
   return (
     <>
       <HeaderWrapper>
         <Header>{title}</Header>
-        <SubHeader>{formatDateDistanceToNow(node_locale, new Date(updatedAt))}</SubHeader>
+        <SubHeader>
+          {formatDateDistanceToNow(node_locale, new Date(updatedAt))}
+        </SubHeader>
       </HeaderWrapper>
 
-      <Description>
-        <ContentfulRichText node={description} />
-      </Description>
-      { children }
+      <Description>{ContentfulRichText(description.json)}</Description>
+      {children}
     </>
   )
 }

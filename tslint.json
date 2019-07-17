@@ -1,0 +1,28 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:latest",
+    "tslint-react",
+    "tslint-plugin-prettier",
+    "tslint-config-prettier"
+  ],
+  "rules": {
+    "prettier": true,
+    "semicolon": [
+      true,
+      "never"
+    ],
+    "no-var-requires": true,
+    "no-submodule-imports": [
+      true,
+      "date-fns"
+    ],
+    "quotemark": [
+      true,
+      "single",
+      "jsx-double",
+      "backtick",
+      "avoid-temaplte"
+    ]
+  }
+}
