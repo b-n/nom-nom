@@ -1,3 +1,4 @@
+require('ts-node').register();
 require('dotenv').config({
   path: `.env.${process.env.NODE_ENV}`
 })
@@ -33,6 +34,8 @@ module.exports = {
     {
       resolve: 'gatsby-source-contentful',
       options: contentfulConfig,
-    }
+    },
+    'gatsby-plugin-typescript',
+    'gatsby-plugin-tslint',
   ],
 }

@@ -1,15 +1,14 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
+
 import { Link } from 'gatsby'
-import { css, ThemeProvider } from 'styled-components'
-import styled from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
 
-import LanguageSelector from './LanguageSelector'
 import { getMessage } from '../data/languages'
+import LanguageSelector from './LanguageSelector'
 
-import './base.css'
 import 'normalize.css'
+import './base.css'
 
-  //max-width: 1180px;
 const Container = styled.div`
   display: flex;
   width: 100%;
@@ -37,14 +36,17 @@ const NavigationItem = styled.div`
 const NavigationSpacer = styled.div`
   display: inline-flex;
   width: 100%;
-`;
+`
 
 const theme = {}
 
-const Layout = ({ location, children }) => {
-  const locationParts = location.pathname.substring(1).split('/');
-  const locale = locationParts.shift();
-  const path = locationParts.join('/')
+interface IProps {
+  pageContext: IPageContext
+  children: ReactNode
+}
+
+const Layout: React.FC<IProps> = ({ pageContext, children }) => {
+  const { locale, url } = pageContext
 
   const messages = getMessage(locale)
 
@@ -60,12 +62,10 @@ const Layout = ({ location, children }) => {
           </NavigationItem>
           <NavigationSpacer />
           <NavigationItem>
-            <LanguageSelector currentLocale={locale} path={path}/>
+            <LanguageSelector currentLocale={locale} currentUrl={url} />
           </NavigationItem>
         </Navigation>
-        <Container>
-          {children}
-        </Container>
+        <Container>{children}</Container>
       </>
     </ThemeProvider>
   )

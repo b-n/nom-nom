@@ -1,18 +1,20 @@
-import React from 'react';
-import { Link } from 'gatsby';
-import Img from 'gatsby-image';
+import React from 'react'
+
+import { Link } from 'gatsby'
+import Img from 'gatsby-image'
 import styled from 'styled-components'
-import { getMessage, formatDateDistanceToNow } from '../data/languages'
+
+import { formatDateDistanceToNow, getMessage } from '../data/languages'
 
 const Item = styled.div`
   width: 265px;
   height: 375px;
-  background-color: #FFFFF8;
+  background-color: #fffff8;
   border: 1px solid #000;
   flex: none;
   border: 2px outset #606060;
   border-radius: 5px;
-  box-shadow: 2px 2px 2px 2px #D0D0D0;
+  box-shadow: 2px 2px 2px 2px #d0d0d0;
   display: flex;
   flex-direction: column;
   margin: 10px;
@@ -55,7 +57,7 @@ const CTA = styled(props => <Link {...props} />)`
   border-left: 1px solid #333;
   border-right: 2px solid #000;
   border-bottom: 2px solid #000;
-  background-color: #F7F7F7;
+  background-color: #f7f7f7;
   padding: 3px;
   border-radius: 14px;
 
@@ -68,18 +70,25 @@ const CTA = styled(props => <Link {...props} />)`
   }
 `
 
-const MealPreview = ({ meal, locale }) => {
+interface IProps {
+  meal: IMeal
+  locale: string
+}
+
+const MealPreview: React.FC<IProps> = ({ meal, locale }) => {
   const messages = getMessage(locale)
   return (
     <Item>
-      <HeroImage resolutions={meal.heroImage.resolutions}/>
+      <HeroImage resolutions={meal.heroImage.resolutions} />
       <Title>{meal.title}</Title>
       <Description
         dangerouslySetInnerHTML={{
-          __html:meal.shortDescription.childMarkdownRemark.html,
+          __html: meal.shortDescription.childMarkdownRemark.html,
         }}
       />
-      <LastUpdate>{formatDateDistanceToNow(locale, new Date(meal.updatedAt))}</LastUpdate>
+      <LastUpdate>
+        {formatDateDistanceToNow(locale, new Date(meal.updatedAt))}
+      </LastUpdate>
       <CTA to={`/${locale}/meal/${meal.slug}`}>{messages('VIEW')}</CTA>
     </Item>
   )

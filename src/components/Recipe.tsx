@@ -1,9 +1,11 @@
 import React from 'react'
+
 import styled from 'styled-components'
 import breakpoint from 'styled-components-breakpoint'
-import { px, py, mb } from 'styled-components-spacing'
+import { mb, px, py } from 'styled-components-spacing'
+
 import ContentfulRichText from './ContentfulRichText'
- 
+
 const Wrapper = styled.div`
   width: 100%;
   display: flex;
@@ -43,29 +45,32 @@ const Instructions = styled.div`
 const Ingredients = styled.div`
   width: 100%;
   order: 2;
-  
+
   ${breakpoint('desktop')`
     width: 40%;
     order: 3;
   `}
 `
 
-  
-const Recipe = ({ recipe, showTitle }) => (
+interface IProps {
+  recipe: IRecipe
+  showTitle: boolean
+}
+
+const Recipe: React.FC<IProps> = ({ recipe, showTitle }) => (
   <>
     <Wrapper>
       {showTitle && <Title>{recipe.title}</Title>}
       <Instructions>
         <SubHeading>Instructions</SubHeading>
-        <ContentfulRichText node={recipe.instructions} />
+        {ContentfulRichText(recipe.instructions.json)}
       </Instructions>
       <Ingredients>
         <SubHeading>Ingredients</SubHeading>
-        <ContentfulRichText node={recipe.ingredients} />
+        {ContentfulRichText(recipe.ingredients.json)}
       </Ingredients>
     </Wrapper>
   </>
 )
 
-
-export default Recipe;
+export default Recipe

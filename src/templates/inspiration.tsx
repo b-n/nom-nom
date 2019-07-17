@@ -1,10 +1,12 @@
 import React from 'react'
+
 import { graphql } from 'gatsby'
+import { shuffle } from 'lodash'
 import Helmet from 'react-helmet'
-import shuffle from 'lodash/shuffle'
+import styled from 'styled-components'
+
 import Layout from '../components/Layout'
 import MealInspiration from '../components/MealInspiration'
-import styled from 'styled-components'
 import { getMessage } from '../data/languages'
 
 const Wrapper = styled.div`
@@ -32,21 +34,28 @@ const Wrapper = styled.div`
   }
 `
 
-const InspirationPage = ({ location, pageContext, data }) => {
-  const messages = getMessage(pageContext.locale);
+interface IProps {
+  pageContext: IPageContext
+  data: ISite & IAllContentfulMeals
+}
+
+const InspirationPage: React.FC<IProps> = ({ pageContext, data }) => {
+  const messages = getMessage(pageContext.locale)
   const meals = shuffle(data.allContentfulMeal.edges)
 
   return (
-    <Layout location={location} >
-      <Helmet title={`${data.site.siteMetadata.title} | ${messages('INSPIRATION')}`} />
+    <Layout pageContext={pageContext}>
+      <Helmet
+        title={`${data.site.siteMetadata.title} | ${messages('INSPIRATION')}`}
+      />
       <Wrapper>
-          {meals.map(({ node }) => (
-            <MealInspiration
-              key={node.slug}
-              meal={node}
-              locale={pageContext.locale}
-            />
-          ))}
+        {meals.map(({ node }) => (
+          <MealInspiration
+            key={node.slug}
+            meal={node}
+            locale={pageContext.locale}
+          />
+        ))}
       </Wrapper>
     </Layout>
   )
@@ -62,7 +71,7 @@ export const pageQuery = graphql`
       }
     }
     allContentfulMeal(
-      filter: { node_locale: { eq: $locale }, title: { ne: null }}
+      filter: { node_locale: { eq: $locale }, title: { ne: null } }
       sort: { fields: updatedAt, order: DESC }
     ) {
       edges {

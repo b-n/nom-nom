@@ -1,6 +1,8 @@
 import React from 'react'
-import { useStaticQuery, graphql, Link } from 'gatsby'
+
+import { graphql, Link, useStaticQuery } from 'gatsby'
 import styled from 'styled-components'
+
 import { getMessage } from '../data/languages'
 
 const Selector = styled.div`
@@ -45,7 +47,7 @@ const Items = styled.div`
   width: 150px;
   margin-left: -11px;
   z-index: 99999;
-  border-top: 1px solid #EEE;
+  border-top: 1px solid #eee;
   border-left: 1px solid #333;
   border-right: 2px solid #000;
   border-bottom: 2px solid #000;
@@ -59,12 +61,17 @@ const Item = styled.div`
   padding: 10px;
 `
 
-const LanguageSelector = ({ currentLocale, path }) => {
-  const messages = getMessage(currentLocale);
+interface IProps {
+  currentLocale: string
+  currentUrl: string
+}
+
+const LanguageSelector: React.FC<IProps> = ({ currentLocale, currentUrl }) => {
   const data = useStaticQuery(graphql`
     query LanguageQuery {
       site {
         siteMetadata {
+          defaultLocale
           languages {
             locale
             label
@@ -72,15 +79,17 @@ const LanguageSelector = ({ currentLocale, path }) => {
         }
       }
     }
-  `) 
+  `) as ISite
+
+  const messages = getMessage(currentLocale)
 
   return (
     <Selector>
       <SelectorLabel>{messages('LANGUAGE')}</SelectorLabel>
       <Items>
-        {data.site.siteMetadata.languages.map(({label, locale}) =>(
+        {data.site.siteMetadata.languages.map(({ label, locale }) => (
           <Item key={locale}>
-            <Link to={`/${locale}/${path}`}>{label}</Link>
+            <Link to={`/${locale}/${currentUrl}`}>{label}</Link>
           </Item>
         ))}
       </Items>
