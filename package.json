@@ -74,6 +74,6 @@
     "deploy": "gatsby build && gh-pages -d public -m \"[ci skip]\"",
     "start": "npm run develop",
     "type-check": "tsc --noEmit",
-    "lint": "tslint --project"
+    "lint": "tslint --project ."
   }
 }
