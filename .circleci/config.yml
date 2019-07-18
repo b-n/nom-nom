@@ -55,7 +55,7 @@ jobs:
       - persist_to_workspace:
           root: .
           path:
-            - public
+            - public/*
   deploy:
     docker: *docker
     steps:
