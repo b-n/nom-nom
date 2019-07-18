@@ -51,8 +51,11 @@ jobs:
             ls -lah public
             ls -lah ~
       - persist_to_workspace:
-          root: ~/project
+          root: public
           path:
+            - .
+            - ./*
+            - ./public
             - public
   deploy:
     docker: *docker
