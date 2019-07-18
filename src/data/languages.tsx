@@ -26,8 +26,6 @@ const formatLocales: Record<string, Locale> = {
   'nl-NL': require('date-fns/locale/nl'),
 }
 
-console.log('en-NZ')
-
 const getMessage: (locale: string) => (message: string) => string = (
   locale: string
 ) => {
