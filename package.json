@@ -71,7 +71,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "gatsby build",
     "format": "prettier --config .prettierrc --write 'src/**/*.tsx'",
-    "deploy": "gatsby build && gh-pages -d public -m \"[ci skip]\"",
+    "deploy": "gh-pages -d public -m \"[ci skip]\"",
     "start": "npm run develop",
     "type-check": "tsc --noEmit",
     "lint": "tslint --project ."

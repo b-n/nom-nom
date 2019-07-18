@@ -1,27 +1,54 @@
 version: 2
+
+aliases:
+  - &docker
+    - image: circleci/node:11.9
+  - &run_yarn
+    - restore_cache:
+        keys:
+          - deps-{{ checksum "package.json" }}
+    - run:
+        name: Yarn
+        command: yarn install
+  - &attach_workspace
+    at: build
+
 jobs:
-  build:
-    branches:
-      only:
-        - master
-    docker:
-      - image: circleci/node:11.9
-    working_directory: ~/repo
+  setup:
+    docker: *docker
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - deps-{{ checksum "package.json" }}
-      - run:
-          name: install
-          command: yarn install
+      - &run_yarn
       - save_cache:
           paths:
             - node_modules
           key: deps-{{ checksum "package.json" }}
+  lint:
+    docker: *docker
+    steps:
+      - checkout
+      - &run_yarn
       - run:
-          name: lint
-          command: yarn run lint
+         name: lint
+         command: yarn run lint
+  build:
+    docker: *docker
+    steps:
+      - checkout
+      - &run_yarn
+      - run:
+          name: build
+          command: yarn run build
+      - persist_to_workspace:
+          root: build
+          paths:
+            - public
+  deploy:
+    docker: *docker
+    steps:
+      - checkout
+      - attach_workspace: *attach_workspace
+      - &run_yarn
       - run:
           name: vars
           command: |
@@ -30,5 +57,24 @@ jobs:
             printf "CONTENTFUL_SPACE_ID=$CONTENTFUL_SPACE_ID" > .env.production
             printf "CONTENTFUL_ACCESS_TOKEN=$CONTENTFUL_ACCESS_TOKEN" >> .env.production
       - run:
-          name: deploy
+          name: depoy
           command: yarn run deploy
+
+workflows:
+  version: 2
+  commit:
+    jobs:
+      - setup
+      - lint:
+          requires:
+            - setup
+      - build:
+          requires:
+            - setup
+      - deploy:
+          filters:
+            branches:
+              only: master
+          requires:
+            - lint
+            - build
