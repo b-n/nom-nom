@@ -12,7 +12,7 @@ aliases:
       name: Yarn
       command: yarn install
   - &attach_workspace
-    at: public
+    at: .
 
 jobs:
   setup:
@@ -53,9 +53,9 @@ jobs:
           name: projectls
           command: ls -lah public
       - persist_to_workspace:
-          root: public
+          root: .
           path:
-            - .
+            - public
   deploy:
     docker: *docker
     steps:
