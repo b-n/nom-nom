@@ -19,7 +19,7 @@ interface IMeal {
   updatedAt: string
   description: IContentfulRichText
   shortDescription: IContentfulMarkdown
-  heroImage: any
+  heroImage: IGatsbyPluginSharp
 }
 
 interface IRecipe {

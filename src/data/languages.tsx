@@ -1,4 +1,4 @@
-import { formatDistanceToNow } from 'date-fns'
+import { formatDistanceToNow, Locale } from 'date-fns'
 
 import enNZ from './messages/en-NZ.json'
 import nlNL from './messages/nl-NL.json'
@@ -21,10 +21,12 @@ const messages: Record<string, Record<string, string>> = {
   'nl-NL': nlNL as Record<string, string>,
 }
 
-const formatLocales: Record<string, any> = {
+const formatLocales: Record<string, Locale> = {
   'en-NZ': require('date-fns/locale/en-GB'),
   'nl-NL': require('date-fns/locale/nl'),
 }
+
+console.log('en-NZ')
 
 const getMessage: (locale: string) => (message: string) => string = (
   locale: string
