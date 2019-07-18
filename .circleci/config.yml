@@ -49,8 +49,9 @@ jobs:
             pwd
             ls -lah
             ls -lah public
+            ls -lah ~
       - persist_to_workspace:
-          root: /root/circleci/project
+          root: ~/project
           path:
             - public
   deploy:
