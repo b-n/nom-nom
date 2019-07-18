@@ -44,12 +44,15 @@ jobs:
           name: build
           command: yarn run build
       - run:
-          name: dirStructure
+          name: pwd
+          command: pwd
+      - run:
+          name: ls
           command: ls -lah
       - persist_to_workspace:
           root: ./public
           path:
-            - .
+            - ./*
   deploy:
     docker: *docker
     steps:
