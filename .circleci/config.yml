@@ -43,6 +43,9 @@ jobs:
       - run:
           name: build
           command: yarn run build
+      - run:
+          name: dirStructure
+          command: ls -lah
       - persist_to_workspace:
           root: ./public
           path:
