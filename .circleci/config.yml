@@ -43,13 +43,6 @@ jobs:
       - run:
           name: build
           command: yarn run build
-      - run:
-          name: debug
-          command: |
-            pwd
-            ls -lah
-            ls -lah public
-            ls -lah ~
       - persist_to_workspace:
           root: .
           paths:
