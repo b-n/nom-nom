@@ -44,18 +44,15 @@ jobs:
           name: build
           command: yarn run build
       - run:
-          name: pwd
-          command: pwd
-      - run:
-          name: ls
-          command: ls -lah
-      - run:
-          name: projectls
-          command: ls -lah public
+          name: debug
+          command: |
+            pwd
+            ls -lah
+            ls -lah public
       - persist_to_workspace:
-          root: .
+          root: /root/circleci/project
           path:
-            - .
+            - public
   deploy:
     docker: *docker
     steps:
