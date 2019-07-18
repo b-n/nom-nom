@@ -12,7 +12,7 @@ aliases:
       name: Yarn
       command: yarn install
   - &attach_workspace
-    at: build
+    at: public
 
 jobs:
   setup:
@@ -44,9 +44,9 @@ jobs:
           name: build
           command: yarn run build
       - persist_to_workspace:
-          root: build
-          paths:
-            - public
+          root: public
+          path:
+            - public/*
   deploy:
     docker: *docker
     steps:
