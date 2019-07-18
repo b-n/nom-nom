@@ -3,13 +3,14 @@ version: 2
 aliases:
   - &docker
     - image: circleci/node:11.9
+  - &restore_cache
+    restore_cache:
+      keys:
+        - deps-{{ checksum "package.json" }}
   - &run_yarn
-    - restore_cache:
-        keys:
-          - deps-{{ checksum "package.json" }}
-    - run:
-        name: Yarn
-        command: yarn install
+    run:
+      name: Yarn
+      command: yarn install
   - &attach_workspace
     at: build
 
@@ -18,6 +19,7 @@ jobs:
     docker: *docker
     steps:
       - checkout
+      - *restore_cache
       - *run_yarn
       - save_cache:
           paths:
@@ -27,6 +29,7 @@ jobs:
     docker: *docker
     steps:
       - checkout
+      - *restore_cache
       - *run_yarn
       - run:
          name: lint
@@ -35,6 +38,7 @@ jobs:
     docker: *docker
     steps:
       - checkout
+      - *restore_cache
       - *run_yarn
       - run:
           name: build
@@ -48,6 +52,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace: *attach_workspace
+      - *restore_cache
       - *run_yarn
       - run:
           name: vars
