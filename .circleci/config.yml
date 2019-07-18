@@ -18,7 +18,7 @@ jobs:
     docker: *docker
     steps:
       - checkout
-      - &run_yarn
+      - *run_yarn
       - save_cache:
           paths:
             - node_modules
@@ -27,7 +27,7 @@ jobs:
     docker: *docker
     steps:
       - checkout
-      - &run_yarn
+      - *run_yarn
       - run:
          name: lint
          command: yarn run lint
@@ -35,7 +35,7 @@ jobs:
     docker: *docker
     steps:
       - checkout
-      - &run_yarn
+      - *run_yarn
       - run:
           name: build
           command: yarn run build
@@ -48,7 +48,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace: *attach_workspace
-      - &run_yarn
+      - *run_yarn
       - run:
           name: vars
           command: |
