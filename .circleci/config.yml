@@ -44,9 +44,9 @@ jobs:
           name: build
           command: yarn run build
       - persist_to_workspace:
-          root: public
+          root: ./public
           path:
-            - public/*
+            - .
   deploy:
     docker: *docker
     steps:
