@@ -49,8 +49,11 @@ jobs:
       - run:
           name: ls
           command: ls -lah
+      - run:
+          name: projectls
+          command: ls -lah public
       - persist_to_workspace:
-          root: ./public
+          root: public
           path:
             - ./*
   deploy:
