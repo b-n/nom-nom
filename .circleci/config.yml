@@ -62,7 +62,7 @@ jobs:
             printf "CONTENTFUL_SPACE_ID=$CONTENTFUL_SPACE_ID" > .env.production
             printf "CONTENTFUL_ACCESS_TOKEN=$CONTENTFUL_ACCESS_TOKEN" >> .env.production
       - run:
-          name: depoy
+          name: deploy
           command: yarn run deploy
   build:
     docker: *docker
@@ -81,7 +81,7 @@ jobs:
             printf "CONTENTFUL_SPACE_ID=$CONTENTFUL_SPACE_ID" > .env.production
             printf "CONTENTFUL_ACCESS_TOKEN=$CONTENTFUL_ACCESS_TOKEN" >> .env.production
       - run:
-          name: depoy
+          name: deploy
           command: yarn run deploy
 
 workflows:
