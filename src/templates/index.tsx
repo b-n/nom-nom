@@ -13,18 +13,18 @@ const ItemWrapper = styled.div`
   overflow-x: hidden;
   flex-wrap: wrap;
   background-color: #fff;
-  max-width: 1180px;
+  max-width: calc(40px + 4 * 304px);
 
-  @media (max-width: 610px) {
-    max-width: 328px;
+  @media (max-width: calc(40px + 2 * 304px)) {
+    max-width: calc(40px + 1 * 304px);
   }
 
-  @media (min-width: 611px) and (max-width: 895px) {
-    max-width: 610px;
+  @media (min-width: calc(40px + 2 * 304px)) and (max-width: calc(40px + 3 * 304px)) {
+    max-width: calc(40px + 2 * 304px);
   }
 
-  @media (min-width: 896px) and (max-width: 1180px) {
-    max-width: 895px;
+  @media (min-width: calc(40px + 3 * 304px)) and (max-width: calc(40px + 4 * 304px)) {
+    max-width: calc(40px + 3 * 304px);
   }
 `
 
@@ -68,8 +68,8 @@ export const pageQuery = graphql`
           }
           updatedAt
           heroImage {
-            resolutions(width: 265) {
-              ...GatsbyContentfulResolutions
+            fixed(width: 280) {
+              ...GatsbyContentfulFixed
             }
           }
         }

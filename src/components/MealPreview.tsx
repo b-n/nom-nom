@@ -7,22 +7,26 @@ import styled from 'styled-components'
 import { formatDateDistanceToNow, getMessage } from '../data/languages'
 
 const Item = styled.div`
-  width: 265px;
-  height: 375px;
+  width: 280px;
+  height: 350px;
   background-color: #fffff8;
-  border: 1px solid #000;
   flex: none;
-  border: 2px outset #606060;
-  border-radius: 5px;
-  box-shadow: 2px 2px 2px 2px #d0d0d0;
+  border: 4px outset #606060;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
-  margin: 10px;
+  margin: 15px 12px;
 `
 
-const HeroImage = styled(props => <Img {...props} />)`
-  max-width: 100%;
-  border-radius: 3px 3px 0px 0px;
+const HeroImage = styled(props => (
+  <Link {...props}>
+    <Img {...props} />
+  </Link>
+))`
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 6px 6px 0px 0px;
 `
 
 const Title = styled.h1`
@@ -53,13 +57,10 @@ const CTA = styled(props => <Link {...props} />)`
   margin: 19px auto;
   text-align: center;
   text-decoration: none;
-  border-top: 1px solid #333;
-  border-left: 1px solid #333;
-  border-right: 2px solid #000;
-  border-bottom: 2px solid #000;
-  background-color: #f7f7f7;
+  border: 1px outset #666;
+  background-color: #f9f9f9;
   padding: 3px;
-  border-radius: 14px;
+  border-radius: 7px;
 
   &:active {
     border-top: 2px solid #000;
@@ -79,7 +80,10 @@ const MealPreview: React.FC<IProps> = ({ meal, locale }) => {
   const messages = getMessage(locale)
   return (
     <Item>
-      <HeroImage resolutions={meal.heroImage.resolutions} />
+      <HeroImage
+        to={`/${locale}/meal/${meal.slug}`}
+        fixed={meal.heroImage.fixed}
+      />
       <Title>{meal.title}</Title>
       <Description
         dangerouslySetInnerHTML={{
