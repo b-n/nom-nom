@@ -8,7 +8,7 @@ import { formatDateDistanceToNow, getMessage } from '../data/languages'
 
 const Item = styled.div`
   width: 280px;
-  height: 350px;
+  height: 380px;
   background-color: #fffff8;
   flex: none;
   border: 4px outset #606060;
@@ -33,7 +33,6 @@ const Title = styled.h1`
   background-color: #303080;
   width: 100%;
   text-align: left;
-  font-family: Arial;
   font-size: 1.5rem;
   color: white;
   margin: 0;
@@ -42,32 +41,29 @@ const Title = styled.h1`
 
 const Description = styled.div`
   padding: 10px;
+
+  & p {
+    margin: 0;
+  }
 `
 
 const LastUpdate = styled.div`
-  margin-top: auto;
-  font-size: 0.75rem;
-  color: #606060;
+  font-size: 0.65rem;
+  color: #888;
   padding-left: 10px;
 `
 
 const CTA = styled(props => <Link {...props} />)`
   display: block;
-  width: 70px;
-  margin: 19px auto;
-  text-align: center;
+  margin: 10px auto 17px auto;
   text-decoration: none;
   border: 1px outset #666;
   background-color: #f9f9f9;
-  padding: 3px;
+  padding: 3px 16px;
   border-radius: 7px;
 
   &:active {
-    border-top: 2px solid #000;
-    border-left: 2px solid #000;
-    border-right: 1px solid #333;
-    border-bottom: 1px solid #333;
-    padding: 3px;
+    background-color: #eee;
   }
 `
 

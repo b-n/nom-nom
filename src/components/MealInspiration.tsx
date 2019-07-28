@@ -5,8 +5,8 @@ import Img from 'gatsby-image'
 import styled from 'styled-components'
 
 const Item = styled.div`
-  width: 250px;
-  height: 250px;
+  width: 300px;
+  height: 300px;
   flex: none;
   display: flex;
   position: relative;

@@ -15,22 +15,22 @@ const Wrapper = styled.div`
   overflow-x: hidden;
   flex-wrap: wrap;
   background-color: #fff;
-  max-width: 1290px;
+  max-width: calc(40px + 5 * 300px);
 
-  @media (max-width: 540px) {
-    max-width: 290px;
+  @media (max-width: calc(40px + 2 * 300px)) {
+    max-width: calc(40px + 1 * 300px);
   }
 
-  @media (min-width: 541px) and (max-width: 790px) {
-    max-width: 540px;
+  @media (min-width: calc(40px + 2 * 300px)) and (max-width: calc(40px + 3 * 300px)) {
+    max-width: calc(40px + 2 * 300px);
   }
 
-  @media (min-width: 791px) and (max-width: 1040px) {
-    max-width: 790px;
+  @media (min-width: calc(40px + 3 * 300px)) and (max-width: calc(40px + 4 * 300px)) {
+    max-width: calc(40px + 3 * 300px);
   }
 
-  @media (min-width: 1041px) and (max-width: 1290px) {
-    max-width: 1040px;
+  @media (min-width: calc(40px + 4 * 300px)) and (max-width: calc(40px + 5 * 300px)) {
+    max-width: calc(40px + 4 * 300px);
   }
 `
 
@@ -79,7 +79,7 @@ export const pageQuery = graphql`
           title
           slug
           heroImage {
-            resolutions(width: 250, height: 250) {
+            resolutions(width: 300, height: 300) {
               ...GatsbyContentfulResolutions
             }
           }

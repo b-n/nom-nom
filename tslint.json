@@ -15,7 +15,8 @@
     "no-var-requires": true,
     "no-submodule-imports": [
       true,
-      "date-fns"
+      "date-fns",
+      "styled-icons"
     ],
     "quotemark": [
       true,

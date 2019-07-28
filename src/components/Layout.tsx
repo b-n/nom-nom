@@ -2,17 +2,19 @@ import React, { ReactNode } from 'react'
 
 import { Link } from 'gatsby'
 import styled, { ThemeProvider } from 'styled-components'
+import { mb } from 'styled-components-spacing'
+import { Dish, Home } from 'styled-icons/boxicons-regular'
 
 import { getMessage } from '../data/languages'
 import LanguageSelector from './LanguageSelector'
 
-import 'normalize.css'
 import './base.css'
 
 const Container = styled.div`
   display: flex;
   width: 100%;
   justify-content: center;
+  ${mb({ mobile: 0, tablet: 4, desktop: 5 })}
 `
 
 const Navigation = styled.nav`
@@ -27,15 +29,29 @@ const NavigationItem = styled.div`
   display: inline-flex;
   align-items: center;
   margin: 0 1em;
+`
 
-  & a {
-    text-decoration: none;
-  }
+const NavigationLink = styled(props => <Link {...props} />)`
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
 `
 
 const NavigationSpacer = styled.div`
   display: inline-flex;
   width: 100%;
+`
+
+const HomeIcon = styled(Home)`
+  width: 1em;
+  height: 1em;
+  margin-right: 6px;
+`
+
+const InspirationIcon = styled(Dish)`
+  width: 1em;
+  height: 1em;
+  margin-right: 6px;
 `
 
 const theme = {}
@@ -55,10 +71,16 @@ const Layout: React.FC<IProps> = ({ pageContext, children }) => {
       <>
         <Navigation>
           <NavigationItem>
-            <Link to={`/${locale}/`}>{messages('HOME')}</Link>
+            <NavigationLink to={`/${locale}/`}>
+              <HomeIcon />
+              {messages('HOME')}
+            </NavigationLink>
           </NavigationItem>
           <NavigationItem>
-            <Link to={`/${locale}/inspiration`}>{messages('INSPIRATION')}</Link>
+            <NavigationLink to={`/${locale}/inspiration`}>
+              <InspirationIcon />
+              {messages('INSPIRATION')}
+            </NavigationLink>
           </NavigationItem>
           <NavigationSpacer />
           <NavigationItem>
