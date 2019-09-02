@@ -6,21 +6,11 @@ html {
   box-sizing: inherit;
 }
 
-/*p {
-  margin: 0;
-  word-wrap: break-word;
-}*/
-
 body {
   min-height: 100vh;
   background: #005AA7;
   background: linear-gradient(to bottom, #FFFDE4, #005AA7);
 }
-
-/*img {*/
-  /*display: block;*/
-  /*width: 100%;*/
-/*}*/
 
 a {
   color: currentColor;
