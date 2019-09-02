@@ -26,6 +26,29 @@ module.exports = {
   },
   pathPrefix: '/nom-nom',
   plugins: [
+    {
+      resolve: 'gatsby-plugin-manifest',
+      options: {
+        name: 'Nom-nom. Om nom nom nom',
+        short_name: 'Nom-nom',
+        start_url: '/',
+        background_color: '#fffde4',
+        theme_color: '#303080',
+        display: 'standalone',
+        icon: 'static/icon.png',
+        localize: [
+          {
+            start_url: '/en-NZ/',
+            lang: 'en'
+          },
+          {
+            start_url: '/nl-NL/',
+            lang: 'nl'
+          }
+        ]
+      }
+    },
+    'gatsby-plugin-offline',
     'gatsby-transformer-remark',
     'gatsby-transformer-sharp',
     'gatsby-plugin-react-helmet',
