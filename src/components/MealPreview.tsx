@@ -51,6 +51,7 @@ const LastUpdate = styled.div`
   font-size: 0.65rem;
   color: #888;
   padding-left: 10px;
+  flex-grow: 1;
 `
 
 const CTA = styled(props => <Link {...props} />)`
