@@ -35,7 +35,11 @@ module.exports = {
         background_color: '#fffde4',
         theme_color: '#303080',
         display: 'standalone',
-        icon: 'static/icon.png',
+        icon: 'static/icon.svg',
+        icon_options: {
+          purpose: 'maskable any',
+        },
+        legacy: false,
         localize: [
           {
             start_url: '/en-NZ/',

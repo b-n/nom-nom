@@ -1,0 +1,28 @@
+<svg width="512" height="512">
+  <defs>
+    <mask id="a">
+      <path
+        transform="translate(92,144)"
+        d="M38,0 L88,0 L122,178 L160,178 L152,224 L98,224 L66,58 L38,224 L0,224 Z"
+        fill="white"
+      />
+      <path 
+        transform="translate(252,144)"
+        d="M8,0 L66,0 L70,100 L108,1 L168,0 L124,224 L86,224 L122,46 L78,160 L44,160 L38,46 L0,46 Z"
+        fill="white"
+      />
+      <path
+        transform="translate(249,256) skewX(-10)"
+        fill-rule="evenodd"
+        d="M-34,0 C-34,-10 -34,-48 0,-48 S34,-10 34,0 S34,48 0,48 S-34,10 -34,0 Z
+           M-8,0 C-8,-5 -8,-22 0,-22 S8,-5 8,0 S8,22 0,22 S-8,5 -8,0 Z"
+        fill="white"
+      />
+    </mask>
+  </defs>
+  <g mask="url(#a)">
+    <rect x="0" y="0" width="512" height="512" fill="#284999" />
+    <circle cx="380" cy="190" r="150" fill="#cc8272" />
+    <circle cx="400" cy="180" r="70" fill="#ff9969" />
+  </g>
+</svg>
