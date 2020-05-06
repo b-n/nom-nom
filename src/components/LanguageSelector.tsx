@@ -2,8 +2,9 @@ import React from 'react'
 
 import { graphql, Link, useStaticQuery } from 'gatsby'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next';
 
-import { getMessage } from '../data/languages'
+import { Locale } from '../interfaces/Site';
 
 const Selector = styled.div`
   font-size: 1rem;
@@ -61,40 +62,25 @@ const Item = styled.div`
   padding: 10px;
 `
 
-interface IProps {
-  currentLocale: string
-  currentUrl: string
+interface Props {
+  label: string;
+  locales: Array<Locale>;
+  onSelect: (locale: Locale) => void
 }
 
-const LanguageSelector: React.FC<IProps> = ({ currentLocale, currentUrl }) => {
-  const data = useStaticQuery(graphql`
-    query LanguageQuery {
-      site {
-        siteMetadata {
-          defaultLocale
-          languages {
-            locale
-            label
-          }
-        }
-      }
-    }
-  `) as ISite
-
-  const messages = getMessage(currentLocale)
-
-  return (
-    <Selector>
-      <SelectorLabel>{messages('LANGUAGE')}</SelectorLabel>
-      <Items>
-        {data.site.siteMetadata.languages.map(({ label, locale }) => (
-          <Item key={locale}>
-            <Link to={`/${locale}/${currentUrl}`}>{label}</Link>
+const LanguageSelector: React.FC<Props> = ({ label, locales, onSelect }) => (
+  <Selector>
+    <SelectorLabel>{label}</SelectorLabel>
+    <Items>
+      {
+        locales.map((locale) => (
+          <Item key={locale.locale} onClick={() => onSelect(locale)}>
+            {locale.label}
           </Item>
-        ))}
-      </Items>
-    </Selector>
-  )
-}
+        ))
+      }
+    </Items>
+  </Selector>
+)
 
 export default LanguageSelector

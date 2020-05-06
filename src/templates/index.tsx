@@ -1,11 +1,14 @@
 import React from 'react'
 
-import { graphql } from 'gatsby'
-import Helmet from 'react-helmet'
+import { graphql, PageProps } from 'gatsby'
+import { Helmet } from 'react-helmet'
 import styled from 'styled-components'
 
-import Layout from '../components/Layout'
-import MealPreview from '../components/MealPreview'
+import Layout from './common/Layout'
+import MealPreview from './common/MealPreview'
+
+import { Site } from '../interfaces/site';
+import { AllContentfulMeals } from '../interfaces/meal';
 
 const ItemWrapper = styled.div`
   display: flex;
@@ -28,21 +31,22 @@ const ItemWrapper = styled.div`
   }
 `
 
-interface IProps {
-  pageContext: IPageContext
-  data: ISite & IAllContentfulMeals
-}
+type Data = Site & AllContentfulMeals;
 
-const IndexPage: React.FC<IProps> = ({ pageContext, data }) => (
-  <Layout pageContext={pageContext}>
-    <Helmet title={data.site.siteMetadata.title} />
-    <ItemWrapper>
-      {data.allContentfulMeal.edges.map(({ node }) => (
-        <MealPreview key={node.slug} meal={node} locale={pageContext.locale} />
-      ))}
-    </ItemWrapper>
-  </Layout>
-)
+const IndexPage: React.FC<PageProps<Data>> = (props) => {
+  const { data } = props;
+
+  return (
+    <Layout {...props}>
+      <Helmet title={data.site.siteMetadata.title} />
+      <ItemWrapper>
+        {data.allContentfulMeal.edges.map(({ node }) => (
+          <MealPreview key={node.id} meal={node} />
+        ))}
+      </ItemWrapper>
+    </Layout>
+  );
+}
 
 export default IndexPage
 
@@ -59,6 +63,7 @@ export const pageQuery = graphql`
     ) {
       edges {
         node {
+          id
           title
           slug
           shortDescription {

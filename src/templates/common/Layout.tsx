@@ -1,14 +1,17 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 
-import { Link } from 'gatsby'
+import { useStaticQuery, graphql, navigate, Link, PageProps } from 'gatsby'
 import styled, { ThemeProvider } from 'styled-components'
 import { mb } from 'styled-components-spacing'
 import { Dish, Home } from 'styled-icons/boxicons-regular'
+import { useTranslation } from 'react-i18next';
 
-import { getMessage } from '../data/languages'
-import LanguageSelector from './LanguageSelector'
+import { useLocale } from '../../components/withI18n';
+import LanguageSelector from '../../components/LanguageSelector'
 
-import './base.css'
+import { Site, Locale } from '../../interfaces/site';
+
+import '../../styles/index.css'
 
 const Container = styled.div`
   display: flex;
@@ -56,35 +59,59 @@ const InspirationIcon = styled(Dish)`
 
 const theme = {}
 
-interface IProps {
-  pageContext: IPageContext
-  children: ReactNode
+interface LayoutProps {
+  children: React.ReactNode;
 }
 
-const Layout: React.FC<IProps> = ({ pageContext, children }) => {
-  const { locale, url } = pageContext
+type Props = Omit<PageProps, keyof { children: undefined }> & LayoutProps;
 
-  const messages = getMessage(locale)
+const Layout: React.FC<Props> = (props) => {
+  const { children } = props;
+  const { t } = useTranslation();
+  const locale = useLocale();
+  const languageData = useStaticQuery(graphql`
+    query LanguageQuery {
+      site {
+        siteMetadata {
+          locales {
+            path
+            label
+            locale
+          }
+        }
+      }
+    }
+  `) as Site
+
+  const handleLanguageSelect = async ({ path, language }: Locale) => {
+    const [ _, currentLanguage, ...currentPath ] = props.path.split('\/');
+    const newPath = currentPath.join('/') || '';
+    navigate(`/${path}/${newPath}`);
+  }
 
   return (
     <ThemeProvider theme={theme}>
       <>
         <Navigation>
           <NavigationItem>
-            <NavigationLink to={`/${locale}/`}>
+            <NavigationLink to={`/${locale.path}`}>
               <HomeIcon />
-              {messages('HOME')}
+              {t('common:Home')}
             </NavigationLink>
           </NavigationItem>
           <NavigationItem>
-            <NavigationLink to={`/${locale}/inspiration`}>
+            <NavigationLink to={`/${locale.path}/inspiration`}>
               <InspirationIcon />
-              {messages('INSPIRATION')}
+              {t('common:Inspiration')}
             </NavigationLink>
           </NavigationItem>
           <NavigationSpacer />
           <NavigationItem>
-            <LanguageSelector currentLocale={locale} currentUrl={url} />
+            <LanguageSelector
+              label={t('common:Language')}
+              locales={languageData.site.siteMetadata.locales}
+              onSelect={handleLanguageSelect}
+            />
           </NavigationItem>
         </Navigation>
         <Container>{children}</Container>

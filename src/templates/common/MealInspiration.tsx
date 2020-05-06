@@ -4,6 +4,10 @@ import { Link } from 'gatsby'
 import Img from 'gatsby-image'
 import styled from 'styled-components'
 
+import { useLocale } from '../../components/withI18n'
+
+import { Meal } from '../../interfaces/meal'
+
 const Item = styled.div`
   width: 300px;
   height: 300px;
@@ -33,18 +37,24 @@ const Title = styled.h1`
   }
 `
 
-interface IProps {
-  meal: IMeal
-  locale: string
+interface Props {
+  meal: Meal;
 }
 
-const MealInspiration: React.FC<IProps> = ({ meal, locale }) => (
-  <Item>
-    <Link to={`/${locale}/meal/${meal.slug}/`}>
-      <HeroImage resolutions={meal.heroImage.resolutions} />
-      <Title>{meal.title}</Title>
-    </Link>
-  </Item>
-)
+const MealInspiration: React.FC<Props> = ({ meal }) => {
+  const locale = useLocale();
+  
+  return (
+    <Item>
+      <Link to={`/${locale.path}/meal/${meal.slug}/`}>
+        {
+          meal.heroImage && meal.heroImage.resolutions &&
+          <HeroImage resolutions={meal.heroImage.resolutions} />
+        }
+        <Title>{meal.title}</Title>
+      </Link>
+    </Item>
+  );
+};
 
 export default MealInspiration

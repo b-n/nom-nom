@@ -1,4 +1,9 @@
-declare module "ptz-i18n"
-declare module "styled-components-breakpoint"
-declare module "styled-components-spacing"
-declare module "typography-theme-fairy-gates"
+declare module 'typography-theme-fairy-gates' {
+
+  import { TypographyOptions } from 'typography';
+  const Theme: TypographyOptions;
+
+  export = Theme;
+}
+
+declare module 'styled-components-spacing';
