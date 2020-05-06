@@ -1,13 +1,16 @@
-import React from 'react'
+import React from 'react';
 
-import { graphql } from 'gatsby'
-import { shuffle } from 'lodash'
-import Helmet from 'react-helmet'
-import styled from 'styled-components'
+import { graphql, PageProps } from 'gatsby';
+import { shuffle } from 'lodash';
+import { Helmet } from 'react-helmet';
+import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
-import Layout from '../components/Layout'
-import MealInspiration from '../components/MealInspiration'
-import { getMessage } from '../data/languages'
+import Layout from './common/Layout';
+import MealInspiration from './common/MealInspiration';
+
+import { Site } from '../interfaces/site';
+import { AllContentfulMeals } from '../interfaces/meal';
 
 const Wrapper = styled.div`
   display: flex;
@@ -32,36 +35,33 @@ const Wrapper = styled.div`
   @media (min-width: calc(40px + 4 * 300px)) and (max-width: calc(40px + 5 * 300px)) {
     max-width: calc(40px + 4 * 300px);
   }
-`
+`;
 
-interface IProps {
-  pageContext: IPageContext
-  data: ISite & IAllContentfulMeals
-}
+type Data = Site & AllContentfulMeals;
 
-const InspirationPage: React.FC<IProps> = ({ pageContext, data }) => {
-  const messages = getMessage(pageContext.locale)
-  const meals = shuffle(data.allContentfulMeal.edges)
+const InspirationPage: React.FC<PageProps<Data, {}>> = (props) => {
+  const { data } = props;
+  const { t } = useTranslation();
+  const meals = shuffle(data.allContentfulMeal.edges);
 
   return (
-    <Layout pageContext={pageContext}>
+    <Layout {...props}>
       <Helmet
-        title={`${data.site.siteMetadata.title} | ${messages('INSPIRATION')}`}
+        title={`${data.site.siteMetadata.title} | ${t('common:Inspiration')}`}
       />
       <Wrapper>
         {meals.map(({ node }) => (
           <MealInspiration
             key={node.slug}
             meal={node}
-            locale={pageContext.locale}
           />
         ))}
       </Wrapper>
     </Layout>
-  )
-}
+  );
+};
 
-export default InspirationPage
+export default InspirationPage;
 
 export const pageQuery = graphql`
   query InspirationByLanguage($locale: String!) {
@@ -77,6 +77,7 @@ export const pageQuery = graphql`
       edges {
         node {
           title
+          node_locale
           slug
           heroImage {
             resolutions(width: 300, height: 300) {
@@ -87,4 +88,4 @@ export const pageQuery = graphql`
       }
     }
   }
-`
+`;

@@ -1,10 +1,13 @@
-import React from 'react'
+import React from 'react';
 
-import { Link } from 'gatsby'
-import Img from 'gatsby-image'
-import styled from 'styled-components'
+import { Link } from 'gatsby';
+import Img from 'gatsby-image';
+import styled from 'styled-components';
 
-import { formatDateDistanceToNow, getMessage } from '../data/languages'
+import { useTranslation } from 'react-i18next';
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import { useLocale } from '../../components/withI18n';
+import { Meal } from '../../interfaces/meal';
 
 const Item = styled.div`
   width: 280px;
@@ -16,7 +19,7 @@ const Item = styled.div`
   display: flex;
   flex-direction: column;
   margin: 15px 12px;
-`
+`;
 
 const HeroImage = styled(props => (
   <Link {...props}>
@@ -27,7 +30,7 @@ const HeroImage = styled(props => (
   align-items: center;
   overflow: hidden;
   border-radius: 6px 6px 0px 0px;
-`
+`;
 
 const Title = styled.h1`
   background-color: #303080;
@@ -37,7 +40,7 @@ const Title = styled.h1`
   color: white;
   margin: 0;
   padding: 3px 13px;
-`
+`;
 
 const Description = styled.div`
   padding: 10px;
@@ -45,14 +48,14 @@ const Description = styled.div`
   & p {
     margin: 0;
   }
-`
+`;
 
 const LastUpdate = styled.div`
   font-size: 0.65rem;
   color: #888;
   padding-left: 10px;
   flex-grow: 1;
-`
+`;
 
 const CTA = styled(props => <Link {...props} />)`
   display: block;
@@ -66,21 +69,23 @@ const CTA = styled(props => <Link {...props} />)`
   &:active {
     background-color: #eee;
   }
-`
+`;
 
-interface IProps {
-  meal: IMeal
-  locale: string
+interface Props {
+  meal: Meal;
 }
 
-const MealPreview: React.FC<IProps> = ({ meal, locale }) => {
-  const messages = getMessage(locale)
+const MealPreview: React.FC<Props> = ({ meal }) => {
+  const { t } = useTranslation();
+  const locale = useLocale();
   return (
     <Item>
-      <HeroImage
-        to={`/${locale}/meal/${meal.slug}`}
-        fixed={meal.heroImage.fixed}
-      />
+      {meal.heroImage && (
+        <HeroImage
+          to={`/${locale.path}/meal/${meal.slug}`}
+          fixed={meal.heroImage.fixed}
+        />
+      )}
       <Title>{meal.title}</Title>
       <Description
         dangerouslySetInnerHTML={{
@@ -88,11 +93,11 @@ const MealPreview: React.FC<IProps> = ({ meal, locale }) => {
         }}
       />
       <LastUpdate>
-        {formatDateDistanceToNow(locale, new Date(meal.updatedAt))}
+        {formatDistanceToNow(new Date(meal.updatedAt), { locale: locale.dateFns, addSuffix: true })}
       </LastUpdate>
-      <CTA to={`/${locale}/meal/${meal.slug}`}>{messages('VIEW')}</CTA>
+      <CTA to={`/${locale.path}/meal/${meal.slug}`}>{t('common:View')}</CTA>
     </Item>
-  )
-}
+  );
+};
 
-export default MealPreview
+export default MealPreview;

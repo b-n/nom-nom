@@ -11,9 +11,3 @@ body {
   background: #005AA7;
   background: linear-gradient(to bottom, #FFFDE4, #005AA7);
 }
-
-a {
-  color: currentColor;
-  text-shadow: none;
-  background-image: none;
-}

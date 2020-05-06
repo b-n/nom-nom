@@ -1,13 +1,11 @@
-require('ts-node').register();
 require('dotenv').config({
-  path: `.env.${process.env.NODE_ENV}`
+  path: `.env.${process.env.NODE_ENV}`,
 })
-const locales = require('./src/data/languages')
 
 const contentfulConfig = {
   spaceId: process.env.CONTENTFUL_SPACE_ID,
   accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
-  host: process.env.CONTENTFUL_HOST
+  host: process.env.CONTENTFUL_HOST,
 }
 
 const { spaceId, accessToken } = contentfulConfig
@@ -20,9 +18,11 @@ if (!spaceId || !accessToken) {
 
 module.exports = {
   siteMetadata: {
-    title: 'Nom-nom. Om nom nom nom',
-    languages: locales.languages,
-    defaultLocale: locales.defaultLocale,
+    title: 'Nom-nom. Om nom nom nom.',
+    locales: [
+      { locale: 'en-NZ', path: 'en', 'language': 'en', label: '🇳🇿English' },
+      { locale: 'nl-NL', path: 'nl', 'language': 'nl', label: '🇳🇱Nederlands' },
+    ],
   },
   pathPrefix: '/nom-nom',
   plugins: [
@@ -31,6 +31,7 @@ module.exports = {
       options: {
         name: 'Nom-nom. Om nom nom nom',
         short_name: 'Nom-nom',
+        lang: 'nl',
         start_url: '/',
         background_color: '#fffde4',
         theme_color: '#303080',
@@ -42,11 +43,11 @@ module.exports = {
         legacy: false,
         localize: [
           {
-            start_url: '/en-NZ/',
+            start_url: '/en/',
             lang: 'en'
           },
           {
-            start_url: '/nl-NL/',
+            start_url: '/nl/',
             lang: 'nl'
           }
         ]
@@ -66,9 +67,8 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-typography',
       options: {
-        pathToConfigModule: 'src/utils/typography'
+        pathToConfigModule: 'src/lib/typography'
       }
     },
-    'gatsby-plugin-tslint',
   ],
 }

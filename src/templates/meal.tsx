@@ -1,14 +1,23 @@
-import React from 'react'
+import React from 'react';
 
-import { graphql } from 'gatsby'
-import Helmet from 'react-helmet'
-import styled from 'styled-components'
-import breakpoint from 'styled-components-breakpoint'
-import { p } from 'styled-components-spacing'
+import { graphql, PageProps } from 'gatsby';
+import { Helmet } from 'react-helmet';
+import { useTranslation } from 'react-i18next';
 
-import Layout from '../components/Layout'
-import Meal from '../components/Meal'
-import Recipe from '../components/Recipe'
+import styled from 'styled-components';
+import breakpoint from 'styled-components-breakpoint';
+import { p } from 'styled-components-spacing';
+
+import Layout from './common/Layout';
+import Typography from '../components/Typography';
+import ContentfulRichText from '../components/ContentfulRichText';
+import Recipe from './common/Recipe';
+
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import { useLocale } from '../components/withI18n';
+
+import { Site } from '../interfaces/site';
+import { ContentfulMeal } from '../interfaces/meal';
 
 const Content = styled.div`
   background-color: white;
@@ -24,40 +33,51 @@ const Content = styled.div`
   ${breakpoint('desktop')`
     width: 80%;
   `}
-`
+`;
 
-interface IProps {
-  data: ISite & IContentfulMeal
-  pageContext: IPageContext
-}
+type Data = Site & ContentfulMeal;
+type Context = {
+  id: string;
+};
 
-const MealPage: React.FC<IProps> = ({ data, pageContext }) => {
-  const meal = data.contentfulMeal
-  const { title, recipes } = meal
-  const siteTitle = data.site.siteMetadata.title
+const MealPage: React.FC<PageProps<Data, Context>> = (props) => {
+  const { data } = props;
+  const { t } = useTranslation('common');
+  const meal = data.contentfulMeal;
+  const { title, description, updatedAt, recipes } = meal;
+  const siteTitle = data.site.siteMetadata.title;
+
+  const locale = useLocale();
 
   return (
-    <Layout pageContext={pageContext}>
+    <Layout {...props}>
       <Helmet title={`${title} | ${siteTitle}`} />
       <Content>
-        <Meal meal={meal}>
-          {recipes &&
-            recipes.map(recipe => (
-              <Recipe
-                key={recipe.id}
-                showTitle={recipes.length > 1}
-                recipe={recipe}
-              />
-            ))}
-        </Meal>
+        <Typography variant="h1">
+          {title}
+        </Typography>
+        <Typography variant="subtitle">
+          {t('meal:last edited')} {formatDistanceToNow(Date.parse(updatedAt), { locale: locale.dateFns, addSuffix: true })}
+        </Typography>
+        {ContentfulRichText(description.json)}
+        {
+          recipes &&
+          recipes.map(recipe => (
+            <Recipe
+              recipe={recipe}
+              key={recipe.id}
+              showTitle={recipes.length > 1}
+            />
+          ))
+        }
       </Content>
     </Layout>
-  )
-}
+  );
+};
 
-export default MealPage
+export default MealPage;
 
-export const pageQuery = graphql`
+export const pageQuery = graphql` 
   query MealById($id: String!) {
     site {
       siteMetadata {
@@ -67,20 +87,19 @@ export const pageQuery = graphql`
     contentfulMeal(id: { eq: $id }) {
       title
       updatedAt
-      node_locale
       description {
         json
       }
       recipes {
         id
+        title
         ingredients {
           json
         }
         instructions {
           json
         }
-        title
       }
     }
   }
-`
+`;

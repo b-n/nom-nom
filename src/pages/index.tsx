@@ -1,42 +1,28 @@
-import React from 'react'
+import React, { useEffect } from 'react';
+import i18next from 'i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
 
-import { graphql, navigate } from 'gatsby'
-import { getUserLangKey } from 'ptz-i18n'
+import { navigate } from 'gatsby';
 
-interface IProps {
-  data: ISite
-}
+// unfortunately createRedirect doesn't invoke wrapElement, which means the
+// redirected page doesn't have the i18n context which is needed
 
-class RouteIndex extends React.Component<IProps, {}> {
-  constructor(props: IProps) {
-    super(props)
+const RouteIndex: React.FC<{}> = () => {
+  useEffect(() => {
+    const getLanguage = async () => {
+      await i18next
+        .use(LanguageDetector)
+        .init({
+          fallbackLng: 'nl',
+          whitelist: ['en', 'nl'],
+        });
+      navigate(`/${i18next.language}/`);
+    };
 
-    if (typeof window !== 'undefined') {
-      const { languages, defaultLocale } = props.data.site.siteMetadata
-      const langKey = getUserLangKey(
-        languages.map(({ locale }) => locale),
-        defaultLocale
-      )
-      navigate(`/${langKey}`)
-    }
-  }
+    getLanguage();
+  }, []);
 
-  public render() {
-    return <div />
-  }
-}
+  return (<div />);
+};
 
-export default RouteIndex
-
-export const pageQuery = graphql`
-  query RouteQuery {
-    site {
-      siteMetadata {
-        languages {
-          locale
-        }
-        defaultLocale
-      }
-    }
-  }
-`
+export default RouteIndex;
