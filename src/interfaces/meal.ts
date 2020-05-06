@@ -12,7 +12,7 @@ export interface ContentfulMeal {
 }
 
 export interface MealEdge {
-  node: Meal
+  node: Meal;
 }
 
 export interface Meal {

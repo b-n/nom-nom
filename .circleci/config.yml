@@ -2,7 +2,7 @@ version: 2
 
 aliases:
   - &docker
-    - image: circleci/node:11.9
+    - image: circleci/node:12.16.3
   - &restore_cache
     restore_cache:
       keys:

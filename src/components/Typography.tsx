@@ -11,7 +11,7 @@ const variantMapping: Record<string, React.ElementType> = {
   h2: 'h2',
   body: 'p',
   subtitle: 'h6',
-}
+};
 
 const Typography: React.FC<TypographyProps> = (props) => {
   const {
@@ -20,13 +20,13 @@ const Typography: React.FC<TypographyProps> = (props) => {
     ...other
   } = props;
 
-  const Component = variantMapping[variant]; 
+  const Component = variantMapping[variant];
 
   return (
-    <Component 
+    <Component
       className={className}
       {...other} />
-  )
-}
+  );
+};
 
 export default Typography;

@@ -1,16 +1,16 @@
-import React from 'react'
+import React from 'react';
 
-import { graphql, PageProps } from 'gatsby'
-import { shuffle } from 'lodash'
-import { Helmet } from 'react-helmet'
-import styled from 'styled-components'
+import { graphql, PageProps } from 'gatsby';
+import { shuffle } from 'lodash';
+import { Helmet } from 'react-helmet';
+import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 
-import Layout from './common/Layout'
-import MealInspiration from './common/MealInspiration'
+import Layout from './common/Layout';
+import MealInspiration from './common/MealInspiration';
 
 import { Site } from '../interfaces/site';
-import { AllContentfulMeals } from '../interfaces/meal'
+import { AllContentfulMeals } from '../interfaces/meal';
 
 const Wrapper = styled.div`
   display: flex;
@@ -35,14 +35,14 @@ const Wrapper = styled.div`
   @media (min-width: calc(40px + 4 * 300px)) and (max-width: calc(40px + 5 * 300px)) {
     max-width: calc(40px + 4 * 300px);
   }
-`
+`;
 
 type Data = Site & AllContentfulMeals;
 
 const InspirationPage: React.FC<PageProps<Data, {}>> = (props) => {
   const { data } = props;
   const { t } = useTranslation();
-  const meals = shuffle(data.allContentfulMeal.edges)
+  const meals = shuffle(data.allContentfulMeal.edges);
 
   return (
     <Layout {...props}>
@@ -58,10 +58,10 @@ const InspirationPage: React.FC<PageProps<Data, {}>> = (props) => {
         ))}
       </Wrapper>
     </Layout>
-  )
-}
+  );
+};
 
-export default InspirationPage
+export default InspirationPage;
 
 export const pageQuery = graphql`
   query InspirationByLanguage($locale: String!) {
@@ -88,4 +88,4 @@ export const pageQuery = graphql`
       }
     }
   }
-`
+`;

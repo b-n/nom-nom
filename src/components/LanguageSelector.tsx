@@ -1,8 +1,5 @@
-import React from 'react'
-
-import { graphql, Link, useStaticQuery } from 'gatsby'
-import styled from 'styled-components'
-import { useTranslation } from 'react-i18next';
+import React from 'react';
+import styled from 'styled-components';
 
 import { Locale } from '../interfaces/Site';
 
@@ -24,7 +21,7 @@ const Selector = styled.div`
     border-left: 1px solid #333;
     border-right: 2px solid #000;
   }
-`
+`;
 
 const SelectorLabel = styled.span`
   width: 100%;
@@ -38,7 +35,7 @@ const SelectorLabel = styled.span`
   ${Selector}:hover &::after {
     content: '\\25B2';
   }
-`
+`;
 
 const Items = styled.div`
   display: none;
@@ -56,16 +53,16 @@ const Items = styled.div`
   ${Selector}:hover & {
     display: block;
   }
-`
+`;
 
 const Item = styled.div`
   padding: 10px;
-`
+`;
 
 interface Props {
   label: string;
   locales: Array<Locale>;
-  onSelect: (locale: Locale) => void
+  onSelect: (locale: Locale) => void;
 }
 
 const LanguageSelector: React.FC<Props> = ({ label, locales, onSelect }) => (
@@ -81,6 +78,6 @@ const LanguageSelector: React.FC<Props> = ({ label, locales, onSelect }) => (
       }
     </Items>
   </Selector>
-)
+);
 
-export default LanguageSelector
+export default LanguageSelector;

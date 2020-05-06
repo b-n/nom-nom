@@ -1,5 +1,3 @@
-import { GatsbyNode } from 'gatsby';
-
 export interface Site {
   site: {
     siteMetadata: SiteMetadata;
@@ -26,6 +24,6 @@ export interface PageContext {
       locale: string;
       path: string;
       label: string;
-    }
-  }
+    };
+  };
 };

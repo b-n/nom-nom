@@ -17,7 +17,7 @@ export interface Locale {
 const LocaleContext = React.createContext({} as Locale);
 export const useLocale = () => React.useContext(LocaleContext);
 
-const dateFnsLocaleMap: Record<string, DateFnsLocale> = { enGB, nl }
+const dateFnsLocaleMap: Record<string, DateFnsLocale> = { enGB, nl };
 
 interface Props {
   element: React.ReactNode;
@@ -26,7 +26,6 @@ interface Props {
       i18n: {
         locale: Locale;
         i18nextResources: Resource;
-        dateFnsLocale: string;
       };
     };
   };
@@ -34,10 +33,10 @@ interface Props {
 
 export const wrapWithI18nProvider = ({ element, props }: Props) => {
   if (!props.pageContext.i18n) return;
-  const { locale, i18nextResources, dateFnsLocale } = props.pageContext.i18n;
+  const { locale, i18nextResources } = props.pageContext.i18n;
   const { language } = locale;
 
-  const i18n = i18next
+  i18next
     .use(initReactI18next)
     .use(LanguageDetector)
     .init({
@@ -46,20 +45,19 @@ export const wrapWithI18nProvider = ({ element, props }: Props) => {
       interpolation: { escapeValue: false },
       initImmediate: false,
       resources: i18nextResources,
-    })
+    });
 
   return (
     <LocaleContext.Provider
       value={{
         dateFns: dateFnsLocaleMap[language],
-          ...locale
+        ...locale,
       }}
     >
       <I18nextProvider i18n={i18next}>
-        <Helmet htmlAttributes={{lang: language }} />
+        <Helmet htmlAttributes={{ lang: language }} />
         {element}
       </I18nextProvider>
     </LocaleContext.Provider>
   );
 };
-

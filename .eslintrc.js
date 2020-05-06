@@ -60,7 +60,6 @@ module.exports = {
       'varsIgnorePattern': '^_',
     }],
     'space-before-function-paren': [2, {
-      B
       'anonymous': 'always',
       'named': 'never',
       'asyncArrow': 'always',

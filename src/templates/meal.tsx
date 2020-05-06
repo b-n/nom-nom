@@ -10,13 +10,13 @@ import { p } from 'styled-components-spacing';
 
 import Layout from './common/Layout';
 import Typography from '../components/Typography';
-import ContentfulRichText from '../components/ContentfulRichText'
+import ContentfulRichText from '../components/ContentfulRichText';
 import Recipe from './common/Recipe';
 
-import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import { useLocale } from '../components/withI18n';
 
-import { Site, PageContext } from '../interfaces/site';
+import { Site } from '../interfaces/site';
 import { ContentfulMeal } from '../interfaces/meal';
 
 const Content = styled.div`
@@ -41,7 +41,7 @@ type Context = {
 };
 
 const MealPage: React.FC<PageProps<Data, Context>> = (props) => {
-  const { data, pageContext } = props;
+  const { data } = props;
   const { t } = useTranslation('common');
   const meal = data.contentfulMeal;
   const { title, description, updatedAt, recipes } = meal;
@@ -59,15 +59,15 @@ const MealPage: React.FC<PageProps<Data, Context>> = (props) => {
         <Typography variant="subtitle">
           {t('meal:last edited')} {formatDistanceToNow(Date.parse(updatedAt), { locale: locale.dateFns, addSuffix: true })}
         </Typography>
-        {ContentfulRichText(description.json)} 
+        {ContentfulRichText(description.json)}
         {
-          recipes && 
+          recipes &&
           recipes.map(recipe => (
             <Recipe
               recipe={recipe}
-              key={recipe.id} 
+              key={recipe.id}
               showTitle={recipes.length > 1}
-            /> 
+            />
           ))
         }
       </Content>

@@ -26,11 +26,11 @@ const Title = styled.h2`
   order: 1;
 `;
 
-interface ISubHeading {
-  showTitle: boolean
+interface SubHeadingProps {
+  showTitle: boolean;
 }
 
-const SubHeading = styled.h3<ISubHeading>`
+const SubHeading = styled.h3<SubHeadingProps>`
   ${mt(2)}
   ${({ showTitle }) => showTitle && mt(0)}
   ${breakpoint('desktop')`
@@ -58,12 +58,12 @@ const Ingredients = styled.div`
   `}
 `;
 
-interface IProps {
+interface Props {
   recipe: Recipe;
   showTitle: boolean;
 }
 
-const RecipeElement: React.FC<IProps> = ({ recipe, showTitle }) => (
+const RecipeElement: React.FC<Props> = ({ recipe, showTitle }) => (
   <>
     <Wrapper>
       {showTitle && <Title>{recipe.title}</Title>}

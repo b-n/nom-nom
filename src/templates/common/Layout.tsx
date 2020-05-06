@@ -1,24 +1,24 @@
-import React from 'react'
+import React from 'react';
 
-import { useStaticQuery, graphql, navigate, Link, PageProps } from 'gatsby'
-import styled, { ThemeProvider } from 'styled-components'
-import { mb } from 'styled-components-spacing'
-import { Dish, Home } from 'styled-icons/boxicons-regular'
+import { useStaticQuery, graphql, navigate, Link, PageProps } from 'gatsby';
+import styled, { ThemeProvider } from 'styled-components';
+import { mb } from 'styled-components-spacing';
+import { Dish, Home } from 'styled-icons/boxicons-regular';
 import { useTranslation } from 'react-i18next';
 
 import { useLocale } from '../../components/withI18n';
-import LanguageSelector from '../../components/LanguageSelector'
+import LanguageSelector from '../../components/LanguageSelector';
 
 import { Site, Locale } from '../../interfaces/site';
 
-import '../../styles/index.css'
+import '../../styles/index.css';
 
 const Container = styled.div`
   display: flex;
   width: 100%;
   justify-content: center;
   ${mb({ mobile: 0, tablet: 4, desktop: 5 })}
-`
+`;
 
 const Navigation = styled.nav`
   display: flex;
@@ -26,38 +26,38 @@ const Navigation = styled.nav`
   height: 20vh;
   max-height: 100px;
   font-size: 1.25rem;
-`
+`;
 
 const NavigationItem = styled.div`
   display: inline-flex;
   align-items: center;
   margin: 0 1em;
-`
+`;
 
 const NavigationLink = styled(props => <Link {...props} />)`
   display: inline-flex;
   align-items: center;
   text-decoration: none;
-`
+`;
 
 const NavigationSpacer = styled.div`
   display: inline-flex;
   width: 100%;
-`
+`;
 
 const HomeIcon = styled(Home)`
   width: 1em;
   height: 1em;
   margin-right: 6px;
-`
+`;
 
 const InspirationIcon = styled(Dish)`
   width: 1em;
   height: 1em;
   margin-right: 6px;
-`
+`;
 
-const theme = {}
+const theme = {};
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -81,13 +81,13 @@ const Layout: React.FC<Props> = (props) => {
         }
       }
     }
-  `) as Site
+  `) as Site;
 
-  const handleLanguageSelect = async ({ path, language }: Locale) => {
-    const [ _, currentLanguage, ...currentPath ] = props.path.split('\/');
+  const handleLanguageSelect = async ({ path }: Locale) => {
+    const [_, __, ...currentPath] = props.path.split('/');
     const newPath = currentPath.join('/') || '';
     navigate(`/${path}/${newPath}`);
-  }
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -117,7 +117,7 @@ const Layout: React.FC<Props> = (props) => {
         <Container>{children}</Container>
       </>
     </ThemeProvider>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;
