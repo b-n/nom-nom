@@ -40,17 +40,17 @@ const createIndexes: TranslatedPageCreator = async ({ boundActionCreators }, loc
     locale: locale,
     url: '',
     context: {
-      locale: locale.locale
+      locale: locale.locale,
     },
   }));
-}
+};
 
 const createInspirations: TranslatedPageCreator = async ({ boundActionCreators }, locales) => {
   const languageDefinitions = await useLanguageDefinitions(
     locales.map(locale => locale.language),
     { ns: ['common'] }
   );
-  
+
   const createPage = useCreatePage({
     createPage: boundActionCreators.createPage,
     componentPath: './src/templates/inspiration.tsx',
@@ -61,17 +61,17 @@ const createInspirations: TranslatedPageCreator = async ({ boundActionCreators }
     locale: locale,
     url: 'inspiration',
     context: {
-      locale: locale.locale
+      locale: locale.locale,
     },
   }));
-}
+};
 
 const createMeals: TranslatedPageCreator = async ({ graphql, boundActionCreators }, locales) => {
   const languageDefinitions = await useLanguageDefinitions(
     locales.map(locale => locale.language),
     { ns: ['common', 'meal'] }
   );
-  const localeMap = locales.reduce((a,c) => { a[c.locale] = c; return a }, {} as Record<string, Locale>);
+  const localeMap = locales.reduce((a, c) => { a[c.locale] = c; return a }, {} as Record<string, Locale>);
 
   const createPage = useCreatePage({
     createPage: boundActionCreators.createPage,
@@ -141,7 +141,7 @@ const useCreatePage: UseCreatePage = ({ createPage, componentPath, languageDefin
           i18nextResources: i18n.i18next.services.resourceStore.data,
           dateFnsLocale: i18n.dateFnsLocale,
         },
-      }
+      },
     });
     console.log(`Created page ${fullUrl}`);
     resolve();

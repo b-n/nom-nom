@@ -34,13 +34,13 @@ export const createI18nextInstance = async (language: string, options: i18next.I
 export interface LanguageDefinition {
   language: string;
   i18next: i18n;
-  dateFnsLocale: string; 
+  dateFnsLocale: string;
 }
 
 const dateFnsLocaleMap: Record<string, string> = {
   en: 'enGB',
   nl: 'nl',
-}
+};
 
 export const useLanguageDefinitions = async (languages: Array<string>, options: InitOptions): Promise<Record<string, LanguageDefinition>> => {
   const defs = await Promise.all(

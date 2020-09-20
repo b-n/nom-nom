@@ -11,7 +11,7 @@ declare module 'gatsby-config' {
 
   interface SiteMetadata {
     title: string;
-    locales: Array<Locale>
+    locales: Array<Locale>;
   }
 
   export = {
