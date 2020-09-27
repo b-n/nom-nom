@@ -10,4 +10,5 @@ body {
   min-height: 100vh;
   background: #005AA7;
   background: linear-gradient(to bottom, #FFFDE4, #005AA7);
+  width: 100%;
 }

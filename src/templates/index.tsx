@@ -5,43 +5,35 @@ import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 
 import Layout from './common/Layout';
-import MealPreview from './common/MealPreview';
+import RecipeCard from './common/RecipeCard';
 
 import { Site } from '../interfaces/site';
-import { AllContentfulMeals } from '../interfaces/meal';
+import { AllContentfulRecipes } from '../interfaces/recipe';
 
 const ItemWrapper = styled.div`
   display: flex;
-  padding: 20px;
-  overflow-x: hidden;
+  padding: 16px;
   flex-wrap: wrap;
-  background-color: #fff;
-  max-width: calc(40px + 4 * 304px);
-
-  @media (max-width: calc(40px + 2 * 304px)) {
-    max-width: calc(40px + 1 * 304px);
-  }
-
-  @media (min-width: calc(40px + 2 * 304px)) and (max-width: calc(40px + 3 * 304px)) {
-    max-width: calc(40px + 2 * 304px);
-  }
-
-  @media (min-width: calc(40px + 3 * 304px)) and (max-width: calc(40px + 4 * 304px)) {
-    max-width: calc(40px + 3 * 304px);
-  }
+  width: 100%;
 `;
 
-type Data = Site & AllContentfulMeals;
+type Data = Site & AllContentfulRecipes;
 
 const IndexPage: React.FC<PageProps<Data>> = (props) => {
   const { data } = props;
+  const { title } = data.site.siteMetadata
+  console.log('data',data);
 
+  // <MealPreview key={node.id} meal={node} />
   return (
-    <Layout {...props}>
-      <Helmet title={data.site.siteMetadata.title} />
+    <Layout {...props} pageType="index" title={title}>
+      <Helmet title={title} />
       <ItemWrapper>
-        {data.allContentfulMeal.edges.map(({ node }) => (
-          <MealPreview key={node.id} meal={node} />
+        {data.allContentfulRecipe.edges.map(({ node }) => (
+          <RecipeCard
+            recipe={node}
+            margin="12px"
+          />
         ))}
       </ItemWrapper>
     </Layout>
@@ -57,7 +49,7 @@ export const pageQuery = graphql`
         title
       }
     }
-    allContentfulMeal(
+    allContentfulRecipe(
       filter: { node_locale: { eq: $locale }, title: { ne: null } }
       sort: { fields: publishDate, order: DESC }
     ) {
@@ -66,19 +58,14 @@ export const pageQuery = graphql`
           id
           title
           slug
-          shortDescription {
-            childMarkdownRemark {
-              html
-            }
-          }
-          updatedAt
-          heroImage {
-            fixed(width: 280) {
-              ...GatsbyContentfulFixed
-            }
-          }
+          publishDate
         }
       }
     }
   }
 `;
+          //heroImage {
+            //fixed(width: 280) {
+              //...GatsbyContentfulFixed
+            //}
+          //}

@@ -7,9 +7,9 @@ import { navigate } from 'gatsby';
 // unfortunately createRedirect doesn't invoke wrapElement, which means the
 // redirected page doesn't have the i18n context which is needed
 
-const RouteIndex: React.FC<{}> = () => {
+const RouteIndex: React.FC = () => {
   useEffect(() => {
-    const getLanguage = async () => {
+    const navigateToLanguageRoot = async () => {
       await i18next
         .use(LanguageDetector)
         .init({
@@ -19,7 +19,7 @@ const RouteIndex: React.FC<{}> = () => {
       navigate(`/${i18next.language}/`);
     };
 
-    getLanguage();
+    navigateToLanguageRoot();
   }, []);
 
   return (<div />);

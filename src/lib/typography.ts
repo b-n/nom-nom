@@ -10,9 +10,6 @@ fairyGatesTheme.overrideThemeStyles = ({ rhythm }) => ({
     marginTop: 0,
     marginBottom: rhythm(1 / 3),
   },
-  h6: {
-    color: 'grey',
-  },
   a: {
     backgroundImage: 'none',
     color: 'inherit',

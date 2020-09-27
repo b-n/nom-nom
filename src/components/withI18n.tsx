@@ -1,6 +1,8 @@
 import React from 'react';
 import { initReactI18next, I18nextProvider } from 'react-i18next';
 import { Helmet } from 'react-helmet';
+import { NavigateFn, NavigateOptions } from "@reach/router"
+import { Link, GatsbyLinkProps, navigate } from 'gatsby';
 import { Locale as DateFnsLocale } from 'date-fns';
 import i18next, { Resource } from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
@@ -12,6 +14,7 @@ export interface Locale {
   locale: string;
   path: string;
   label: string;
+  navigate: NavigateFn; 
 };
 
 const LocaleContext = React.createContext({} as Locale);
@@ -34,7 +37,7 @@ interface Props {
 export const wrapWithI18nProvider = ({ element, props }: Props) => {
   if (!props.pageContext.i18n) return;
   const { locale, i18nextResources } = props.pageContext.i18n;
-  const { language } = locale;
+  const { path, language } = locale;
 
   i18next
     .use(initReactI18next)
@@ -47,11 +50,14 @@ export const wrapWithI18nProvider = ({ element, props }: Props) => {
       resources: i18nextResources,
     });
 
+  const navigateFunction = (to: string | number, options?: NavigateOptions<{}>) => navigate(`/${path}${to}`, options);
+
   return (
     <LocaleContext.Provider
       value={{
-        dateFns: dateFnsLocaleMap[language],
         ...locale,
+        dateFns: dateFnsLocaleMap[language],
+        navigate: navigateFunction,
       }}
     >
       <I18nextProvider i18n={i18next}>
@@ -61,3 +67,14 @@ export const wrapWithI18nProvider = ({ element, props }: Props) => {
     </LocaleContext.Provider>
   );
 };
+
+//Omit related to https://github.com/gatsbyjs/gatsby/issues/1668
+const LocalisedLink: React.FC<Omit<GatsbyLinkProps<{}>, 'ref'>> = (props) => {
+  const { path } = useLocale();
+
+  return (
+    <Link {...props} to={`/${path}${props.to}`} />
+  )
+}
+
+export { LocalisedLink as Link }

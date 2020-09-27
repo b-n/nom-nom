@@ -6,7 +6,7 @@ import * as config from '../gatsby-config';
 import { Locale } from '../gatsby-config';
 
 import { GatsbyCreatePages, GraphQL, BoundActionCreators, CreatePage } from '../src/interfaces/gatsby';
-import { MealEdge } from '../src/interfaces/meal';
+import { RecipeEdge } from '../src/interfaces/recipe';
 
 type TranslatedPageCreator = (gatsby: { graphql: GraphQL; boundActionCreators: BoundActionCreators }, locales: Array<Locale>) => Promise<Array<Promise<void>>>;
 
@@ -15,12 +15,12 @@ export const createPages: GatsbyCreatePages = async (gatsby) => {
 
   const indexes = await createIndexes(gatsby, locales);
   const inspirations = await createInspirations(gatsby, locales);
-  const meals = await createMeals(gatsby, locales);
+  const recipes = await createRecipes(gatsby, locales);
 
   await Promise.all([
     ...indexes,
-    ...meals,
-    ...inspirations,
+    //...recipes,
+    //...inspirations,
   ]);
 };
 
@@ -66,22 +66,22 @@ const createInspirations: TranslatedPageCreator = async ({ boundActionCreators }
   }));
 };
 
-const createMeals: TranslatedPageCreator = async ({ graphql, boundActionCreators }, locales) => {
+const createRecipes: TranslatedPageCreator = async ({ graphql, boundActionCreators }, locales) => {
   const languageDefinitions = await useLanguageDefinitions(
     locales.map(locale => locale.language),
-    { ns: ['common', 'meal'] }
+    { ns: ['common', 'recipe'] }
   );
   const localeMap = locales.reduce((a, c) => { a[c.locale] = c; return a }, {} as Record<string, Locale>);
 
   const createPage = useCreatePage({
     createPage: boundActionCreators.createPage,
-    componentPath: './src/templates/meal.tsx',
+    componentPath: './src/templates/recipe.tsx',
     languageDefinitions,
   });
 
-  const meals = await graphql(`
+  const recipes = await graphql(`
     {
-      allContentfulMeal {
+      allContentfulRecipe {
         edges {
           node {
             slug
@@ -94,12 +94,12 @@ const createMeals: TranslatedPageCreator = async ({ graphql, boundActionCreators
     }
   `);
 
-  return meals.data.allContentfulMeal.edges.map(async (meal: MealEdge) => {
-    const { node_locale, slug, id } = meal.node;
+  return recipes.data.allContentfulRecipe.edges.map(async (recipe: RecipeEdge) => {
+    const { node_locale, slug, id } = recipe.node;
 
     return createPage({
       locale: localeMap[node_locale],
-      url: `meal/${slug}`,
+      url: `recipe/${slug}`,
       context: {
         id,
       },

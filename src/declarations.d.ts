@@ -5,5 +5,3 @@ declare module 'typography-theme-fairy-gates' {
 
   export = Theme;
 }
-
-declare module 'styled-components-spacing';

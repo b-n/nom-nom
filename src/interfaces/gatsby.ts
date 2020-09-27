@@ -1,3 +1,5 @@
+import { Document } from '@contentful/rich-text-types';
+
 export interface GatsbyLocation {
   href: string;
   hostname: string;
@@ -21,6 +23,16 @@ export interface SharpAttributes {
   height: number;
   src: string;
   srcSet: string;
+}
+
+export interface ContentfulRichText {
+  json: Document;
+}
+
+export interface ContentfulMarkdown {
+  childMarkdownRemark: {
+    html: string;
+  };
 }
 
 interface PageInput {

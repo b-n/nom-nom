@@ -34,12 +34,14 @@ module.exports = {
   ],
   rules: {
     'no-undef': 'off',
-    '@typescript-eslint/camelcase': [2, {
-      properties: 'always',
-      allow: [
-        'node_locale',
-      ],
-    }],
+    'no-use-before-define': 'off',
+    //'@typescript-eslint/naming-convention': [2, {
+      //format: 'camelcase',
+      //properties: 'always',
+      //allow: [
+        //'node_locale',
+      //],
+    //}],
     '@typescript-eslint/member-delimiter-style': [2, {
       'multiline': {
         delimiter: 'semi',
@@ -64,7 +66,7 @@ module.exports = {
       'named': 'never',
       'asyncArrow': 'always',
     }],
-    '@typescript-eslint/no-use-before-define': 'off',
+    '@typescript-eslint/no-use-before-define': 'on',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
     'semi': [ 2, 'always', {

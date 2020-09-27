@@ -19,11 +19,6 @@ export interface Locale {
 export interface PageContext {
   path: string;
   i18n: {
-    locale: {
-      language: string;
-      locale: string;
-      path: string;
-      label: string;
-    };
+    locale: Locale;
   };
 };
