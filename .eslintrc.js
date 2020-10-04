@@ -54,10 +54,11 @@ module.exports = {
     }],
     '@typescript-eslint/naming-convention': [2,
       { selector: 'default', format: ['camelCase'], leadingUnderscore: 'allow', trailingUnderscore: 'allow' },
-      { selector: 'variable', format: ['camelCase', 'PascalCase', 'UPPER_CASE'], leadingUnderscore: 'allow', trailingUnderscore: 'allow' },
+      { selector: 'variable', format: ['camelCase', 'PascalCase', 'UPPER_CASE', 'snake_case'], leadingUnderscore: 'allow', trailingUnderscore: 'allow' },
       { selector: 'typeLike', format: ['PascalCase'] },
+      { selector: 'typeAlias', format: ['PascalCase', 'camelCase'] },
       { selector: 'property', format: ['camelCase', 'snake_case'] },
-      { selector: 'function', format: ['camelCase', 'PascalCase']},
+      { selector: 'function', format: ['camelCase', 'PascalCase'] },
     ],
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/member-delimiter-style': [2, {
@@ -82,12 +83,4 @@ module.exports = {
     }],
     'react/prop-types': [0],
   },
-  overrides: [
-    {
-      files: ['src/translations/*.ts'],
-      rules: {
-        'quote-props': [0],
-      },
-    },
-  ],
 }
