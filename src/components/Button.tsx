@@ -43,9 +43,6 @@ const Button: React.FC<ButtonProps> = (props) => {
     onClick,
     children,
   } = props
-  const MyVariable = 1
-  console.log(MyVariable)
-
   const ButtonElem = variant === 'contained'
     ? ContainedButton
     : TextButton

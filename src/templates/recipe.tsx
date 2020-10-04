@@ -50,7 +50,6 @@ const generatePages = (
   handleNavigationClick: (toPage: number) => () => void
 ): Array<React.ReactNode> => {
   const { t } = useTranslation('recipe')
-  console.log(t)
   const chunkedPages: Array<Array<RecipePage>> = chunk([
     { title: t('Ingredients'), content: ContentfulRichText(recipe.ingredients.json) },
     ...recipe.steps.map(step => ({ title: step.title, content: ContentfulRichText(step.text.json) })),
