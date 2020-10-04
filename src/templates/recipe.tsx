@@ -99,16 +99,16 @@ const RecipeLayout: React.FC<PageProps<Data, Context>> = (props) => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
   }
 
+  const itemsPerPage = pageConfig.find(({ widthFrom, widthTo }) => ((widthFrom || 0) < width && (!widthTo || widthTo >= width)))!.items
+
   const handleSwipe = (eventData: SwipeEventData) => {
-    if (eventData.dir === 'Left' && currentPage < recipe.steps.length) {
+    if (eventData.dir === 'Left' && currentPage < recipe.steps.length / itemsPerPage - 1) {
       handleNavigationClick(currentPage + 1)()
     }
     if (eventData.dir === 'Right' && currentPage > 0) {
       handleNavigationClick(currentPage - 1)()
     }
   }
-
-  const itemsPerPage = pageConfig.find(({ widthFrom, widthTo }) => ((widthFrom || 0) < width && (!widthTo || widthTo >= width)))!.items
 
   return (
     <Layout {...props} title={title}>
