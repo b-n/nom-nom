@@ -18,6 +18,7 @@ import { useWindowDimensions } from '../lib/window'
 
 import Layout from './common/Layout'
 import RecipeScreen from './common/RecipeScreen'
+import RecipeScreens from './common/RecipeScreens'
 
 type Data = Site & ContentfulRecipe;
 type Context = {
@@ -57,23 +58,31 @@ const generatePages = (
 
   return chunkedPages.map((screens, i) => (
     <CaroselPage key={i}>
-      {screens.map((screen, j) => (
-        <RecipeScreen
-          key={j}
-          title={screen.title}
-          width={screenWidth / itemsPerPage}
-        >
-          {screen.content}
-        </RecipeScreen>
-      ))}
-      <ActionsContainer>
-        { i > 0 && <Button variant="contained" onClick={handleNavigationClick(i - 1)}>{last(chunkedPages[i - 1])!.title}</Button> }
-        <ActionsSpacer />
-        { i < chunkedPages.length - 1 && <Button variant="contained" onClick={handleNavigationClick(i + 1)}>{first(chunkedPages[i + 1])!.title}</Button> }
-      </ActionsContainer>
+      <RecipeScreens>
+        {screens.map((screen, j) => (
+          <RecipeScreen
+            key={j}
+            title={screen.title}
+            width={screenWidth / itemsPerPage}
+          >
+            {screen.content}
+          </RecipeScreen>
+        ))}
+        <ActionsContainer>
+          { i > 0 && <Button variant="contained" onClick={handleNavigationClick(i - 1)}>{last(chunkedPages[i - 1])!.title}</Button> }
+          <ActionsSpacer />
+          { i < chunkedPages.length - 1 && <Button variant="contained" onClick={handleNavigationClick(i + 1)}>{first(chunkedPages[i + 1])!.title}</Button> }
+        </ActionsContainer>
+      </RecipeScreens>
     </CaroselPage>
   ))
 }
+
+const pageConfig: Array<{ widthFrom?: number; widthTo?: number; items: number}> = [
+  { widthTo: 576, items: 1 },
+  { widthFrom: 576, widthTo: 1024, items: 2 },
+  { widthFrom: 1024, items: 3 },
+]
 
 const RecipeLayout: React.FC<PageProps<Data, Context>> = (props) => {
   const { data } = props
@@ -99,7 +108,7 @@ const RecipeLayout: React.FC<PageProps<Data, Context>> = (props) => {
     }
   }
 
-  const itemsPerPage = width >= 576 ? 2 : 1
+  const itemsPerPage = pageConfig.find(({ widthFrom, widthTo }) => ((widthFrom || 0) < width && (!widthTo || widthTo >= width)))!.items
 
   return (
     <Layout {...props} title={title}>

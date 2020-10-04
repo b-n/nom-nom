@@ -5,7 +5,8 @@ const RecipeCards = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(375px, 1fr));
   grid-gap: 1em;
   width: 100%;
-  margin: 12px;
+  max-width: 2768px;
+  margin: 1em;
 `
 
 export default RecipeCards

@@ -16,6 +16,10 @@ const Screen = styled.div<Props>`
   @media (min-width: 576px) {
     width: 50%;
   }
+
+  @media (min-width: 1025px) {
+    width: 33.33%
+  }
 `
 // width: ${props => props.width}px;
 
