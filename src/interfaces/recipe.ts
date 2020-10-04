@@ -1,4 +1,4 @@
-import { SharpImage, ContentfulRichText } from './gatsby';
+import { SharpImage, ContentfulRichText } from './gatsby'
 
 export interface AllContentfulRecipes {
   allContentfulRecipe: {
@@ -22,10 +22,11 @@ export interface Recipe {
   title: string;
   ingredients: ContentfulRichText;
   steps: Array<Step>;
+  heroImage?: SharpImage;
 }
 
 export interface Step {
-  id: string;
   title: string;
-  instructions: ContentfulRichText;
+  stepNumber: number;
+  text: ContentfulRichText;
 }

@@ -1,6 +1,7 @@
 import { resolve } from 'path';
 
 import { useLanguageDefinitions, LanguageDefinition } from './i18n';
+import useCreateTranslatedPage from './useCreateTranslatedPage'
 
 import * as config from '../gatsby-config';
 import { Locale } from '../gatsby-config';
@@ -19,8 +20,8 @@ export const createPages: GatsbyCreatePages = async (gatsby) => {
 
   await Promise.all([
     ...indexes,
-    //...recipes,
-    //...inspirations,
+    ...recipes,
+    ...inspirations,
   ]);
 };
 
@@ -30,7 +31,7 @@ const createIndexes: TranslatedPageCreator = async ({ boundActionCreators }, loc
     { ns: ['common'] }
   );
 
-  const createPage = useCreatePage({
+  const createPage = useCreateTranslatedPage({
     createPage: boundActionCreators.createPage,
     componentPath: './src/templates/index.tsx',
     languageDefinitions,
@@ -51,7 +52,7 @@ const createInspirations: TranslatedPageCreator = async ({ boundActionCreators }
     { ns: ['common'] }
   );
 
-  const createPage = useCreatePage({
+  const createPage = useCreateTranslatedPage({
     createPage: boundActionCreators.createPage,
     componentPath: './src/templates/inspiration.tsx',
     languageDefinitions,
@@ -71,9 +72,11 @@ const createRecipes: TranslatedPageCreator = async ({ graphql, boundActionCreato
     locales.map(locale => locale.language),
     { ns: ['common', 'recipe'] }
   );
+
+  console.log(languageDefinitions);
   const localeMap = locales.reduce((a, c) => { a[c.locale] = c; return a }, {} as Record<string, Locale>);
 
-  const createPage = useCreatePage({
+  const createPage = useCreateTranslatedPage({
     createPage: boundActionCreators.createPage,
     componentPath: './src/templates/recipe.tsx',
     languageDefinitions,
@@ -85,7 +88,6 @@ const createRecipes: TranslatedPageCreator = async ({ graphql, boundActionCreato
         edges {
           node {
             slug
-            title
             id
             node_locale
           }
@@ -99,51 +101,10 @@ const createRecipes: TranslatedPageCreator = async ({ graphql, boundActionCreato
 
     return createPage({
       locale: localeMap[node_locale],
-      url: `recipe/${slug}`,
+      url: `${slug}`,
       context: {
         id,
       },
     });
-  });
-};
-
-interface UseCreatePage {
-  (opts: {
-    createPage: CreatePage;
-    componentPath: string;
-    languageDefinitions?: Record<string, LanguageDefinition>;
-  }):
-  (context: {
-    locale: Locale;
-    url: any;
-    context: any;
-  }) => Promise<void>;
-}
-
-const useCreatePage: UseCreatePage = ({ createPage, componentPath, languageDefinitions = {} }) => async ({ locale, url, context }) => {
-  const component = await resolve(componentPath);
-  return new Promise(resolve => {
-    const urlParts = [];
-    const i18n = languageDefinitions[locale.language];
-    if (i18n) {
-      urlParts.push(locale.path);
-    }
-    urlParts.push(url);
-
-    const fullUrl = `/${urlParts.join('/')}`;
-    createPage({
-      path: fullUrl,
-      component,
-      context: {
-        ...context,
-        i18n: {
-          locale,
-          i18nextResources: i18n.i18next.services.resourceStore.data,
-          dateFnsLocale: i18n.dateFnsLocale,
-        },
-      },
-    });
-    console.log(`Created page ${fullUrl}`);
-    resolve();
   });
 };

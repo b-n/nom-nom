@@ -1,4 +1,5 @@
 import { graphql, PageProps } from 'gatsby'
+import shuffle from 'lodash/shuffle'
 import React from 'react'
 import { Helmet } from 'react-helmet'
 
@@ -11,26 +12,31 @@ import RecipeCards from './common/RecipeCards'
 
 type Data = Site & AllContentfulRecipes;
 
-const IndexPage: React.FC<PageProps<Data>> = (props) => {
+const InspirationPage: React.FC<PageProps<Data>> = (props) => {
   const { data } = props
   const { title } = data.site.siteMetadata
+  const recipes = shuffle(data.allContentfulRecipe.edges)
 
   return (
     <Layout {...props} title={title}>
       <Helmet title={title} />
       <RecipeCards>
-        {data.allContentfulRecipe.edges.map(({ node }) => (
-          <RecipeCard key={node.id} recipe={node} />
+        {recipes.map(({ node }) => (
+          <RecipeCard
+            key={node.id}
+            recipe={node}
+            onlyImage
+          />
         ))}
       </RecipeCards>
     </Layout>
   )
 }
 
-export default IndexPage
+export default InspirationPage
 
 export const pageQuery = graphql`
-  query IndexByLanguage($locale: String!) {
+  query InspirationByLanguage($locale: String!) {
     site {
       siteMetadata {
         title

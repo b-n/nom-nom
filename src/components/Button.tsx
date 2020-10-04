@@ -1,5 +1,5 @@
-import React, { MouseEvent } from 'react';
-import styled from 'styled-components';
+import React, { MouseEvent } from 'react'
+import styled from 'styled-components'
 
 interface ButtonProps {
   onClick: (event: MouseEvent<HTMLButtonElement>) => void;
@@ -21,7 +21,7 @@ const ContainedButton = styled(BaseButton)<ButtonProps>`
   background-color: blue;
   border: 3px solid black;
   border-radius: 5px;
-  color: black;
+  color: white;
 `
 
 const TextButton = styled(BaseButton)<ButtonProps>`
@@ -42,11 +42,13 @@ const Button: React.FC<ButtonProps> = (props) => {
     variant = 'text',
     onClick,
     children,
-  } = props;
+  } = props
+  const MyVariable = 1
+  console.log(MyVariable)
 
   const ButtonElem = variant === 'contained'
     ? ContainedButton
-    : TextButton;
+    : TextButton
 
   return (
     <ButtonElem
@@ -58,4 +60,4 @@ const Button: React.FC<ButtonProps> = (props) => {
   )
 }
 
-export default Button;
+export default Button

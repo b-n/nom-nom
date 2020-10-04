@@ -8,9 +8,11 @@
   },
   "dependencies": {
     "@contentful/rich-text-react-renderer": "^14.1.1",
+    "@types/debounce": "^1.2.0",
     "@types/react": "^16.9.34",
     "clsx": "^1.1.0",
     "date-fns": "^2.12.0",
+    "debounce": "^1.2.0",
     "gatsby-image": "^2.3.4",
     "gatsby-plugin-manifest": "^2.4.31",
     "gatsby-plugin-offline": "^3.2.0",
@@ -30,6 +32,7 @@
     "react-dom": "^16.13.1",
     "react-helmet": "^6.0.0",
     "react-i18next": "^11.7.3",
+    "react-swipeable": "^5.5.1",
     "react-typography": "^0.16.19",
     "sharp": "^0.26.1",
     "styled-components": "^5.1.0",
@@ -48,7 +51,7 @@
     "dotenv": "^8.2.0",
     "eslint": "^7.9.0",
     "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.21.1",
@@ -73,7 +76,7 @@
     "url": "git+https://github.com/nzchicken/nom-nom.git"
   },
   "scripts": {
-    "develop": "NODE_ENV=development gatsby develop",
+    "develop": "NODE_ENV=development gatsby develop --host 0.0.0.0",
     "lint": "eslint --ext .ts,.tsx src",
     "format": "prettier --config .prettierrc --write 'src/**/*.tsx'",
     "build": "gatsby build",

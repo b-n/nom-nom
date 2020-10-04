@@ -1,40 +1,35 @@
-import React from 'react';
-
-import { PageProps } from 'gatsby';
-import styled, { ThemeProvider } from 'styled-components';
-import { useTranslation } from 'react-i18next';
-
-import { Site, Locale } from '../../interfaces/site';
+import { PageProps } from 'gatsby'
+import React from 'react'
+import styled, { ThemeProvider } from 'styled-components'
 
 import Navigation from './Navigation'
 
-import '../../styles/index.css';
+import '../../styles/index.css'
 
 const Container = styled.div`
   padding-top: 60px;
   display: flex;
   justify-content: center;
-`;
+`
 
-const theme = {};
+const theme = {}
 
 interface LayoutProps {
   children: React.ReactNode;
-  pageType: 'index' | 'meal';
   title: string;
 }
 
 type Props = Omit<PageProps, keyof { children: undefined }> & LayoutProps;
 
 const Layout: React.FC<Props> = (props) => {
-  const { children, title, pageType } = props;
+  const { children, title } = props
 
   return (
     <ThemeProvider theme={theme}>
-      <Navigation title={title} pageType={pageType} />
       <Container>{children}</Container>
+      <Navigation title={title} />
     </ThemeProvider>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout

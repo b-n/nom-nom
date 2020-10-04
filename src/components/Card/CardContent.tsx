@@ -1,16 +1,16 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 
 interface Props {
   children: React.ReactNode;
 }
 
 const Content = styled.div`
-  padding: 7px 10px;
+  padding: 15px;
 `
 
 const CardContent: React.FC<Props> = (props) => {
-  const { children } = props;
+  const { children } = props
 
   return (
     <Content>
@@ -19,4 +19,4 @@ const CardContent: React.FC<Props> = (props) => {
   )
 }
 
-export default CardContent;
+export default CardContent

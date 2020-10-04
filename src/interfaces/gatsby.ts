@@ -1,4 +1,5 @@
-import { Document } from '@contentful/rich-text-types';
+import { Document } from '@contentful/rich-text-types'
+import { FixedObject, FluidObject } from 'gatsby-image'
 
 export interface GatsbyLocation {
   href: string;
@@ -10,19 +11,8 @@ export interface GatsbyLocation {
 }
 
 export interface SharpImage {
-  resolutions?: SharpAttributes;
-  fixed?: SharpAttributes;
-  fluid?: SharpAttributes;
-  resize?: SharpAttributes;
-}
-
-export interface SharpAttributes {
-  base64: string;
-  aspectRatio: number;
-  width: number;
-  height: number;
-  src: string;
-  srcSet: string;
+  fixed?: FixedObject;
+  fluid?: FluidObject;
 }
 
 export interface ContentfulRichText {
