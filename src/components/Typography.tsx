@@ -1,7 +1,7 @@
 import React from 'react'
 
 interface TypographyProps {
-  variant: 'h1' | 'h2' | 'body' | 'subtitle';
+  variant: 'h1' | 'h2' | 'body' | 'title' | 'subtitle';
   className?: string;
   children?: React.ReactNode;
 }
@@ -10,6 +10,7 @@ const variantMapping: Record<string, React.ElementType> = {
   h1: 'h1',
   h2: 'h2',
   body: 'p',
+  title: 'h5',
   subtitle: 'h6',
 }
 

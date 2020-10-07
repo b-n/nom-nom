@@ -6,7 +6,7 @@ const RecipeCards = styled.div`
   grid-gap: 1em;
   width: 100%;
   max-width: 2768px;
-  margin: 1em;
+  padding: 1em;
 `
 
 export default RecipeCards

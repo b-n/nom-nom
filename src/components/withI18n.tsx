@@ -1,7 +1,7 @@
 import { NavigateFn, NavigateOptions } from '@reach/router'
 import { Locale as DateFnsLocale } from 'date-fns'
 import { enGB, nl } from 'date-fns/locale'
-import { Link, GatsbyLinkProps, navigate } from 'gatsby'
+import { Link, GatsbyLinkProps, navigate, useStaticQuery, graphql } from 'gatsby'
 import i18next, { Resource } from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import React from 'react'
@@ -19,6 +19,24 @@ export interface Locale {
 
 const LocaleContext = React.createContext({} as Locale)
 export const useLocale = (): Locale => React.useContext(LocaleContext)
+
+export const useLocales = (): Array<Locale> => {
+  const siteData = useStaticQuery(graphql`
+    query LanguageQuery {
+      site {
+        siteMetadata {
+          locales {
+            path
+            label
+            locale
+          }
+        }
+      }
+    }
+  `) as { site: { siteMetadata: { locales: Array<Locale> } } }
+
+  return siteData.site.siteMetadata.locales
+}
 
 const dateFnsLocaleMap: Record<string, DateFnsLocale> = { enGB, nl }
 

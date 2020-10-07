@@ -102,7 +102,7 @@ const RecipeLayout: React.FC<PageProps<Data, Context>> = (props) => {
   const itemsPerPage = pageConfig.find(({ widthFrom, widthTo }) => ((widthFrom || 0) < width && (!widthTo || widthTo >= width)))!.items
 
   const handleSwipe = (eventData: SwipeEventData) => {
-    if (eventData.dir === 'Left' && currentPage < recipe.steps.length / itemsPerPage - 1) {
+    if (eventData.dir === 'Left' && currentPage < (recipe.steps.length + 1) / itemsPerPage - 1) {
       handleNavigationClick(currentPage + 1)()
     }
     if (eventData.dir === 'Right' && currentPage > 0) {

@@ -21,15 +21,11 @@ interface LayoutProps {
 
 type Props = Omit<PageProps, keyof { children: undefined }> & LayoutProps;
 
-const Layout: React.FC<Props> = (props) => {
-  const { children, title } = props
-
-  return (
-    <ThemeProvider theme={theme}>
-      <Container>{children}</Container>
-      <Navigation title={title} />
-    </ThemeProvider>
-  )
-}
+const Layout: React.FC<Props> = ({ children, title, path }) => (
+  <ThemeProvider theme={theme}>
+    <Container>{children}</Container>
+    <Navigation title={title} path={path}/>
+  </ThemeProvider>
+)
 
 export default Layout

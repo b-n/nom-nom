@@ -53,7 +53,7 @@ export const pageQuery = graphql`
           slug
           publishDate
           heroImage {
-            fluid {
+            fluid(maxWidth: 750) {
               ...GatsbyContentfulFluid
             }
           }

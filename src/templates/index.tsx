@@ -38,7 +38,7 @@ export const pageQuery = graphql`
     }
     allContentfulRecipe(
       filter: { node_locale: { eq: $locale }, title: { ne: null } }
-      sort: { fields: publishDate, order: DESC }
+      sort: { fields: title, order: ASC }
     ) {
       edges {
         node {
@@ -47,7 +47,7 @@ export const pageQuery = graphql`
           slug
           publishDate
           heroImage {
-            fluid {
+            fluid(maxWidth: 750) {
               ...GatsbyContentfulFluid
             }
           }

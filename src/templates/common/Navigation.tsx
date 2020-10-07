@@ -1,13 +1,16 @@
-import { Link } from 'gatsby'
+import { Link, navigate } from 'gatsby'
 import React from 'react'
 import styled from 'styled-components'
 import { Dish, Home } from 'styled-icons/boxicons-regular'
 
-import { useLocale } from '../../components/withI18n'
+import Typography from '../../components/Typography'
+import { useLocale, useLocales } from '../../components/withI18n'
+import { Locale } from '../../interfaces/site'
+
+import LanguageSelector from './LanguageSelector'
 
 const NavBackground = styled.nav`
   display: flex;
-  justify-content: space-between;
   height: 60px;
   max-height: 60px;
   background-color: white;
@@ -28,11 +31,17 @@ const NavIcon = styled(props => <Link {...props} />)`
 
 const NavTitle = styled.div`
   display: flex;
-  font-weight: bold;
+  justify-content: center;
   align-items: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  font-weight: bold;
+  flex-grow: 1;
+  width: 0px;
+
+  > * {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 `
 
 const HomeIcon = styled(Home)`
@@ -46,19 +55,34 @@ const InspirationIcon = styled(Dish)`
 `
 
 interface Props {
+  path: string;
   title: string;
 }
 
 const Navigation: React.FC<Props> = (props) => {
   const { title } = props
   const locale = useLocale()
+  const locales = useLocales()
+
+  const handleLanguageClick = ({ path }: Locale) => {
+    const [_, __, ...currentPath] = props.path.split('/')
+    const newPath = currentPath.join('/') || ''
+    navigate(`/${path}/${newPath}`)
+  }
 
   return (
     <NavBackground>
       <NavIcon to={`/${locale.path}`}>
         <HomeIcon />
       </NavIcon>
-      <NavTitle>{title}</NavTitle>
+      <NavTitle>
+        <Typography variant="title">{title}</Typography>
+      </NavTitle>
+      <LanguageSelector
+        label={locale.label}
+        locales={locales}
+        onSelect={handleLanguageClick}
+      />
       <NavIcon to={`/${locale.path}/inspiration`}>
         <InspirationIcon />
       </NavIcon>

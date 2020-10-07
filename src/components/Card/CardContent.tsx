@@ -1,22 +1,8 @@
-import React from 'react'
 import styled from 'styled-components'
 
-interface Props {
-  children: React.ReactNode;
-}
-
-const Content = styled.div`
+const CardContent = styled.div`
   padding: 15px;
+  flex-grow: 1;
 `
-
-const CardContent: React.FC<Props> = (props) => {
-  const { children } = props
-
-  return (
-    <Content>
-      { children }
-    </Content>
-  )
-}
 
 export default CardContent
