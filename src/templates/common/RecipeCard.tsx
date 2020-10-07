@@ -26,7 +26,7 @@ const RecipeCard: React.FC<Props> = (props) => {
     navigate(recipe)
   }
   return (
-    <Card lineHeight={onlyImage ? 0 : undefined}>
+    <Card>
       { heroImage && heroImage.fluid &&
         <Link to={`/${slug}`}>
           <CardImage fluid={heroImage.fluid} />
