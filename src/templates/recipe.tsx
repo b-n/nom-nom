@@ -40,7 +40,6 @@ const ActionsSpacer = styled.div`
 
 interface RecipePage {
   title: string;
-  width?: number;
   content: React.ReactNode;
 }
 
@@ -63,7 +62,6 @@ const generatePages = (
           <RecipeScreen
             key={j}
             title={screen.title}
-            width={screenWidth / itemsPerPage}
           >
             {screen.content}
           </RecipeScreen>

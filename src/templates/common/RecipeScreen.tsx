@@ -5,7 +5,7 @@ import Card from '../../components/Card/Card'
 import CardContent from '../../components/Card/CardContent'
 import Typography from '../../components/Typography'
 
-const Screen = styled.div<Props>`
+const Screen = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -21,16 +21,14 @@ const Screen = styled.div<Props>`
     width: 33.33%
   }
 `
-// width: ${props => props.width}px;
 
 interface Props {
-  width?: number;
-  title?: string;
+  title: string;
   children?: React.ReactNode;
 }
 
-const RecipeScreen: React.FC<Props> = ({ width, title, children }) => (
-  <Screen width={width}>
+const RecipeScreen: React.FC<Props> = ({ title, children }) => (
+  <Screen>
     <Card>
       <CardContent>
         <Typography variant="h1">
