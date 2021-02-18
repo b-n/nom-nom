@@ -1,10 +1,12 @@
-import React from 'react';
-import { initReactI18next, I18nextProvider } from 'react-i18next';
-import { Helmet } from 'react-helmet';
-import { Locale as DateFnsLocale } from 'date-fns';
-import i18next, { Resource } from 'i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
-import { enGB, nl } from 'date-fns/locale';
+import { NavigateFn, NavigateOptions } from '@reach/router'
+import { Locale as DateFnsLocale } from 'date-fns'
+import { enGB, nl } from 'date-fns/locale'
+import { Link, GatsbyLinkProps, navigate, useStaticQuery, graphql } from 'gatsby'
+import i18next, { Resource } from 'i18next'
+import LanguageDetector from 'i18next-browser-languagedetector'
+import React from 'react'
+import { Helmet } from 'react-helmet'
+import { initReactI18next, I18nextProvider } from 'react-i18next'
 
 export interface Locale {
   dateFns: DateFnsLocale;
@@ -12,12 +14,31 @@ export interface Locale {
   locale: string;
   path: string;
   label: string;
-};
+  navigate: NavigateFn;
+}
 
-const LocaleContext = React.createContext({} as Locale);
-export const useLocale = () => React.useContext(LocaleContext);
+const LocaleContext = React.createContext({} as Locale)
+export const useLocale = (): Locale => React.useContext(LocaleContext)
 
-const dateFnsLocaleMap: Record<string, DateFnsLocale> = { enGB, nl };
+export const useLocales = (): Array<Locale> => {
+  const siteData = useStaticQuery(graphql`
+    query LanguageQuery {
+      site {
+        siteMetadata {
+          locales {
+            path
+            label
+            locale
+          }
+        }
+      }
+    }
+  `) as { site: { siteMetadata: { locales: Array<Locale> } } }
+
+  return siteData.site.siteMetadata.locales
+}
+
+const dateFnsLocaleMap: Record<string, DateFnsLocale> = { enGB, nl }
 
 interface Props {
   element: React.ReactNode;
@@ -31,10 +52,10 @@ interface Props {
   };
 }
 
-export const wrapWithI18nProvider = ({ element, props }: Props) => {
-  if (!props.pageContext.i18n) return;
-  const { locale, i18nextResources } = props.pageContext.i18n;
-  const { language } = locale;
+export const wrapWithI18nProvider = ({ element, props }: Props): React.ReactNode => {
+  if (!props.pageContext.i18n) return
+  const { locale, i18nextResources } = props.pageContext.i18n
+  const { path, language } = locale
 
   i18next
     .use(initReactI18next)
@@ -45,13 +66,16 @@ export const wrapWithI18nProvider = ({ element, props }: Props) => {
       interpolation: { escapeValue: false },
       initImmediate: false,
       resources: i18nextResources,
-    });
+    })
+
+  const navigateFunction = (to: string | number, options?: NavigateOptions<Record<string, unknown>>) => navigate(`/${path}${to}`, options)
 
   return (
     <LocaleContext.Provider
       value={{
-        dateFns: dateFnsLocaleMap[language],
         ...locale,
+        dateFns: dateFnsLocaleMap[language],
+        navigate: navigateFunction,
       }}
     >
       <I18nextProvider i18n={i18next}>
@@ -59,5 +83,16 @@ export const wrapWithI18nProvider = ({ element, props }: Props) => {
         {element}
       </I18nextProvider>
     </LocaleContext.Provider>
-  );
-};
+  )
+}
+
+// Omit related to https://github.com/gatsbyjs/gatsby/issues/1668
+const LocalisedLink: React.FC<Omit<GatsbyLinkProps<Record<string, unknown>>, 'ref'>> = (props) => {
+  const { path } = useLocale()
+
+  return (
+    <Link {...props} to={`/${path}${props.to}`} />
+  )
+}
+
+export { LocalisedLink as Link }

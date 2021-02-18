@@ -1,28 +1,27 @@
-import React, { useEffect } from 'react';
-import i18next from 'i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
-
-import { navigate } from 'gatsby';
+import { navigate } from 'gatsby'
+import i18next from 'i18next'
+import LanguageDetector from 'i18next-browser-languagedetector'
+import React, { useEffect } from 'react'
 
 // unfortunately createRedirect doesn't invoke wrapElement, which means the
 // redirected page doesn't have the i18n context which is needed
 
-const RouteIndex: React.FC<{}> = () => {
+const RouteIndex: React.FC = () => {
   useEffect(() => {
-    const getLanguage = async () => {
+    const navigateToLanguageRoot = async () => {
       await i18next
         .use(LanguageDetector)
         .init({
           fallbackLng: 'nl',
           whitelist: ['en', 'nl'],
-        });
-      navigate(`/${i18next.language}/`);
-    };
+        })
+      navigate(`/${i18next.language}/`)
+    }
 
-    getLanguage();
-  }, []);
+    navigateToLanguageRoot()
+  }, [])
 
-  return (<div />);
-};
+  return (<div />)
+}
 
-export default RouteIndex;
+export default RouteIndex

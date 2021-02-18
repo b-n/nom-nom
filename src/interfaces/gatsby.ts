@@ -1,3 +1,6 @@
+import { Document } from '@contentful/rich-text-types'
+import { FixedObject, FluidObject } from 'gatsby-image'
+
 export interface GatsbyLocation {
   href: string;
   hostname: string;
@@ -8,19 +11,18 @@ export interface GatsbyLocation {
 }
 
 export interface SharpImage {
-  resolutions?: SharpAttributes;
-  fixed?: SharpAttributes;
-  fluid?: SharpAttributes;
-  resize?: SharpAttributes;
+  fixed?: FixedObject;
+  fluid?: FluidObject;
 }
 
-export interface SharpAttributes {
-  base64: string;
-  aspectRatio: number;
-  width: number;
-  height: number;
-  src: string;
-  srcSet: string;
+export interface ContentfulRichText {
+  json: Document;
+}
+
+export interface ContentfulMarkdown {
+  childMarkdownRemark: {
+    html: string;
+  };
 }
 
 interface PageInput {

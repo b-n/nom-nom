@@ -20,8 +20,8 @@ module.exports = {
   siteMetadata: {
     title: 'Nom-nom. Om nom nom nom.',
     locales: [
-      { locale: 'en-NZ', path: 'en', 'language': 'en', label: '🇳🇿English' },
-      { locale: 'nl-NL', path: 'nl', 'language': 'nl', label: '🇳🇱Nederlands' },
+      { locale: 'en-NZ', path: 'en', 'language': 'en', label: '🇳🇿' },
+      { locale: 'nl-NL', path: 'nl', 'language': 'nl', label: '🇳🇱' },
     ],
   },
   pathPrefix: '/nom-nom',
