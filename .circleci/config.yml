@@ -34,7 +34,7 @@ jobs:
       - run:
          name: lint
          command: yarn run lint
-  build_project:
+  build:
     docker: *docker
     steps:
       - checkout
@@ -59,31 +59,9 @@ jobs:
           command: |
             git config user.name $GH_NAME
             git config user.email $GH_EMAIL
-            printf "CONTENTFUL_SPACE_ID=$CONTENTFUL_SPACE_ID" > .env.production
-            printf "CONTENTFUL_ACCESS_TOKEN=$CONTENTFUL_ACCESS_TOKEN" >> .env.production
       - run:
           name: deploy
           command: yarn run deploy
-  build:
-    docker: *docker
-    steps:
-      - checkout
-      - *restore_cache
-      - *run_yarn
-      - run:
-          name: build
-          command: yarn run build
-      - run:
-          name: vars
-          command: |
-            git config user.name $GH_NAME
-            git config user.email $GH_EMAIL
-            printf "CONTENTFUL_SPACE_ID=$CONTENTFUL_SPACE_ID" > .env.production
-            printf "CONTENTFUL_ACCESS_TOKEN=$CONTENTFUL_ACCESS_TOKEN" >> .env.production
-      - run:
-          name: deploy
-          command: yarn run deploy
-
 workflows:
   version: 2
   commit:
@@ -92,7 +70,7 @@ workflows:
       - lint:
           requires:
             - setup
-      - build_project:
+      - build:
           requires:
             - setup
       - deploy:
