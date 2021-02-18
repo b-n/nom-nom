@@ -51,8 +51,8 @@ const generatePages = (
 ): Array<React.ReactNode> => {
   const { t } = useTranslation('recipe')
   const chunkedPages: Array<Array<RecipePage>> = chunk([
-    { title: t('Ingredients'), content: ContentfulRichText(recipe.ingredients.json) },
-    ...recipe.steps.map(step => ({ title: step.title, content: ContentfulRichText(step.text.json) })),
+    { title: t('Ingredients'), content: ContentfulRichText(recipe.ingredients) },
+    ...recipe.steps.map(step => ({ title: step.title, content: ContentfulRichText(step.text) })),
   ], itemsPerPage)
 
   return chunkedPages.map((screens, i) => (
@@ -115,7 +115,7 @@ const RecipeLayout: React.FC<PageProps<Data, Context>> = (props) => {
         totalPages={steps.length}
         currentPage={currentPage}
         pageWidth={width}
-        onSwiped={handleSwipe}
+        swiped={handleSwipe}
       >
         {generatePages(recipe, itemsPerPage, width, handleNavigationClick)}
       </Carosel>
@@ -135,13 +135,13 @@ export const pageQuery = graphql`
     contentfulRecipe(id: { eq: $id }) {
       title
       ingredients {
-        json
+        raw
       }
       steps {
         id
         title
         text {
-          json
+          raw
         }
       }
     }

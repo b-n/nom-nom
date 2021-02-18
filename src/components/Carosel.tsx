@@ -1,12 +1,12 @@
 import React from 'react'
-import { Swipeable, SwipeableProps, SwipeCallback, EventData } from 'react-swipeable'
+import { useSwipeable, SwipeableProps, SwipeCallback } from 'react-swipeable'
 import styled from 'styled-components'
 
 interface ContainerProps extends SwipeableProps {
   totalPages: number;
   currentPage: number;
   pageWidth: number;
-  onSwiped: SwipeCallback;
+  swiped: SwipeCallback;
 }
 
 const Shade = styled.div<CaroselPageProps>`
@@ -14,9 +14,7 @@ const Shade = styled.div<CaroselPageProps>`
   overflow-x: hidden;
 `
 
-const Container = styled(Swipeable).attrs({
-  trackMouse: true,
-})<ContainerProps>`
+const Container = styled.div<ContainerProps>`
   display: flex;
   flex-direction: row;
   position: relative;
@@ -31,10 +29,15 @@ interface CaroselProps extends ContainerProps {
 }
 
 const Carosel: React.FC<CaroselProps> = (props) => {
-  const { children, onSwiped, pageWidth } = props
+  const { children, swiped, pageWidth } = props
+  const handlers = useSwipeable({
+    onSwiped: (event) => swiped(event),
+    trackMouse: true,
+  })
+
   return (
     <Shade width={pageWidth}>
-      <Container {...props} onSwiped={onSwiped}>
+      <Container {...props} {...handlers}>
         {React.Children.map(children, child => {
           const props = { width: pageWidth }
           if (React.isValidElement(child)) {
@@ -58,6 +61,5 @@ const CaroselPage = styled.div<CaroselPageProps>`
   align-content: flex-start;
 `
 
-export type SwipeEventData = EventData;
 export default Carosel
 export { CaroselPage }

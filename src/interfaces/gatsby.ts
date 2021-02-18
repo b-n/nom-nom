@@ -1,4 +1,3 @@
-import { Document } from '@contentful/rich-text-types'
 import { FixedObject, FluidObject } from 'gatsby-image'
 
 export interface GatsbyLocation {
@@ -16,7 +15,7 @@ export interface SharpImage {
 }
 
 export interface ContentfulRichText {
-  json: Document;
+  raw: string;
 }
 
 export interface ContentfulMarkdown {
