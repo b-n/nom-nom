@@ -79,4 +79,4 @@ workflows:
               only: master
           requires:
             - lint
-            - build_project
+            - build
