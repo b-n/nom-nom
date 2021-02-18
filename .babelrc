@@ -5,8 +5,9 @@
       {
         loose: true,
         modules: false,
-        useBuiltIns: "usage",
         shippedProposals: true,
+        useBuiltIns: "usage",
+        corejs: { version: "3.8", proposals: true },
         targets: {
           browsers: [">0.25%", "not dead"],
         },
