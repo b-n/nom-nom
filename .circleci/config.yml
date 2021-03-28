@@ -11,11 +11,11 @@ aliases:
     save_cache:
       key: yarn-packages-{{ checksum "yarn.lock" }}
       paths:
-        - ~/.cache/yarn
-  - &run_yarn
+        - ~/.yarn/cache
+  - &install
     run:
       name: Yarn
-      command: yarn install
+      command: yarn install --immutable
   - &attach_workspace
     at: .
 
@@ -25,14 +25,14 @@ jobs:
     steps:
       - checkout
       - *restore_cache
-      - *run_yarn
+      - *install
       - *save_cache
   lint:
     docker: *docker
     steps:
       - checkout
       - *restore_cache
-      - *run_yarn
+      - *install
       - run:
          name: lint
          command: yarn run lint
@@ -41,7 +41,7 @@ jobs:
     steps:
       - checkout
       - *restore_cache
-      - *run_yarn
+      - *install
       - run:
           name: build
           command: yarn run build
@@ -55,7 +55,7 @@ jobs:
       - checkout
       - attach_workspace: *attach_workspace
       - *restore_cache
-      - *run_yarn
+      - *install
       - run:
           name: vars
           command: |
