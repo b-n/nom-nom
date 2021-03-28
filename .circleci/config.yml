@@ -6,12 +6,12 @@ aliases:
   - &restore_cache
     restore_cache:
       keys:
-        - yarn-packages-{{ checksum "yarn.lock" }}
+        - v1-yarn-pkgs-{{ checksum "yarn.lock" }}
   - &save_cache
     save_cache:
-      key: yarn-packages-{{ checksum "yarn.lock" }}
+      key: v1-yarn-pkgs-{{ checksum "yarn.lock" }}
       paths:
-        - ~/.yarn/cache
+        - ~/.cache/yarn
   - &install
     run:
       name: Yarn
