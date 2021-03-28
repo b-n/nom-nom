@@ -6,12 +6,12 @@ aliases:
   - &restore_cache
     restore_cache:
       keys:
-        - v1-yarn-pkgs-{{ checksum "yarn.lock" }}
+        - v2-yarn-pkgs-{{ checksum "yarn.lock" }}
   - &save_cache
     save_cache:
-      key: v1-yarn-pkgs-{{ checksum "yarn.lock" }}
+      key: v2-yarn-pkgs-{{ checksum "yarn.lock" }}
       paths:
-        - ~/.cache/yarn
+        - ~/.yarn/berry/cache
   - &install
     run:
       name: Yarn
