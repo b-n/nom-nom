@@ -32,7 +32,7 @@
     "react-i18next": "^11.8.7",
     "react-swipeable": "^6.0.1",
     "react-typography": "^0.16.19",
-    "sharp": "^0.27.1",
+    "sharp": "^0.30.5",
     "styled-components": "^5.2.1",
     "styled-icons": "^10.28.0",
     "typography": "^0.16.19",
