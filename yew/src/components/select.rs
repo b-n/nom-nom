@@ -14,7 +14,6 @@ pub fn Select(props: &SelectProps) -> Html {
         font-size: 1rem;
         position: relative;
         display: flex;
-        margin: 8px 0px;
         padding: 10px;
         border: 1px solid #333;
         border-radius: 3px;
