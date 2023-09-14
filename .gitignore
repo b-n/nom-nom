@@ -47,3 +47,9 @@ public
 .contentful.json
 .env*
 !.env.example
+
+
+
+# Yew
+yew/target
+yew/dist
