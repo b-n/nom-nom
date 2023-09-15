@@ -10,6 +10,7 @@ name = "parse_data"
 
 [dependencies]
 yew = { version = "0.20.0", features = ['csr'] }
+yew-router = { version = "0.17.0" }
 yew-hooks = "0.2.0"
 rust-i18n = "2"
 stylist = { version = "0.11", features = ['yew_use_style', 'parser'] }

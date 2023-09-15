@@ -20,7 +20,7 @@ impl TryFrom<&Vec<Event<'_>>> for RecipeStep {
     }
 }
 
-#[derive(PartialEq, Debug)]
+#[derive(PartialEq, Debug, Clone)]
 pub struct RecipeIngredient {
     pub quantity: Option<String>,
     pub unit: Option<String>,
@@ -39,7 +39,7 @@ impl TryFrom<&str> for RecipeIngredient {
     }
 }
 
-#[derive(Default, Debug, PartialEq)]
+#[derive(Default, Debug, PartialEq, Clone)]
 pub struct Recipe {
     pub name: String,
     pub locale: String,

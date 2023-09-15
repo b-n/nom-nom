@@ -2,9 +2,10 @@
 pub mod common;
 
 // pages
-pub mod home;
-pub mod inspiration;
-pub mod recipe;
-pub mod root;
+mod home;
+mod inspiration;
+mod recipe;
+mod root;
 
+pub use home::Home;
 pub use recipe::Recipe;

@@ -6,7 +6,7 @@ mod select;
 mod typography;
 
 pub use button::{Button, ButtonVariant};
-pub use card::Card;
+pub use card::{Card, CardActions, CardImage};
 pub use carosel::{Carosel, CaroselItem};
 pub use icon::{Icon, IconType};
 pub use select::{Select, SelectItem};
