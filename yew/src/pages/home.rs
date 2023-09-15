@@ -48,7 +48,7 @@ pub fn Home(props: &PageProps) -> Html {
     };
 
     html!(
-        <Layout title="Nom nom. Om nom nom nom.">
+        <Layout locale={props.locale.clone()} title="Nom nom. Om nom nom nom.">
             <div class={style}>
                 { for recipes }
             </div>

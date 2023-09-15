@@ -1,7 +1,10 @@
 use stylist::yew::use_style;
-use yew::{classes, function_component, html, virtual_dom::AttrValue, Html, Properties};
+use yew::{classes, function_component, html, virtual_dom::AttrValue, Callback, Html, Properties};
+use yew_router::hooks::use_navigator;
 
 use crate::components::{Icon, IconType, Typography, TypographyVariant};
+use crate::hooks::use_locale;
+use crate::Route;
 
 use super::LocaleSelector;
 
@@ -12,6 +15,9 @@ pub struct NavigationProps {
 
 #[function_component]
 pub fn Navigation(props: &NavigationProps) -> Html {
+    let navigator = use_navigator().unwrap();
+    let locale = use_locale().to_string();
+
     let style = use_style!(
         r#"
         display: flex;
@@ -43,6 +49,7 @@ pub fn Navigation(props: &NavigationProps) -> Html {
 
     let icon_style = use_style!(
         r#"
+        cursor: pointer;
         display: inline-flex;
         align-items: center;
         text-decoration: none;
@@ -52,17 +59,39 @@ pub fn Navigation(props: &NavigationProps) -> Html {
         "#
     );
 
+    let home_icon = {
+        let navigator = navigator.clone();
+        let locale = locale.clone();
+        let onclick = Callback::from(move |_| {
+            navigator.push(&Route::Home {
+                locale: locale.clone(),
+            });
+        });
+        html!(<Icon onclick={onclick} icon={IconType::Home} class={classes!(icon_style.clone())} />)
+    };
+
+    let inspiration_icon = {
+        let navigator = navigator.clone();
+        let locale = locale.clone();
+        let onclick = Callback::from(move |_| {
+            navigator.push(&Route::Home {
+                locale: locale.clone(),
+            });
+        });
+        html!(<Icon onclick={onclick} icon={IconType::Inspiration} class={classes!(icon_style.clone())} />)
+    };
+
     // useLocales
     let locales = vec![];
 
     html!(
         <nav class={style}>
-            <Icon icon={IconType::Home} class={classes!(icon_style.clone())} />
+            {home_icon}
             <Typography variant={TypographyVariant::SubTitle} class={classes!("title")}>
                 <span>{ props.title.clone() }</span>
             </Typography>
             <LocaleSelector active="en" locales={locales} />
-            <Icon icon={IconType::Inspiration} class={classes!(icon_style.clone())} />
+            {inspiration_icon}
         </nav>
     )
 }

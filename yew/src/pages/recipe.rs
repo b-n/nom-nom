@@ -31,19 +31,20 @@ pub fn Recipe(props: &PageProps) -> Html {
         )
     };
 
-    if let Some(recipe) = &recipe.data {
-        html!(
-            <Layout title={recipe.name.clone()}>
-                <Content recipe={recipe.clone()} />
-            </Layout>
+    let (inner, title) = if let Some(recipe) = &recipe.data {
+        (
+            html!(<Content recipe={recipe.clone()} />),
+            recipe.name.clone(),
         )
     } else {
-        html!(
-            <Layout title={"..."}>
-                { "Loading" }
-            </Layout>
-        )
-    }
+        (html!({ "Loading" }), "...".to_string())
+    };
+
+    html!(
+        <Layout locale={props.locale.clone()} title={title}>
+            {inner}
+        </Layout>
+    )
 }
 
 #[derive(PartialEq, Properties)]

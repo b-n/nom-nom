@@ -1,5 +1,5 @@
 use stylist::yew::use_style;
-use yew::{classes, function_component, html, Classes, Html, Properties};
+use yew::{classes, function_component, html, Callback, Classes, Html, MouseEvent, Properties};
 
 #[derive(PartialEq, Clone)]
 pub enum IconType {
@@ -29,6 +29,7 @@ pub struct Props {
     #[prop_or_default]
     pub class: Classes,
     pub icon: IconType,
+    pub onclick: Callback<MouseEvent>,
 }
 
 #[function_component]
@@ -36,7 +37,7 @@ pub fn Icon(props: &Props) -> Html {
     let style = use_style!();
 
     html! {
-        <div class={classes!(style, props.class.clone())}>
+        <div class={classes!(style, props.class.clone())} onclick={props.onclick.clone()}>
             { props.icon.clone() }
         </div>
     }

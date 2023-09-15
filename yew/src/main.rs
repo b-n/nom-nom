@@ -5,7 +5,7 @@ use yew_router::prelude::*;
 rust_i18n::i18n!("locales");
 
 #[derive(Clone, Routable, PartialEq)]
-enum Route {
+pub enum Route {
     #[at("/")]
     Base,
     #[at("/:locale/")]
@@ -15,6 +15,7 @@ enum Route {
 }
 
 mod components;
+mod hooks;
 mod models;
 mod pages;
 mod services;
