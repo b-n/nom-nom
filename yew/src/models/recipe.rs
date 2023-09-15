@@ -1,17 +1,19 @@
-#[derive(PartialEq, Debug, Clone)]
+use rkyv::{Archive, Deserialize, Serialize};
+
+#[derive(PartialEq, Debug, Clone, Archive, Serialize, Deserialize)]
 pub struct RecipeStep {
     pub content: String,
     pub image: Option<String>,
 }
 
-#[derive(PartialEq, Debug, Clone)]
+#[derive(PartialEq, Debug, Clone, Archive, Serialize, Deserialize)]
 pub struct RecipeIngredient {
     pub quantity: Option<String>,
     pub unit: Option<String>,
     pub ingredient: String,
 }
 
-#[derive(Default, Debug, PartialEq, Clone)]
+#[derive(Default, Debug, PartialEq, Clone, Archive, Serialize, Deserialize)]
 pub struct Recipe {
     pub name: String,
     pub locale: String,

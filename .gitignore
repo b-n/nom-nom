@@ -53,3 +53,4 @@ public
 # Yew
 yew/target
 yew/dist
+yew/static/data

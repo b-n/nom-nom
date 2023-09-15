@@ -2,7 +2,8 @@ use stylist::yew::use_style;
 use yew::{function_component, html, virtual_dom::AttrValue, Html, Properties};
 
 use super::common::{recipe, Layout};
-use crate::utils::recipe::get_recipe;
+use crate::models::recipe::Recipe;
+//use crate::utils::recipe::get_recipe;
 
 #[derive(PartialEq, Properties)]
 pub struct HomeProps {
@@ -24,10 +25,11 @@ pub fn Home(props: &HomeProps) -> Html {
         "#
     );
 
-    let recipes = vec![
-        get_recipe(AttrValue::from(""), props.locale.clone()),
-        get_recipe(AttrValue::from(""), props.locale.clone()),
-    ];
+    //let recipes = vec![
+    //get_recipe(AttrValue::from(""), props.locale.clone()),
+    //get_recipe(AttrValue::from(""), props.locale.clone()),
+    //];
+    let recipes: Vec<Recipe> = vec![];
 
     let recipes = recipes.iter().enumerate().map(|(index, recipe)| {
         html!(

@@ -15,3 +15,7 @@ yew-hooks = "0.2.0"
 rust-i18n = "2"
 stylist = { version = "0.11", features = ['yew_use_style', 'parser'] }
 pulldown-cmark = "0.9.3"
+rkyv = { version = "0.7.42" }
+walkdir = "2.4.0"
+gloo-net = "0.4.0"
+wasm-bindgen-futures = "0.4.37"

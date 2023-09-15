@@ -2,22 +2,57 @@ use yew::{
     function_component, html, use_effect_with_deps, use_state, virtual_dom::AttrValue, Callback,
     Html, Properties,
 };
-use yew_hooks::{use_swipe_with_window, use_window_size, UseSwipeDirection};
+use yew_hooks::{
+    use_async_with_options, use_swipe_with_window, use_window_size, UseAsyncOptions,
+    UseSwipeDirection,
+};
 
 use super::common::{recipe, Layout};
 use crate::components as c;
-use crate::utils::recipe::get_recipe;
+use crate::models::recipe::Recipe as RecipeModel;
+use crate::services::recipe::get_recipe;
 
 #[derive(PartialEq, Properties)]
-pub struct RecipeProps {
+pub struct PageProps {
     pub locale: AttrValue,
     pub recipe: AttrValue,
 }
 
 #[function_component]
-pub fn Recipe(props: &RecipeProps) -> Html {
+pub fn Recipe(props: &PageProps) -> Html {
     rust_i18n::set_locale(&props.locale);
 
+    let recipe = {
+        let recipe = props.recipe.clone();
+        let locale = props.locale.clone();
+        use_async_with_options(
+            async move { get_recipe(recipe, locale).await },
+            UseAsyncOptions::enable_auto(),
+        )
+    };
+
+    if let Some(recipe) = &recipe.data {
+        html!(
+            <Layout title={recipe.name.clone()}>
+                <Content recipe={recipe.clone()} />
+            </Layout>
+        )
+    } else {
+        html!(
+            <Layout title={"..."}>
+                { "Loading" }
+            </Layout>
+        )
+    }
+}
+
+#[derive(PartialEq, Properties)]
+struct RecipeProps {
+    recipe: RecipeModel,
+}
+
+#[function_component]
+fn Content(props: &RecipeProps) -> Html {
     let current_page = use_state(|| 0);
     let change_page = {
         let current_page = current_page.clone();
@@ -36,11 +71,9 @@ pub fn Recipe(props: &RecipeProps) -> Html {
         _ => 3,
     };
 
-    let recipe = get_recipe(props.recipe.clone(), props.locale.clone());
-
     // Can be replaced by div_ceil when int_roundings are in stable
-    let mut total_pages = recipe.steps.len() / chunk_size;
-    let remainder = recipe.steps.len() % chunk_size;
+    let mut total_pages = props.recipe.steps.len() / chunk_size;
+    let remainder = props.recipe.steps.len() % chunk_size;
     if remainder > 0 {
         total_pages += 1;
     }
@@ -64,7 +97,8 @@ pub fn Recipe(props: &RecipeProps) -> Html {
         );
     }
 
-    let steps = recipe
+    let steps = props
+        .recipe
         .steps
         .chunks(chunk_size)
         .enumerate()
@@ -83,10 +117,8 @@ pub fn Recipe(props: &RecipeProps) -> Html {
         });
 
     html!(
-        <Layout title={recipe.name.clone()}>
-            <c::Carosel width={window_width} total_pages={total_pages} current_page={*current_page}>
-                { for steps }
-            </c::Carosel>
-        </Layout>
+        <c::Carosel width={window_width} total_pages={total_pages} current_page={*current_page}>
+            { for steps }
+        </c::Carosel>
     )
 }

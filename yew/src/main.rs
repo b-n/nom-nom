@@ -17,6 +17,7 @@ enum Route {
 mod components;
 mod models;
 mod pages;
+mod services;
 mod utils;
 
 use pages::{Home, Recipe};
