@@ -15,6 +15,7 @@ enum Route {
 }
 
 mod components;
+mod models;
 mod pages;
 mod utils;
 

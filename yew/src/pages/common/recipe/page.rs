@@ -6,7 +6,7 @@ use crate::components as c;
 
 use super::Step;
 
-use crate::utils::recipe_parser::RecipeStep;
+use crate::models::recipe::RecipeStep;
 
 pub enum PageDirection {
     Next,

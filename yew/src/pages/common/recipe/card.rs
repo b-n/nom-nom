@@ -4,7 +4,7 @@ use yew::{classes, function_component, html, Callback, Classes, Html, Properties
 
 use crate::components as c;
 
-use crate::utils::recipe_parser::Recipe;
+use crate::models::recipe::Recipe;
 
 #[derive(Properties, PartialEq)]
 pub struct CardProps {
