@@ -1,77 +1,85 @@
 ---
-name: Chana Masala
+name: Spiced Roasted Veges
 locale: en
-slug: chana-masala
-image: assets/chana_masala.jpg
+slug: spiced-roasted-veges
+image: /assets/chana-masala.jpeg
 ---
 
 # Ingredients
 
-- 4tbsp olive oil
-- 500g potatoes 
-- 500g sweet potatoes 
-- 500g rainbow carrot mix 
-- 1 whole garlic 
-- 1 onion 
-- 1tbsp cumin powder
-- 1tbsp smoked paprika
-- 1/2tsp cayenne pepper powder
-- 1/2tsp chili flakes
-- 1tbsp rosemary
-- 1tbsp thyme
-- 1tbsp oregano
-- 1tsp tumeric powder
-- 1tsp ginger powder
-- 1tsp onion powder
-- some truffle mayo / vegan mayo
-- some salt to taste
+
+- 4tbsp virgin olive oil
+- 1 bay leaf
+- 1 cinnamon stick
+- 1 whole star anise
+- 4cloves
+- 3 green cardamon pods
+- 1tsp fennel seeds
+- 1 onion
+- 3 green chilis
+- 1tsp ginger paste
+- 1tsp garlic paste
+- 1tsp turmeric
+- 1tsp red kashmiri chili powder
+- 1tsp amchur powder
+- 1tbsp coriander powder
+- 1tsp cumin powder
+- 1tsp garam masala
+- 4 tomatoes
+- 250g dried chickpeas
+- salt
+- 1 hand full coriander leaves
 
 ---
 
-# Chopping
+# Day Prior
 
-Chop the potatoes into blocks.
-
-Peal 500g sweet potatoes and chop into blocks.
-
-Chop 500g carrots into blocks.
-
-Separate the garlic gloves from the stem of 1 whole garlic.
-
-Slice 1 onion into rings.
-
-Tip: The harder the vegetable, the smaller it should be compared to the rest of the vegetables, as these take longer to cook.
+Soak 250 g chickpeas overnight.
 
 ---
 
-# Seasoning
+# Pressure cook
 
-Preheat the oven to 200c.
-
-Mix the potatoes, sweet potatoes, carrots, garlic cloves and onion in a bowl.
-
-Add 4 tbsp olive oil, 1 tbsp cumin powder, 1 tbsp smoked paprika, 1/2 tsp cayenne pepper powder, 1/2 tsp chili flakes, 1 tbsp rosemary, 1 tbsp thyme, 1 tbsp oregano, 1 tsp tumeric powder, 1 tsp ginger powder, 1 tsp onion powder and salt to taste.
-
-Mix well.
+Add the soaked chickpeas to a pot with water and bring to a boil. Add 1tsp salt, and 1/2 tsp tumeric. Pressure cook for 10 minutes, and let it cool naturally.
 
 ---
 
-# Roasting
+# Remaining Prep
 
-Put the seasoned veges onto an oven dish and cook in the middle of the oven for 20-25 minutes.
 
-Rotate the veges and cook for another 10-15 minutes.
+In two small bowls prepare the following:
 
-Check the vegetables to see if they are cooked to your liking - carrots are better to check since they generally take the longest to cook. 
+- 1 bay leaf, 1 cinnamon stick, 1 star anise, 3-6 cloves, 3 green cardamon pods, 1 tsp fennel seeds
+- 1 tsp tumeric powder, 1 tsp red kashmiri chili powder, 1 tbsp coriander powder, 1 tsp cumin powder, 1 tsp garam masala, 1 tsp amchur powder
 
-Tips:
+Blend 4 tomatoes thoroughly until light in colour.
 
-- If the vegetables are cooked, but not to crispy, then turn on the grill, but keep a close eye because it will burn quickly
-- Don't check the oven too often, it can cause things to take a lot longer to cook
-- It will smell nice from about minute 20, but the longer you leave it to cook, the better the taste.
+Dice 1 onion.
 
 ---
 
-# Serving
+# Tempering
 
-Divide the spiced roasted veges over plates and serve with truffle / vegan mayo.
+Heat 2 tbsp olive oil in a frying pan on a high heat and add the first bowl of spices with 1 tbsp garlic paste and 1 tbsp ginger paste.
+
+Cook 1-2 minutes.
+
+Add the onion and and cook 2-3 minutes further.
+
+---
+
+# Curry Paste
+
+Add the second bowl of spices, and mix thoroughly. Cook until aromatic. Add water to avoid the spices burning.
+
+Mix in the pureed tomatoes and add salt to taste. Simmer and cover for 5 minutes on a low heat.
+
+---
+
+# Last steps and Serving
+
+Drain the chickpeas and add to the curry. Add water to if it's needed to keep it liquid. Cover and cook 10-15minutes further.
+
+In a dry frying pan, heat 2 tbsp kasuri methi. Before burning and when dry, crush in your hands and add to the curry.
+
+Serve in bowls with Naan.
