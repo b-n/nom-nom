@@ -1,9 +1,12 @@
 default: dev
 
-build:
+data:
+	cargo run --bin parse_data
+
+build: data
 	trunk build --release
 
-dev: 
+dev: data 
 	trunk serve
 
 serve-build: build
@@ -13,3 +16,5 @@ setup:
 	rustup target add wasm32-unknown-unknown && \
 	cargo install --locked trunk && \
 	cargo install --locked miniserve
+
+.PHONY: data build dev serve-build setup

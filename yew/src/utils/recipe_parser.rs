@@ -136,6 +136,7 @@ impl RecipeParser {
                             "empty key '{k}'"
                         )))
                     }
+                    Some(("id", v)) => self.recipe.id = v.to_string(),
                     Some(("locale", v)) => self.recipe.locale = v.to_string(),
                     Some(("slug", v)) => self.recipe.slug = v.to_string(),
                     Some(("image", v)) => self.recipe.image = v.to_string(),

@@ -1,7 +1,7 @@
 ---
 id: chana-masala
-name: Chana Masala
-locale: en
+name: Chana Masala NL
+locale: nl
 slug: chana-masala
 image: /assets/chana-masala.jpeg
 ---

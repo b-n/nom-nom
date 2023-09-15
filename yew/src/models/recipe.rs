@@ -1,4 +1,5 @@
 use rkyv::{Archive, Deserialize, Serialize};
+use std::collections::HashSet;
 
 #[derive(PartialEq, Debug, Clone, Archive, Serialize, Deserialize)]
 pub struct RecipeStep {
@@ -15,12 +16,14 @@ pub struct RecipeIngredient {
 
 #[derive(Default, Debug, PartialEq, Clone, Archive, Serialize, Deserialize)]
 pub struct Recipe {
+    pub id: String,
     pub name: String,
     pub locale: String,
     pub slug: String,
     pub image: String,
     pub ingredients: Vec<RecipeIngredient>,
     pub steps: Vec<RecipeStep>,
+    pub available_locales: HashSet<String>,
 }
 
 impl std::fmt::Display for Recipe {

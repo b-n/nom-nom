@@ -1,4 +1,5 @@
 ---
+id: spiced-veg
 name: Spiced Roasted Veges
 locale: en
 slug: spiced-roasted-veges
