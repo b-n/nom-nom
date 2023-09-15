@@ -1,7 +1,7 @@
 ---
-name: Spiced Roasted Veges
+name: Chana Masala
 locale: en
-slug: spiced-roasted-veges
+slug: chana-masala
 image: /assets/chana-masala.jpeg
 ---
 
