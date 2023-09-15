@@ -16,6 +16,8 @@ pub struct RecipeProps {
 
 #[function_component]
 pub fn Recipe(props: &RecipeProps) -> Html {
+    rust_i18n::set_locale(&props.locale);
+
     let current_page = use_state(|| 0);
     let change_page = {
         let current_page = current_page.clone();

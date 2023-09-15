@@ -3,6 +3,9 @@ _version: 2
 view:
   en: "View"
   nl: "Kijk"
-ingredients:
-  en: "Ingredients"
-  nl: "Ingredienten"
+next:
+  en: "Next"
+  nl: "Volgende"
+prev:
+  en: "Previous"
+  nl: "Vorige"

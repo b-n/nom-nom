@@ -1,3 +1,4 @@
+use rust_i18n::t;
 use stylist::yew::use_style;
 use yew::{classes, function_component, html, Callback, Classes, Html, Properties};
 
@@ -35,7 +36,7 @@ pub fn Card(props: &CardProps) -> Html {
             if props.full {
                 <c::Typography variant={c::TypographyVariant::SubTitle}>{props.recipe.name.clone()}</c::Typography>
                 <c::CardActions>
-                    <c::Button variant={c::ButtonVariant::Text} onclick={onclick}> { "View" }</c::Button>
+                    <c::Button variant={c::ButtonVariant::Text} onclick={onclick}> { t!("view") }</c::Button>
                 </c::CardActions>
             }
         </c::Card>

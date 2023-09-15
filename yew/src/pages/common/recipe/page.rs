@@ -1,3 +1,4 @@
+use rust_i18n::t;
 use stylist::yew::use_style;
 use yew::{function_component, html, Callback, Html, Properties};
 
@@ -63,12 +64,12 @@ pub fn Page(props: &PageProps) -> Html {
             { for steps }
             <div class={actions_style.clone()}>
                 if page > 0 {
-                    <c::Button onclick={move |_| prev_page.emit(PageDirection::Prev)}> { "Back" } </c::Button>
+                    <c::Button onclick={move |_| prev_page.emit(PageDirection::Prev)}> { t!("prev") } </c::Button>
                 } else {
                     <div />
                 }
                 if page < total_pages - 1 {
-                    <c::Button onclick={move |_| next_page.emit(PageDirection::Next)}> { "Next" } </c::Button>
+                    <c::Button onclick={move |_| next_page.emit(PageDirection::Next)}> { t!("next") } </c::Button>
                 } else {
                     <div />
                 }

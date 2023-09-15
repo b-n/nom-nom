@@ -11,6 +11,8 @@ pub struct HomeProps {
 
 #[function_component]
 pub fn Home(props: &HomeProps) -> Html {
+    rust_i18n::set_locale(&props.locale);
+
     let style = use_style!(
         r#"
         display: grid;
