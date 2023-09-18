@@ -2,11 +2,9 @@ use stylist::yew::use_style;
 use yew::{function_component, html, virtual_dom::AttrValue, Children, Html, Properties};
 
 use super::Navigation;
-use crate::hooks::locale::{Locale, LocaleProvider};
 
-#[derive(Properties, PartialEq)]
+#[derive(Properties, PartialEq, Debug)]
 pub struct LayoutProps {
-    pub locale: Locale,
     pub title: AttrValue,
     pub children: Children,
 }
@@ -22,9 +20,9 @@ pub fn Layout(props: &LayoutProps) -> Html {
     );
 
     html!(
-        <LocaleProvider context={props.locale.clone()}>
+        <>
             <section class={style}>{ for props.children.iter() }</section>
             <Navigation title={props.title.clone()} />
-        </LocaleProvider>
+        </>
     )
 }

@@ -783,6 +783,7 @@ dependencies = [
  "stylist",
  "walkdir",
  "wasm-bindgen-futures",
+ "web-sys",
  "yew",
  "yew-hooks",
  "yew-router",

@@ -1,46 +1,46 @@
-use yew::{function_component, html, virtual_dom::AttrValue, Html, Properties};
+use yew::{function_component, html, Callback, Html};
+use yew_router::hooks::use_navigator;
 
 use crate::components::{Select, SelectItem};
-
-#[derive(Properties, PartialEq)]
-pub struct Locale {
-    pub label: AttrValue,
-    pub code: AttrValue,
-}
-
-#[derive(Properties, PartialEq)]
-pub struct LocaleSelectorProps {
-    pub active: AttrValue,
-    pub locales: Vec<Locale>,
-}
+use crate::hooks::i18n::use_locale_context;
+use crate::Route;
 
 #[function_component]
-pub fn LocaleSelector(props: &LocaleSelectorProps) -> Html {
-    // TODO: make a useLocales hook to get all allowed locales
-    let locales = vec![
-        Locale {
-            label: AttrValue::from("🇳🇿"),
-            code: AttrValue::from("en"),
-        },
-        Locale {
-            label: AttrValue::from("🇳🇱"),
-            code: AttrValue::from("nl"),
-        },
-    ];
+pub fn LocaleSelector() -> Html {
+    let locale_config = use_locale_context();
+    let navigator = use_navigator().unwrap();
 
-    let active_locale = locales
+    let active_locale = locale_config.active.to_string();
+
+    if let Some(active_locale) = locale_config
+        .alternatives
         .iter()
-        .find(|locale| locale.code == props.active)
-        .expect("Invalid locale")
-        .clone();
+        .find(|locale| locale.locale.clone() == active_locale)
+    {
+        let alternate_links = locale_config.alternatives.iter().map(|alternate| {
+            let onclick = {
+                let navigator = navigator.clone();
+                let slug = alternate.slug.clone();
+                let locale = alternate.locale.clone();
+                Callback::from(move |_| {
+                    navigator.replace(&Route::Recipe {
+                        locale: locale.clone(),
+                        recipe: slug.clone(),
+                    })
+                })
+            };
 
-    let locale_elems = locales
-        .iter()
-        .map(|locale| html!(<SelectItem>{locale.label.clone()}</SelectItem>));
+            html!(<SelectItem onclick={onclick.clone()}>{alternate.label.clone()}</SelectItem>)
+        });
 
-    html!(
-        <Select label={active_locale.label.clone()}>
-            { for locale_elems }
-        </Select>
-    )
+        html!(
+            <Select label={active_locale.label.clone()}>
+            { for alternate_links }
+            </Select>
+        )
+    } else {
+        html!(
+            <div />
+        )
+    }
 }

@@ -9,6 +9,7 @@ use yew_hooks::{
 
 use super::common::{recipe, Layout};
 use crate::components as c;
+use crate::hooks::i18n::{use_locale_context, LocaleConfig, LocaleConfigAction};
 use crate::models::recipe::Recipe as RecipeModel;
 use crate::services::recipe::get_recipe;
 
@@ -22,6 +23,8 @@ pub struct PageProps {
 pub fn Recipe(props: &PageProps) -> Html {
     rust_i18n::set_locale(&props.locale);
 
+    let locale_context = use_locale_context();
+
     let recipe = {
         let recipe = props.recipe.clone();
         let locale = props.locale.clone();
@@ -31,18 +34,33 @@ pub fn Recipe(props: &PageProps) -> Html {
         )
     };
 
-    let (inner, title) = if let Some(recipe) = &recipe.data {
+    {
+        let locale = props.locale.clone();
+        let recipe = recipe.clone();
+        use_effect_with_deps(
+            move |_| {
+                recipe.run();
+            },
+            locale,
+        );
+    }
+
+    let (title, content) = if let Some(recipe) = &recipe.data {
+        locale_context.dispatch(LocaleConfigAction::Set {
+            config: LocaleConfig::from(recipe),
+        });
+
         (
-            html!(<Content recipe={recipe.clone()} />),
             recipe.name.clone(),
+            html!(<Content recipe={recipe.clone()} />),
         )
     } else {
-        (html!({ "Loading" }), "...".to_string())
+        ("...".to_string(), html!({ "Loading" }))
     };
 
     html!(
-        <Layout locale={props.locale.clone()} title={title}>
-            {inner}
+        <Layout title={title}>
+            {content}
         </Layout>
     )
 }

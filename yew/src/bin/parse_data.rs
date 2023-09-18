@@ -1,10 +1,12 @@
 use rkyv::to_bytes;
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 use std::error::Error;
 use std::fs;
 use std::path::Path;
 use walkdir::WalkDir;
 
+use nom_nom::models::i18n::LocalisedLink;
+use nom_nom::models::index::Index;
 use nom_nom::models::recipe::Recipe;
 use nom_nom::utils::recipe_parser::RecipeParser;
 
@@ -35,6 +37,15 @@ fn extract_recipes(path: &std::path::Path) -> Result<Vec<Recipe>, Box<dyn Error>
     Ok(recipes)
 }
 
+fn flag_for(flag: &str) -> String {
+    match flag {
+        "nl" => "🇳🇱",
+        "en" => "🇳🇿",
+        _ => "🏴",
+    }
+    .to_string()
+}
+
 fn main() -> Result<(), Box<dyn Error>> {
     //let output_root = Path::new("static/data");
 
@@ -54,10 +65,17 @@ fn main() -> Result<(), Box<dyn Error>> {
     });
 
     for (_, values) in by_recipe.iter_mut() {
-        let locales: HashSet<String> = values.iter().map(|r| r.locale.clone()).collect();
+        let locales: Vec<LocalisedLink> = values
+            .iter()
+            .map(|r| LocalisedLink {
+                locale: r.locale.clone(),
+                label: flag_for(&r.locale),
+                slug: r.slug.clone(),
+            })
+            .collect();
 
         for recipe in values.iter_mut() {
-            recipe.available_locales.extend(locales.clone());
+            recipe.alternate_locales.extend(locales.clone());
         }
     }
 
@@ -75,13 +93,28 @@ fn main() -> Result<(), Box<dyn Error>> {
         println!("Cleaned output directory");
     }
 
+    let index_links: Vec<LocalisedLink> = by_locale
+        .keys()
+        .map(|l| LocalisedLink {
+            locale: l.to_string(),
+            label: flag_for(l),
+            slug: "".to_string(),
+        })
+        .collect();
+
     println!("Writing indexes");
     for (locale, mut recipes) in by_locale {
-        // lighten the recipe model since we don't need this extra information
+        // lighten the recipe model since we don't need this extra information for index
         for recipe in recipes.iter_mut() {
             recipe.ingredients.clear();
             recipe.steps.clear();
         }
+
+        let index = Index {
+            locale: locale.clone(),
+            alternate_locales: index_links.clone(),
+            recipes: recipes.clone(),
+        };
 
         let output_dir = output_dir.join(locale);
 
@@ -91,7 +124,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
         let output_file = output_dir.join(INDEX_FILENAME);
 
-        let index_contents = to_bytes::<_, SCRATCH_SPACE>(&recipes).unwrap();
+        let index_contents = to_bytes::<_, SCRATCH_SPACE>(&index).unwrap();
 
         fs::write(&output_file, index_contents)?;
         println!("Writing {}", output_file.display());

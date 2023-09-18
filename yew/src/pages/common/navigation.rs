@@ -81,16 +81,13 @@ pub fn Navigation(props: &NavigationProps) -> Html {
         html!(<Icon onclick={onclick} icon={IconType::Inspiration} class={classes!(icon_style.clone())} />)
     };
 
-    // useLocales
-    let locales = vec![];
-
     html!(
         <nav class={style}>
             {home_icon}
             <Typography variant={TypographyVariant::SubTitle} class={classes!("title")}>
                 <span>{ props.title.clone() }</span>
             </Typography>
-            <LocaleSelector active="en" locales={locales} />
+            <LocaleSelector />
             {inspiration_icon}
         </nav>
     )

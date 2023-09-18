@@ -1,5 +1,8 @@
 use stylist::yew::use_style;
-use yew::{function_component, html, virtual_dom::AttrValue, Children, Html, Properties};
+use yew::{
+    function_component, html, virtual_dom::AttrValue, Callback, Children, Html, MouseEvent,
+    Properties,
+};
 
 #[derive(Properties, PartialEq)]
 pub struct SelectProps {
@@ -44,7 +47,7 @@ pub fn Select(props: &SelectProps) -> Html {
         & .select-items {
             display: none;
             position: absolute;
-            margin-top: 29px;
+            margin-top: 40px;
             background-color: white;
             margin-left: -11px;
             z-index: 99999;
@@ -74,6 +77,7 @@ pub fn Select(props: &SelectProps) -> Html {
 
 #[derive(Properties, PartialEq)]
 pub struct SelectItemProps {
+    pub onclick: Callback<MouseEvent>,
     pub children: Children,
 }
 
@@ -87,7 +91,7 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
         "#
     );
     html! {
-        <div class={style}>
+        <div class={style} onclick={props.onclick.clone()}>
             { for props.children.iter() }
         </div>
     }

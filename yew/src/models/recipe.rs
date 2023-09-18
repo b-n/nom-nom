@@ -1,5 +1,5 @@
+use super::i18n::LocalisedLink;
 use rkyv::{Archive, Deserialize, Serialize};
-use std::collections::HashSet;
 
 #[derive(PartialEq, Debug, Clone, Archive, Serialize, Deserialize)]
 pub struct RecipeStep {
@@ -23,7 +23,7 @@ pub struct Recipe {
     pub image: String,
     pub ingredients: Vec<RecipeIngredient>,
     pub steps: Vec<RecipeStep>,
-    pub available_locales: HashSet<String>,
+    pub alternate_locales: Vec<LocalisedLink>,
 }
 
 impl std::fmt::Display for Recipe {

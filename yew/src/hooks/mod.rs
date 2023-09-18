@@ -1,3 +1,3 @@
-pub mod locale;
+pub mod i18n;
 
-pub use locale::use_locale;
+pub use i18n::use_locale;

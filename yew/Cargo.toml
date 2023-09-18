@@ -19,3 +19,4 @@ rkyv = { version = "0.7.42" }
 walkdir = "2.4.0"
 gloo-net = "0.4.0"
 wasm-bindgen-futures = "0.4.37"
+web-sys = "0.3.64"
