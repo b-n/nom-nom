@@ -8,7 +8,6 @@ image: /assets/chana-masala.jpeg
 
 # Ingredients
 
-
 - 4tbsp virgin olive oil
 - 1 bay leaf
 - 1 cinnamon stick

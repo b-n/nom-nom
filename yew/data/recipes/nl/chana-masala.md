@@ -1,6 +1,6 @@
 ---
 id: chana-masala
-name: Chana Masala NL
+name: Chana Masala
 locale: nl
 slug: chana-masala
 image: /assets/chana-masala.jpeg
@@ -8,79 +8,77 @@ image: /assets/chana-masala.jpeg
 
 # Ingredients
 
+- 4el virgin olijfolie
+- 1 laurier blad
+- 1 kaneelstok
+- 1 hele steranijs
+- 4 kruidnagel
+- 3 groene kardemom zaadjes
+- 1tl venkelzaadjes
+- 1 ui
+- 3-4 groene chili's
+- 1tl gemberpasta
+- 1tl knoflookpasta
+- 1tl kurkuma
+- 1tl rode kashmiri chili poeder
+- 1tl amchur poeder
+- 1el korianderpoeder
+- 1tl komijnpoeder
+- 1tl garam masala
+- 4 tomaten
+- 250gr gedrogde kikkererwten
+- zout
+- 1 plukje koriander 
 
-- 4tbsp virgin olive oil
-- 1 bay leaf
-- 1 cinnamon stick
-- 1 whole star anise
-- 4cloves
-- 3 green cardamon pods
-- 1tsp fennel seeds
-- 1 onion
-- 3 green chilis
-- 1tsp ginger paste
-- 1tsp garlic paste
-- 1tsp turmeric
-- 1tsp red kashmiri chili powder
-- 1tsp amchur powder
-- 1tbsp coriander powder
-- 1tsp cumin powder
-- 1tsp garam masala
-- 4 tomatoes
-- 250g dried chickpeas
-- salt
-- 1 hand full coriander leaves
-
----
-
-# Day Prior
-
-Soak 250 g chickpeas overnight.
+Serveer met Naan brood
 
 ---
 
-# Pressure cook
+# Een dag vroeg beginnen
 
-Add the soaked chickpeas to a pot with water and bring to a boil. Add 1tsp salt, and 1/2 tsp tumeric. Pressure cook for 10 minutes, and let it cool naturally.
+Week 250 gr kikkerewten gedurende 1 nacht.
 
 ---
 
-# Remaining Prep
+# Koken in de Snelkookpan
 
+Voeg de geweekte kikkerewten toe in een kookpan met kokend water. Voeg 1 tl zout, en 1/2 tl kurkuma toe. Kook in een snel kookpan voor 10 minuten, en laat het afkoelen.
 
-In two small bowls prepare the following:
+---
 
-- 1 bay leaf, 1 cinnamon stick, 1 star anise, 3-6 cloves, 3 green cardamon pods, 1 tsp fennel seeds
-- 1 tsp tumeric powder, 1 tsp red kashmiri chili powder, 1 tbsp coriander powder, 1 tsp cumin powder, 1 tsp garam masala, 1 tsp amchur powder
+# Overgebleven overberieding
 
-Blend 4 tomatoes thoroughly until light in colour.
+Bereid de kruiden voor in twee kommetjes:
 
-Dice 1 onion.
+- 1 laurierblad, 1 kaneelstok, 1 steranijs, 3-6 kruidnagel, 3 groen kardemom, 1 tl venkelzaadjes
+- 1 tl kurkuma poeder, 1 tl rode kashmiri chili poeder, 1 el korianderpoeder, 1 tl komijnpoeder, 1 tl garam masala, 1 tl amchur poeder
+
+Mix 4 tomaten in een blender tot het geheel romig en roze is.
+
+Snipper 1 ui.
 
 ---
 
 # Tempering
 
-Heat 2 tbsp olive oil in a frying pan on a high heat and add the first bowl of spices with 1 tbsp garlic paste and 1 tbsp ginger paste.
+Verwarm 2 el olijfolie in een pan en voeg de eerste kom met kruiden toe met 1el gemberpasta en 1el knoflookpasta. Kook op hoge temperatuur voor 1-2 minuten.
 
-Cook 1-2 minutes.
-
-Add the onion and and cook 2-3 minutes further.
+Voeg de ui toe en kook voor nog 2-3 minuten.
 
 ---
 
-# Curry Paste
+# Currypasta
 
-Add the second bowl of spices, and mix thoroughly. Cook until aromatic. Add water to avoid the spices burning.
+Voeg de tweede kom met kruiden toe en meng goed. Voeg wat water toe om te voorkomen dat de kruiden verbranden.
 
-Mix in the pureed tomatoes and add salt to taste. Simmer and cover for 5 minutes on a low heat.
+Meng the gepureerde tomaten erdoor, voeg zout naar smaak toe. Dek af en laat pruttelen voor 5 minuten.
 
 ---
 
 # Last steps and Serving
 
-Drain the chickpeas and add to the curry. Add water to if it's needed to keep it liquid. Cover and cook 10-15minutes further.
+Giet de kikkewten af, en mix door de curry. Voeg eventueel wat water toe om het geheel vloeibaar te houden. Dek af een kook nog 10-15 minuten.
 
-In a dry frying pan, heat 2 tbsp kasuri methi. Before burning and when dry, crush in your hands and add to the curry.
+Verhit 2 el kasuri methi in een droge koekenpan. Maal fijn in jouw handen en voeg toe aan de curry.
 
-Serve in bowls with Naan.
+Serveer in kommen met Naan.
