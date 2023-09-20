@@ -4,7 +4,7 @@ use yew::{function_component, html, Callback, Html, Properties};
 
 use crate::components as c;
 
-use super::Step;
+use super::step::Step;
 
 use crate::models::recipe::RecipeStep;
 

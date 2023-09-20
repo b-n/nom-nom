@@ -4,7 +4,7 @@ use yew::{
 };
 use yew_hooks::use_async;
 
-use super::common::{recipe, Layout};
+use super::common::{Card, Layout};
 use crate::hooks::i18n::{use_locale_context, LocaleConfig, LocaleConfigAction};
 use crate::services::index::get_index;
 
@@ -48,7 +48,7 @@ pub fn Home(props: &PageProps) -> Html {
     let content = if let Some(index) = &index_info.data {
         let recipes = index.recipes.iter().enumerate().map(|(index, recipe)| {
             html!(
-                <recipe::Card recipe={recipe.clone()} full={true} key={index}/>
+                <Card recipe={recipe.clone()} full={true} key={index}/>
             )
         });
 

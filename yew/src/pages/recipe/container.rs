@@ -1,77 +1,23 @@
-use yew::{
-    function_component, html, use_effect_with_deps, use_state, virtual_dom::AttrValue, Callback,
-    Html, Properties,
-};
-use yew_hooks::{use_async, use_swipe_with_window, use_window_size, UseSwipeDirection};
+use yew::{function_component, html, use_effect_with_deps, use_state, Callback, Html, Properties};
+use yew_hooks::{use_swipe_with_window, use_window_size, UseSwipeDirection};
 
-use super::common::{recipe, Layout};
+use super::page::{Page, PageDirection};
 use crate::components as c;
-use crate::hooks::i18n::{use_locale_context, LocaleConfig, LocaleConfigAction};
 use crate::models::recipe::Recipe as RecipeModel;
-use crate::services::recipe::get_recipe;
 
 #[derive(PartialEq, Properties)]
-pub struct PageProps {
-    pub locale: AttrValue,
-    pub recipe: AttrValue,
+pub struct ContainerProps {
+    pub recipe: RecipeModel,
 }
 
 #[function_component]
-pub fn Recipe(props: &PageProps) -> Html {
-    rust_i18n::set_locale(&props.locale);
-
-    let locale_context = use_locale_context();
-
-    let recipe_info = {
-        let recipe = props.recipe.clone();
-        let locale = props.locale.clone();
-        use_async(async move { get_recipe(recipe, locale).await })
-    };
-
-    {
-        // Re-fetch if the locale changes
-        let recipe_info = recipe_info.clone();
-        use_effect_with_deps(
-            move |_| {
-                recipe_info.run();
-            },
-            props.locale.clone(),
-        );
-    }
-
-    let (title, content) = if let Some(recipe) = &recipe_info.data {
-        locale_context.dispatch(LocaleConfigAction::Set {
-            config: LocaleConfig::from(recipe),
-        });
-
-        (
-            recipe.name.clone(),
-            html!(<Content recipe={recipe.clone()} />),
-        )
-    } else {
-        ("...".to_string(), html!({ "Loading" }))
-    };
-
-    html!(
-        <Layout title={title}>
-            {content}
-        </Layout>
-    )
-}
-
-#[derive(PartialEq, Properties)]
-struct RecipeProps {
-    recipe: RecipeModel,
-}
-
-#[function_component]
-fn Content(props: &RecipeProps) -> Html {
+pub fn Container(props: &ContainerProps) -> Html {
     let current_page = use_state(|| 0);
     let change_page = {
         let current_page = current_page.clone();
-        Callback::from(move |direction: recipe::PageDirection| match direction {
-            recipe::PageDirection::Next => current_page.set(*current_page + 1),
-            recipe::PageDirection::Prev => current_page.set(*current_page - 1),
+        Callback::from(move |direction: PageDirection| match direction {
+            PageDirection::Next => current_page.set(*current_page + 1),
+            PageDirection::Prev => current_page.set(*current_page - 1),
         })
     };
 
@@ -117,7 +63,7 @@ fn Content(props: &RecipeProps) -> Html {
         .enumerate()
         .map(|(index, steps)| {
             html!(
-            <recipe::Page
+            <Page
                 key={index}
                 page={index}
                 steps_per_page={chunk_size}
