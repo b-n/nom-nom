@@ -1,7 +1,7 @@
 use stylist::yew::use_style;
 use yew::{
-    function_component, html, virtual_dom::AttrValue, Callback, Children, Html, MouseEvent,
-    Properties,
+    classes, function_component, html, virtual_dom::AttrValue, Callback, Children, Html,
+    MouseEvent, Properties,
 };
 
 #[derive(Properties, PartialEq)]
@@ -77,6 +77,8 @@ pub fn Select(props: &SelectProps) -> Html {
 
 #[derive(Properties, PartialEq)]
 pub struct SelectItemProps {
+    #[prop_or_default]
+    pub selected: bool,
     pub onclick: Callback<MouseEvent>,
     pub children: Children,
 }
@@ -88,10 +90,21 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
         margin: 0px auto;
         text-align: center;
         padding: 5px;
+
+        &:hover, &.selected:hover {
+            background-color: lightblue;
+        }
+
+        &.selected {
+            background-color: lightcyan;
+        }
         "#
     );
+
+    let selected = if props.selected { "selected" } else { "" };
+
     html! {
-        <div class={style} onclick={props.onclick.clone()}>
+        <div class={classes!(style, selected)} onclick={props.onclick.clone()}>
             { for props.children.iter() }
         </div>
     }

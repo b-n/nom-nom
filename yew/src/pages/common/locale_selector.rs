@@ -30,13 +30,17 @@ pub fn LocaleSelector() -> Html {
                 })
             };
 
-            html!(<SelectItem onclick={onclick.clone()}>{alternate.label.clone()}</SelectItem>)
+            html!(<SelectItem onclick={onclick.clone()} selected={active_locale.locale == alternate.locale}>{alternate.label.clone()}</SelectItem>)
         });
 
         html!(
-            <Select label={active_locale.label.clone()}>
-            { for alternate_links }
-            </Select>
+            if alternate_links.len() > 1 {
+                <Select label={active_locale.label.clone()}>
+                    { for alternate_links }
+                </Select>
+            } else {
+                <div />
+            }
         )
     } else {
         html!(
