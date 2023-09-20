@@ -59,6 +59,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d301b3b94cb4b2f23d7917810addbbaff90738e0ca2be692bd027e70d7e0330c"
 
 [[package]]
+name = "asset-pipeline"
+version = "0.1.0"
+dependencies = [
+ "nom-nom",
+ "pulldown-cmark",
+ "rkyv",
+ "walkdir",
+]
+
+[[package]]
 name = "atty"
 version = "0.2.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -967,16 +977,6 @@ name = "radium"
 version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dc33ff2d4973d518d823d61aa239014831e521c75da58e3df4840d3f47749d09"
-
-[[package]]
-name = "recipe-builder"
-version = "0.1.0"
-dependencies = [
- "nom-nom",
- "pulldown-cmark",
- "rkyv",
- "walkdir",
-]
 
 [[package]]
 name = "regex"

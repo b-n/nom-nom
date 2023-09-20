@@ -1,5 +1,5 @@
 [package]
-name = "recipe-builder"
+name = "asset-pipeline"
 version = "0.1.0"
 description = "Build pipeline for nom-nom"
 readme = "README.md"

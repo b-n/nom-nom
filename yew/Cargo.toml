@@ -10,7 +10,7 @@ repository.workspace = true
 
 [workspace]
 members = [
-  "recipe-builder"
+  "asset-pipeline"
 ]
 
 [workspace.package]

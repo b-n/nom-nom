@@ -3,7 +3,7 @@ target = "index.html"
 dist = "dist"
 
 [[hooks]]
-# Render all of the recipes into binaries to be consumed by the frontend
+# Execute the custom asset pipeline for recipes and other assets
 stage = "build"
 command = "cargo"
-command_arguments = ["run", "-p", "recipe-builder"]
+command_arguments = ["run", "-p", "asset-pipeline"]
