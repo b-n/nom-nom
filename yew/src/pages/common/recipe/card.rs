@@ -33,6 +33,12 @@ pub fn Card(props: &CardProps) -> Html {
         "#
     );
 
+    let button_style = use_style!(
+        r#"
+        font-size: 0.8rem;
+        "#
+    );
+
     let onclick = {
         let navigator = navigator.clone();
         let slug = props.recipe.slug.clone();
@@ -51,7 +57,7 @@ pub fn Card(props: &CardProps) -> Html {
             if props.full {
                 <c::Typography variant={c::TypographyVariant::SubTitle}>{props.recipe.name.clone()}</c::Typography>
                 <c::CardActions>
-                    <c::Button variant={c::ButtonVariant::Text} onclick={onclick}> { t!("view") }</c::Button>
+                    <c::Button variant={c::ButtonVariant::Text} class={button_style.clone()} onclick={onclick}> { t!("view") }</c::Button>
                 </c::CardActions>
             }
         </c::Card>

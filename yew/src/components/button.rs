@@ -1,5 +1,7 @@
 use stylist::yew::use_style;
-use yew::{function_component, html, Callback, Children, Html, MouseEvent, Properties};
+use yew::{
+    classes, function_component, html, Callback, Children, Classes, Html, MouseEvent, Properties,
+};
 
 #[allow(dead_code)]
 #[derive(PartialEq)]
@@ -10,6 +12,8 @@ pub enum ButtonVariant {
 
 #[derive(Properties, PartialEq)]
 pub struct ButtonProps {
+    #[prop_or_default]
+    pub class: Classes,
     pub onclick: Callback<MouseEvent>,
     pub children: Children,
     pub variant: Option<ButtonVariant>,
@@ -56,7 +60,7 @@ pub fn Button(props: &ButtonProps) -> Html {
     };
 
     html!(
-    <button onclick={props.onclick.clone()} class={style}>
+    <button onclick={props.onclick.clone()} class={classes!(style, props.class.clone())}>
         { for props.children.iter() }
     </button>
     )
