@@ -22,10 +22,9 @@ repository = "https://www.github.com/b-n/nom-nom"
 [dependencies]
 yew = { version = "0.20.0", features = ['csr'] }
 yew-router = { version = "0.17.0" }
-yew-hooks = "0.2.0"
-rust-i18n = "2"
+yew-hooks = { version = "0.2.0" }
+rust-i18n = { version = "2.2.1" }
 stylist = { version = "0.11", features = ['yew_use_style', 'parser'] }
-rkyv = { version = "0.7.42" }
-gloo-net = "0.4.0"
-wasm-bindgen-futures = "0.4.37"
-web-sys = "0.3.64"
+rkyv = { version = "0.7.42", default_features = false, features = ['alloc', 'size_32'] }
+gloo-net = { version = "0.4.0", default_features = false, features = ['http'] }
+web-sys = { version = "0.3.64" }

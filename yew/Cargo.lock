@@ -490,15 +490,9 @@ version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8ac9e8288ae2c632fa9f8657ac70bfe38a1530f345282d7ba66a1f70b72b7dc4"
 dependencies = [
- "futures-channel",
- "futures-core",
- "futures-sink",
  "gloo-utils 0.2.0",
  "http",
  "js-sys",
- "pin-project",
- "serde",
- "serde_json",
  "thiserror",
  "wasm-bindgen",
  "wasm-bindgen-futures",
@@ -562,8 +556,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0b5555354113b18c547c1d3a98fbf7fb32a9ff4f6fa112ce823a21641a0ba3aa"
 dependencies = [
  "js-sys",
- "serde",
- "serde_json",
  "wasm-bindgen",
  "web-sys",
 ]
@@ -780,7 +772,6 @@ dependencies = [
  "rkyv",
  "rust-i18n",
  "stylist",
- "wasm-bindgen-futures",
  "web-sys",
  "yew",
  "yew-hooks",
