@@ -1,0 +1,9 @@
+[build]
+target = "index.html"
+dist = "dist"
+
+[[hooks]]
+# Render all of the recipes into binaries to be consumed by the frontend
+stage = "build"
+command = "cargo"
+command_arguments = ["run", "--bin", "parse_data"]

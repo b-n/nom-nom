@@ -12,7 +12,8 @@ use nom_nom::utils::recipe_parser::RecipeParser;
 
 const SCRATCH_SPACE: usize = 1024;
 const RECIPE_ROOT: &str = "data/recipes";
-const RECIPE_OUT_ROOT: &str = "static/data/recipes";
+const STATIC_OUTPUT_ROOT: &str = "static/";
+const RECIPE_OUT_ROOT: &str = "data/recipes/";
 const INDEX_FILENAME: &str = "index";
 
 // serialize markdown into binaries which can be imported by the frontend
@@ -44,6 +45,13 @@ fn flag_for(flag: &str) -> String {
         _ => "🏴",
     }
     .to_string()
+}
+
+fn output_root() -> String {
+    match std::env::var("TRUNK_STAGING_DIR") {
+        Ok(val) => val,
+        Err(_) => STATIC_OUTPUT_ROOT.to_string(),
+    }
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
@@ -87,10 +95,11 @@ fn main() -> Result<(), Box<dyn Error>> {
         acc
     });
 
-    let output_dir = Path::new(RECIPE_OUT_ROOT);
+    let output_dir = output_root();
+    let output_dir = Path::join(Path::new(&output_dir), RECIPE_OUT_ROOT);
 
-    if let Ok(()) = fs::remove_dir_all(output_dir) {
-        println!("Cleaned output directory");
+    if let Ok(()) = fs::remove_dir_all(output_dir.clone()) {
+        println!("Cleaned directory {}", output_dir.display());
     }
 
     let index_links: Vec<LocalisedLink> = by_locale

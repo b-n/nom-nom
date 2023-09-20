@@ -1,12 +1,9 @@
 default: dev
 
-data:
-	cargo run --bin parse_data
-
-build: data
+build:
 	trunk build --release
 
-dev: data 
+dev:
 	trunk serve
 
 serve-build: build
@@ -17,4 +14,4 @@ setup:
 	cargo install --locked trunk && \
 	cargo install --locked miniserve
 
-.PHONY: data build dev serve-build setup
+.PHONY: build dev serve-build setup
