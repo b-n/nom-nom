@@ -5,10 +5,12 @@ use std::fs;
 use std::path::Path;
 use walkdir::WalkDir;
 
+mod parser;
+
 use nom_nom::models::i18n::LocalisedLink;
 use nom_nom::models::index::Index;
 use nom_nom::models::recipe::Recipe;
-use nom_nom::utils::recipe_parser::RecipeParser;
+use parser::RecipeParser;
 
 const SCRATCH_SPACE: usize = 1024;
 const RECIPE_ROOT: &str = "data/recipes";

@@ -1,30 +1,36 @@
 use pulldown_cmark::{html, Event, HeadingLevel, Parser, Tag};
 
-use crate::models::recipe::{Recipe, RecipeIngredient, RecipeStep};
+use nom_nom::models::recipe;
+
+#[derive(Clone)]
+struct RecipeStep(recipe::RecipeStep);
 
 impl TryFrom<&Vec<Event<'_>>> for RecipeStep {
     type Error = RecipeParserError;
 
-    fn try_from(events: &Vec<Event<'_>>) -> Result<RecipeStep, Self::Error> {
+    fn try_from(events: &Vec<Event<'_>>) -> Result<Self, Self::Error> {
         let mut html_buf = String::new();
         html::push_html(&mut html_buf, events.iter().cloned());
-        let step = RecipeStep {
+        let step = RecipeStep(recipe::RecipeStep {
             content: html_buf,
             image: None,
-        };
+        });
         Ok(step)
     }
 }
 
+#[derive(Clone)]
+struct RecipeIngredient(recipe::RecipeIngredient);
+
 impl TryFrom<&str> for RecipeIngredient {
     type Error = RecipeParserError;
 
-    fn try_from(s: &str) -> Result<RecipeIngredient, Self::Error> {
-        Ok(RecipeIngredient {
+    fn try_from(s: &str) -> Result<Self, Self::Error> {
+        Ok(RecipeIngredient(recipe::RecipeIngredient {
             quantity: None,
             unit: None,
             ingredient: s.to_string(),
-        })
+        }))
     }
 }
 
@@ -64,11 +70,11 @@ impl std::fmt::Display for RecipeParserError {
 #[derive(Default)]
 pub struct RecipeParser {
     state: RecipeParserState,
-    recipe: Recipe,
+    recipe: recipe::Recipe,
 }
 
 impl RecipeParser {
-    pub fn parse(mut self, input: &str) -> Result<Recipe, RecipeParserError> {
+    pub fn parse(mut self, input: &str) -> Result<recipe::Recipe, RecipeParserError> {
         let parser = Parser::new(input);
 
         let mut buf = vec![];
@@ -101,7 +107,7 @@ impl RecipeParser {
                         self.parse_ingredients(&buf)?;
 
                         // Add ingredients as a step for display purposes
-                        self.recipe.steps.push(RecipeStep::try_from(&buf)?);
+                        self.recipe.steps.push(RecipeStep::try_from(&buf)?.0);
                         buf.clear();
 
                         self.state = RecipeParserState::Recipe
@@ -110,7 +116,7 @@ impl RecipeParser {
                 },
                 RecipeParserState::Recipe => match event {
                     Event::Rule => {
-                        self.recipe.steps.push(RecipeStep::try_from(&buf)?);
+                        self.recipe.steps.push(RecipeStep::try_from(&buf)?.0);
                         buf.clear();
                     }
                     _ => buf.push(event),
@@ -120,7 +126,7 @@ impl RecipeParser {
 
         // There is no requirement for an empty rule at the end, thus we should parse it
         if !buf.is_empty() {
-            self.recipe.steps.push(RecipeStep::try_from(&buf)?);
+            self.recipe.steps.push(RecipeStep::try_from(&buf)?.0);
             buf.clear();
         }
 
@@ -174,7 +180,9 @@ impl RecipeParser {
                 }
                 Event::Text(s) if collecting_item => {
                     let s: &str = s;
-                    self.recipe.ingredients.push(RecipeIngredient::try_from(s)?);
+                    self.recipe
+                        .ingredients
+                        .push(RecipeIngredient::try_from(s)?.0);
                 }
                 Event::End(Tag::Item) => {
                     collecting_item = false;

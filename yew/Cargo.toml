@@ -1,12 +1,23 @@
 [package]
 name = "nom-nom"
 version = "0.1.0"
+description = "Recipes for a Rust developer"
+readme = "README.md"
+edition.workspace = true
+license.workspace = true
+homepage.workspace = true
+repository.workspace = true
+
+[workspace]
+members = [
+  "recipe-builder"
+]
+
+[workspace.package]
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[[bin]]
-name = "parse_data"
+license = "MIT"
+homepage = "https://nom-nom.nl"
+repository = "https://www.github.com/b-n/nom-nom"
 
 [dependencies]
 yew = { version = "0.20.0", features = ['csr'] }
@@ -14,9 +25,7 @@ yew-router = { version = "0.17.0" }
 yew-hooks = "0.2.0"
 rust-i18n = "2"
 stylist = { version = "0.11", features = ['yew_use_style', 'parser'] }
-pulldown-cmark = "0.9.3"
 rkyv = { version = "0.7.42" }
-walkdir = "2.4.0"
 gloo-net = "0.4.0"
 wasm-bindgen-futures = "0.4.37"
 web-sys = "0.3.64"
