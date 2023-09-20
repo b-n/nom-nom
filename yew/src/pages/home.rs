@@ -2,7 +2,7 @@ use stylist::yew::use_style;
 use yew::{
     function_component, html, use_effect_with_deps, virtual_dom::AttrValue, Html, Properties,
 };
-use yew_hooks::{use_async_with_options, UseAsyncOptions};
+use yew_hooks::use_async;
 
 use super::common::{recipe, Layout};
 use crate::hooks::i18n::{use_locale_context, LocaleConfig, LocaleConfigAction};
@@ -16,28 +16,21 @@ pub struct PageProps {
 #[function_component]
 pub fn Home(props: &PageProps) -> Html {
     rust_i18n::set_locale(&props.locale);
-    web_sys::console::log_1(&format!("{:?}", props.locale).into());
     let locale_context = use_locale_context();
 
-    let data = {
+    let index_info = {
         let locale = props.locale.clone();
-        use_async_with_options(
-            async move {
-                web_sys::console::log_1(&"getting content".to_string().into());
-                get_index(locale).await
-            },
-            UseAsyncOptions::enable_auto(),
-        )
+        use_async(async move { get_index(locale).await })
     };
 
     {
-        let locale = props.locale.clone();
-        let data = data.clone();
+        // Re-fetch if the locale changes
+        let index_info = index_info.clone();
         use_effect_with_deps(
             move |_| {
-                data.run();
+                index_info.run();
             },
-            locale,
+            props.locale.clone(),
         );
     }
 
@@ -52,14 +45,12 @@ pub fn Home(props: &PageProps) -> Html {
         "#
     );
 
-    let content = if let Some(index) = &data.data {
+    let content = if let Some(index) = &index_info.data {
         let recipes = index.recipes.iter().enumerate().map(|(index, recipe)| {
             html!(
                 <recipe::Card recipe={recipe.clone()} full={true} key={index}/>
             )
         });
-
-        web_sys::console::log_1(&format!("{:?}", LocaleConfig::from(index)).into());
 
         locale_context.dispatch(LocaleConfigAction::Set {
             config: LocaleConfig::from(index),

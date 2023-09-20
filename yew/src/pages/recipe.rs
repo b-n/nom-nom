@@ -2,10 +2,7 @@ use yew::{
     function_component, html, use_effect_with_deps, use_state, virtual_dom::AttrValue, Callback,
     Html, Properties,
 };
-use yew_hooks::{
-    use_async_with_options, use_swipe_with_window, use_window_size, UseAsyncOptions,
-    UseSwipeDirection,
-};
+use yew_hooks::{use_async, use_swipe_with_window, use_window_size, UseSwipeDirection};
 
 use super::common::{recipe, Layout};
 use crate::components as c;
@@ -25,27 +22,24 @@ pub fn Recipe(props: &PageProps) -> Html {
 
     let locale_context = use_locale_context();
 
-    let recipe = {
+    let recipe_info = {
         let recipe = props.recipe.clone();
         let locale = props.locale.clone();
-        use_async_with_options(
-            async move { get_recipe(recipe, locale).await },
-            UseAsyncOptions::enable_auto(),
-        )
+        use_async(async move { get_recipe(recipe, locale).await })
     };
 
     {
-        let locale = props.locale.clone();
-        let recipe = recipe.clone();
+        // Re-fetch if the locale changes
+        let recipe_info = recipe_info.clone();
         use_effect_with_deps(
             move |_| {
-                recipe.run();
+                recipe_info.run();
             },
-            locale,
+            props.locale.clone(),
         );
     }
 
-    let (title, content) = if let Some(recipe) = &recipe.data {
+    let (title, content) = if let Some(recipe) = &recipe_info.data {
         locale_context.dispatch(LocaleConfigAction::Set {
             config: LocaleConfig::from(recipe),
         });
