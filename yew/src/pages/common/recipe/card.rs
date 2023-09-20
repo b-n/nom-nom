@@ -1,6 +1,6 @@
 use rust_i18n::t;
 use stylist::yew::use_style;
-use yew::{classes, function_component, html, Callback, Classes, Html, Properties};
+use yew::{function_component, html, Callback, Classes, Html, Properties};
 use yew_router::hooks::use_navigator;
 
 use crate::components as c;
@@ -22,8 +22,9 @@ pub fn Card(props: &CardProps) -> Html {
     let navigator = use_navigator().unwrap();
     let locale = use_locale().to_string();
 
-    let style = use_style!(
+    let content_style = use_style!(
         r#"
+        padding: 0px 15px;
         "#
     );
 
@@ -52,12 +53,12 @@ pub fn Card(props: &CardProps) -> Html {
     };
 
     html!(
-        <c::Card class={classes!(style, props.class.clone())}>
+        <c::Card class={props.class.clone()}>
             <c::CardImage src={props.recipe.image.clone()} class={image_style} />
             if props.full {
-                <c::Typography variant={c::TypographyVariant::SubTitle}>{props.recipe.name.clone()}</c::Typography>
-                <c::CardActions>
-                    <c::Button variant={c::ButtonVariant::Text} class={button_style.clone()} onclick={onclick}> { t!("view") }</c::Button>
+                <c::Typography variant={c::TypographyVariant::SubTitle} class={content_style}>{props.recipe.name.clone()}</c::Typography>
+                <c::CardActions class="">
+                    <c::Button variant={c::ButtonVariant::Text} class={button_style} onclick={onclick}> { t!("view") }</c::Button>
                 </c::CardActions>
             }
         </c::Card>
