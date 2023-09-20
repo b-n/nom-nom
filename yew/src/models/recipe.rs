@@ -24,6 +24,7 @@ pub struct Recipe {
     pub ingredients: Vec<RecipeIngredient>,
     pub steps: Vec<RecipeStep>,
     pub alternate_locales: Vec<LocalisedLink>,
+    pub low_res_data: String,
 }
 
 impl std::fmt::Display for Recipe {
