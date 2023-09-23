@@ -1,11 +1,10 @@
 use std::error::Error;
 use std::path::PathBuf;
 
-mod pipeline;
 mod processors;
 pub mod utils;
 
-use pipeline::{Pipeline, PipelineOptions};
+use asset_pipeline::{Options, Pipeline};
 
 const RECIPE_ROOT: &str = "data/recipes";
 const STATIC_OUTPUT_ROOT: &str = "static/";
@@ -26,13 +25,13 @@ fn main() -> Result<(), Box<dyn Error>> {
     let recipe_processor = {
         let mut recipe_path = PathBuf::new();
         recipe_path.push(RECIPE_ROOT);
-        processors::RecipeProcessor::new_with_path(recipe_path)
+        processors::RecipeMarkdownProcessor::new_with_path(recipe_path)
     };
 
-    let options = PipelineOptions::new(target_root());
+    let options = Options::new(target_root());
 
     let mut pipeline = Pipeline::with_options(options);
-    pipeline.add_processor(Box::new(recipe_processor));
+    pipeline.add_processor(recipe_processor);
 
     pipeline.run()?;
 

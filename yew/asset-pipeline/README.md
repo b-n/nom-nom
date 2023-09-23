@@ -1,13 +1,27 @@
-# Asset builder for nom-nom
+# Asset-builder
 
-This is the start of an asset pipeline for nom nom.
+A plugable asset pipeline builder for generation Frontend assets.
 
-Goals:
+## Goals
 
-- Pipeline orientated. Ideally would follow the following stages:
-  - Asset Discovery
-  - Task Generation
-  - Task Execution and Asset generation
+- An orchestrator of all things assets
+- Async and performant
+- Caching of assets
 
-Ideally in the above, the Task Execution and Asset Generation can be done in parallel since this
-is likely where most of the work will be.
+## Todo
+
+Pipeline:
+
+- [ ] Make sure `Processor::filter` is actually called
+- [ ] Make processor execution async
+- [ ] Make task execution async
+
+Tasks:
+
+- [ ] ImageResizer
+- [ ] IconResizer
+- [ ] CopyFile
+
+Meta:
+
+- [ ] Task docs

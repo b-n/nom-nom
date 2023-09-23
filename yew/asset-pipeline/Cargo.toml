@@ -1,7 +1,9 @@
 [package]
 name = "asset-pipeline"
+keywords = ["assets", "pipeline"]
+categories = ["web-programming"]
 version = "0.1.0"
-description = "Build pipeline for nom-nom"
+description = "Generic asset pipeline"
 readme = "README.md"
 edition.workspace = true
 license.workspace = true
@@ -9,7 +11,4 @@ homepage.workspace = true
 repository.workspace = true
 
 [dependencies]
-pulldown-cmark = "0.9.3"
-rkyv = { version = "0.7.42" }
 walkdir = "2.4.0"
-nom-nom = { version = "0.1.0", path = "../" }

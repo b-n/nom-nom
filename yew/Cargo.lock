@@ -62,9 +62,6 @@ checksum = "d301b3b94cb4b2f23d7917810addbbaff90738e0ca2be692bd027e70d7e0330c"
 name = "asset-pipeline"
 version = "0.1.0"
 dependencies = [
- "nom-nom",
- "pulldown-cmark",
- "rkyv",
  "walkdir",
 ]
 
@@ -786,6 +783,16 @@ dependencies = [
  "yew",
  "yew-hooks",
  "yew-router",
+]
+
+[[package]]
+name = "nom-nom-assets"
+version = "0.1.0"
+dependencies = [
+ "asset-pipeline",
+ "nom-nom",
+ "pulldown-cmark",
+ "rkyv",
 ]
 
 [[package]]

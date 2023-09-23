@@ -3,6 +3,8 @@ name = "nom-nom"
 version = "0.1.0"
 description = "Recipes for a Rust developer"
 readme = "README.md"
+keywords = ["recipes"]
+categories = ["web-programming"]
 edition.workspace = true
 license.workspace = true
 homepage.workspace = true
@@ -10,7 +12,8 @@ repository.workspace = true
 
 [workspace]
 members = [
-  "asset-pipeline"
+  "asset-pipeline",
+  "nom-nom-assets"
 ]
 
 [workspace.package]

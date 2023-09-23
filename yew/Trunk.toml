@@ -6,4 +6,4 @@ dist = "dist"
 # Execute the custom asset pipeline for recipes and other assets
 stage = "build"
 command = "cargo"
-command_arguments = ["run", "-p", "asset-pipeline"]
+command_arguments = ["run", "-p", "nom-nom-assets"]
