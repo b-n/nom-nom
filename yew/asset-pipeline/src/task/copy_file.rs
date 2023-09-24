@@ -1,4 +1,5 @@
 use std::error::Error;
+use std::fs;
 use std::path::PathBuf;
 
 use super::{Options, PipelineTask, Task};
@@ -9,8 +10,14 @@ pub struct CopyFile {
 }
 
 impl PipelineTask for CopyFile {
-    fn perform(&self, _options: &Options) -> Result<(), Box<dyn Error>> {
-        todo!()
+    fn perform(&self, options: &Options) -> Result<(), Box<dyn Error>> {
+        let target = options.target_root.join(&self.target);
+
+        Self::ensure_dir(&target)?;
+
+        fs::copy(&self.source, &target)?;
+
+        Ok(())
     }
 }
 
