@@ -4,7 +4,7 @@ use yew::{function_component, html, Callback, Classes, Html, Properties};
 use yew_router::hooks::use_navigator;
 
 use crate::components as c;
-use crate::hooks::use_locale;
+use crate::hooks::{use_asset, use_locale};
 use crate::models::recipe::Recipe;
 use crate::Route;
 
@@ -21,6 +21,8 @@ pub struct CardProps {
 pub fn Card(props: &CardProps) -> Html {
     let navigator = use_navigator().unwrap();
     let locale = use_locale().to_string();
+
+    let recipe_image_url = use_asset(&props.recipe.image);
 
     let content_style = use_style!(
         r#"
@@ -54,7 +56,7 @@ pub fn Card(props: &CardProps) -> Html {
 
     html!(
         <c::Card class={props.class.clone()}>
-            <c::CardImage src={props.recipe.image.clone()} class={image_style} />
+            <c::CardImage src={recipe_image_url.unwrap()} class={image_style} />
             if props.full {
                 <c::Typography variant={c::TypographyVariant::SubTitle} class={content_style}>{props.recipe.name.clone()}</c::Typography>
                 <c::CardActions class="">

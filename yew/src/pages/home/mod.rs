@@ -5,8 +5,11 @@ use yew::{
 use yew_hooks::use_async;
 
 use super::common::{Card, Layout};
-use crate::hooks::i18n::{use_locale_context, LocaleConfig, LocaleConfigAction};
-use crate::services::index::get_index;
+use crate::hooks::{
+    assets::use_asset,
+    i18n::{use_locale_context, LocaleConfig, LocaleConfigAction},
+};
+use crate::services::asset::get_index;
 
 #[derive(PartialEq, Properties, Debug)]
 pub struct PageProps {
@@ -18,9 +21,12 @@ pub fn Home(props: &PageProps) -> Html {
     rust_i18n::set_locale(&props.locale);
     let locale_context = use_locale_context();
 
+    let index_name = format!("{}-index", props.locale.clone());
+    let index_location = use_asset(&index_name);
+
     let index_info = {
-        let locale = props.locale.clone();
-        use_async(async move { get_index(locale).await })
+        let location = index_location.clone();
+        use_async(async move { get_index(location.unwrap()).await })
     };
 
     {

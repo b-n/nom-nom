@@ -3,7 +3,7 @@ id: spiced-veg
 name: Spiced Roasted Veges
 locale: en
 slug: spiced-roasted-veges
-image: /assets/roasted-veges.jpeg
+image: static/assets/roasted-veges.jpg
 ---
 
 # Ingredients

@@ -3,7 +3,7 @@ id: chana-masala
 name: Chana Masala
 locale: en
 slug: chana-masala
-image: /assets/chana-masala.jpeg
+image: static/assets/chana-masala.jpg
 ---
 
 # Ingredients

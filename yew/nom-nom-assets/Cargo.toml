@@ -12,6 +12,6 @@ repository.workspace = true
 
 [dependencies]
 pulldown-cmark = "0.9.3"
-rkyv = { version = "0.7.42" }
+rkyv = { version = "0.7.42", default_features = false, features = ['alloc', 'size_32', 'std'] }
 nom-nom = { version = "0.1.0", path = "../" }
 asset-pipeline = { version = "0.1.0", path = "../asset-pipeline" }

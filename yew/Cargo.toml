@@ -32,7 +32,7 @@ rust-i18n = { version = "2.2.1" }
 # CSS in your Rust
 stylist = { version = "0.11", features = ['yew_use_style', 'parser'] }
 # [de]serialization of recipes
-rkyv = { version = "0.7.42", default_features = false, features = ['alloc', 'size_32'] }
+rkyv = { version = "0.7.42", default_features = false, features = ['alloc', 'size_32', 'std'] }
 # HTTP requests for retrieving recipes
 gloo-net = { version = "0.4.0", default_features = false, features = ['http'] }
 # Debugging (console logging)

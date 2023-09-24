@@ -1,3 +1,6 @@
+use asset_pipeline::AssetDictionary;
+use rkyv::{to_bytes, Archive, Serialize};
+use std::collections::HashMap;
 use std::error::Error;
 use std::path::PathBuf;
 
@@ -8,6 +11,16 @@ use asset_pipeline::{Options, Pipeline};
 
 const RECIPE_ROOT: &str = "data/recipes";
 const STATIC_OUTPUT_ROOT: &str = "static/";
+const ASSETS_PATH: &str = "assets-dict";
+
+#[derive(Archive, Serialize)]
+pub struct Assets(HashMap<String, String>);
+
+impl From<AssetDictionary> for Assets {
+    fn from(dict: AssetDictionary) -> Self {
+        Assets(dict.iter().map(|(k, v)| (k.into(), v.into())).collect())
+    }
+}
 
 // serialize markdown into binaries which can be imported by the frontend
 fn target_root() -> PathBuf {
@@ -28,12 +41,17 @@ fn main() -> Result<(), Box<dyn Error>> {
         processors::RecipeMarkdownProcessor::new_with_path(recipe_path)
     };
 
-    let options = Options::new(target_root());
+    let target = target_root();
+
+    let options = Options::new(target.clone());
 
     let mut pipeline = Pipeline::with_options(options);
     pipeline.add_processor(recipe_processor);
 
-    pipeline.run()?;
+    let assets = pipeline.run()?;
+    let assets_binary = to_bytes::<Assets, 1024>(&assets.into())?;
+    let assets_file = target.join(ASSETS_PATH);
+    std::fs::write(assets_file, &assets_binary)?;
 
     Ok(())
 }

@@ -107,6 +107,12 @@ impl Processor for RecipeMarkdownProcessor {
         let mut recipe_root = PathBuf::new();
         recipe_root.push(RECIPE_ROOT);
 
+        let image_options = task::ResizeOptions {
+            height: 250,
+            width: 433,
+            keep_aspect_ratio: true,
+        };
+
         for (_, recipes) in self.recipes.iter() {
             for recipe in recipes.iter() {
                 let mut target = recipe_root.clone();
@@ -114,10 +120,24 @@ impl Processor for RecipeMarkdownProcessor {
                 target.push(&recipe.slug);
 
                 let task = task::WriteBytes {
+                    id: format!("{}-{}", &recipe.locale, &recipe.slug),
                     source: to_bytes::<_, SCRATCH_SPACE>(recipe)
                         .expect("Failed converting Recipe to bytes")
                         .to_vec(),
                     target,
+                };
+
+                tasks.push(task.into());
+
+                let image_source = PathBuf::from(recipe.image.clone());
+                let file_name = image_source
+                    .file_name()
+                    .expect("An image should have been specified");
+
+                let task = task::ResizeImage {
+                    source: image_source.clone(),
+                    options: image_options.clone(),
+                    target: PathBuf::from(file_name),
                 };
 
                 tasks.push(task.into());
@@ -130,6 +150,7 @@ impl Processor for RecipeMarkdownProcessor {
             target.push(INDEX_FILENAME);
 
             let task = task::WriteBytes {
+                id: format!("{}-index", &index.locale),
                 source: to_bytes::<_, SCRATCH_SPACE>(index)
                     .expect("Failed converting Index to bytes")
                     .to_vec(),

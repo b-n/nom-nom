@@ -8,8 +8,11 @@ mod page;
 mod step;
 
 use super::common::Layout;
-use crate::hooks::i18n::{use_locale_context, LocaleConfig, LocaleConfigAction};
-use crate::services::recipe::get_recipe;
+use crate::hooks::{
+    assets::use_asset,
+    i18n::{use_locale_context, LocaleConfig, LocaleConfigAction},
+};
+use crate::services::asset::get_recipe;
 use container::Container;
 
 #[derive(PartialEq, Properties)]
@@ -24,10 +27,12 @@ pub fn Recipe(props: &PageProps) -> Html {
 
     let locale_context = use_locale_context();
 
+    let recipe_name = format!("{}-{}", props.locale.clone(), props.recipe.clone());
+    let recipe_location = use_asset(&recipe_name);
+
     let recipe_info = {
-        let recipe = props.recipe.clone();
-        let locale = props.locale.clone();
-        use_async(async move { get_recipe(recipe, locale).await })
+        let location = recipe_location.clone();
+        use_async(async move { get_recipe(location.unwrap()).await })
     };
 
     {
