@@ -2,38 +2,7 @@ use std::error::Error;
 use std::fs;
 use std::path::PathBuf;
 
-use super::{Options, PipelineTask};
-
-pub enum Task {
-    CopyFile(CopyFile),
-    WriteBytes(WriteBytes),
-}
-
-impl PipelineTask for Task {
-    fn perform(&self, options: &Options) -> Result<(), Box<dyn Error>> {
-        match self {
-            Self::CopyFile(inner) => inner.perform(options),
-            Self::WriteBytes(inner) => inner.perform(options),
-        }
-    }
-}
-
-pub struct CopyFile {
-    pub source: PathBuf,
-    pub target: PathBuf,
-}
-
-impl PipelineTask for CopyFile {
-    fn perform(&self, _options: &Options) -> Result<(), Box<dyn Error>> {
-        todo!()
-    }
-}
-
-impl From<CopyFile> for Task {
-    fn from(input: CopyFile) -> Self {
-        Task::CopyFile(input)
-    }
-}
+use super::{Options, PipelineTask, Task};
 
 pub struct WriteBytes {
     pub source: Vec<u8>,
