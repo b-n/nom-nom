@@ -12,3 +12,4 @@ repository.workspace = true
 
 [dependencies]
 walkdir = "2.4.0"
+image = "0.24.7"

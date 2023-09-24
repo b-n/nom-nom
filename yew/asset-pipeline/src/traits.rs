@@ -2,8 +2,82 @@ use std::error::Error;
 use std::fs;
 use std::path::PathBuf;
 
+#[derive(PartialEq, Hash, Eq, Clone)]
+pub struct AssetKey(String);
+
+impl From<&str> for AssetKey {
+    fn from(input: &str) -> Self {
+        Self(input.to_string())
+    }
+}
+
+impl From<&String> for AssetKey {
+    fn from(input: &String) -> Self {
+        Self(input.clone())
+    }
+}
+
+impl From<&PathBuf> for AssetKey {
+    fn from(path: &PathBuf) -> Self {
+        Self(path.to_str().expect("Should be a path").to_string())
+    }
+}
+
+// Allowed since we only want to allow conversion to HashMap<String, String>
+#[allow(clippy::from_over_into)]
+impl Into<String> for &AssetKey {
+    fn into(self) -> String {
+        self.clone().0
+    }
+}
+
+#[derive(Clone)]
+pub struct AssetValue(String);
+
+impl From<String> for AssetValue {
+    fn from(input: String) -> Self {
+        Self(input)
+    }
+}
+
+impl From<&str> for AssetValue {
+    fn from(input: &str) -> Self {
+        Self(input.to_string())
+    }
+}
+
+impl From<&PathBuf> for AssetValue {
+    fn from(path: &PathBuf) -> Self {
+        Self(path.to_str().expect("Should be a path").to_string())
+    }
+}
+
+impl From<PathBuf> for AssetValue {
+    fn from(path: PathBuf) -> Self {
+        Self(path.to_str().expect("Should be a path").to_string())
+    }
+}
+
+// Allowed since we only want to allow conversion to HashMap<String, String>
+#[allow(clippy::from_over_into)]
+impl Into<String> for &AssetValue {
+    fn into(self) -> String {
+        self.clone().0
+    }
+}
+
 use super::{Options, Task};
 
+/// Implemented by Processors in order to generate Tasks for the `Pipeline`.
+///
+/// Requires the impementation of the following:
+/// - `paths()` - Used to extract the locations which will be searched.
+/// - `parse()` - Called for each entry found from traversing `paths()`. This
+///   gives the opportunity to set internal state in the processor for later
+///   extraction of `PipelineTask`s.
+/// - `fn tasks(&self) -> Result<Vec<PipelineTask>, Box<dyn Error>>` - Used to
+///   take the internal state and generate `PipelineTask` which can be executed
+///   in parallel.
 pub trait Processor {
     /// Defines the array of paths that this processor is set to scan
     fn paths(&self) -> &Vec<PathBuf>;
@@ -61,8 +135,19 @@ pub trait Processor {
     fn tasks(&self) -> Result<Vec<Task>, Box<dyn Error>>;
 }
 
+/// A task which can be performed by the `Pipeline` in parallel.
 pub trait PipelineTask {
+    /// The key to reference this asset by.
+    fn asset_key(&self) -> AssetKey;
+
+    /// The value to refernce this asset by.
+    fn asset_value(&self, options: &Options) -> AssetValue;
+
     /// The work to be done on the task. This is called from `Pipeline`.
+    ///
+    /// The result `PipelineDictionaryItem` is used to identify the asset as
+    /// paths and outputs may change during task processing (e.g. images names
+    /// could contain a hash for cache busting).
     ///
     /// # Errors
     ///

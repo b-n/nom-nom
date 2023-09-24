@@ -13,6 +13,7 @@
 #![warn(unused_qualifications)]
 #![warn(variant_size_difference)]
 
+use std::collections::HashMap;
 use std::error::Error;
 use walkdir::WalkDir;
 
@@ -24,9 +25,12 @@ pub use options::Options;
 pub use task::Task;
 pub use traits::*;
 
+pub type AssetDictionary = HashMap<AssetKey, AssetValue>;
+
 /// The root
 pub struct Pipeline {
     options: Options,
+    dictionary: AssetDictionary,
     processors: Vec<Box<dyn Processor>>,
 }
 
@@ -36,6 +40,7 @@ impl Pipeline {
     pub fn with_options(options: Options) -> Self {
         Pipeline {
             processors: vec![],
+            dictionary: HashMap::new(),
             options,
         }
     }
@@ -67,12 +72,12 @@ impl Pipeline {
     /// # Errors
     ///
     /// Returns a `std::error::Error` on any failures
-    pub fn run(&mut self) -> Result<(), Box<dyn Error>> {
+    pub fn run(&mut self) -> Result<AssetDictionary, Box<dyn Error>> {
         let tasks = self.generate_tasks_from_processors()?;
 
         self.process_tasks(tasks)?;
 
-        Ok(())
+        Ok(self.finalize())
     }
 
     fn generate_tasks_from_processors(&mut self) -> Result<Vec<Task>, Box<dyn Error>> {
@@ -102,10 +107,17 @@ impl Pipeline {
         Ok(tasks)
     }
 
-    fn process_tasks(&self, tasks: Vec<Task>) -> Result<(), Box<dyn Error>> {
+    fn process_tasks(&mut self, tasks: Vec<Task>) -> Result<(), Box<dyn Error>> {
         for task in tasks {
             task.perform(&self.options)?;
+
+            self.dictionary
+                .insert(task.asset_key(), task.asset_value(&self.options));
         }
         Ok(())
+    }
+
+    fn finalize(&self) -> AssetDictionary {
+        self.dictionary.clone()
     }
 }
