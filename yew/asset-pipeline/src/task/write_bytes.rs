@@ -11,16 +11,11 @@ pub struct WriteBytes {
 
 impl PipelineTask for WriteBytes {
     fn perform(&self, options: &Options) -> Result<(), Box<dyn Error>> {
-        let output_file = options.target_root.join(&self.target);
+        let output_path = options.target_root.join(&self.target);
 
-        let output_dir = output_file.clone();
-        let output_dir = output_dir.parent().expect("Should be a directory");
+        Self::ensure_dir(&output_path)?;
 
-        if !output_dir.exists() {
-            fs::create_dir_all(output_dir)?;
-        }
-
-        fs::write(output_file, &self.source)?;
+        fs::write(&output_path, &self.source)?;
 
         Ok(())
     }

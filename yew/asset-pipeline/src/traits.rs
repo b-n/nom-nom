@@ -1,4 +1,5 @@
 use std::error::Error;
+use std::fs;
 use std::path::PathBuf;
 
 use super::{Options, Task};
@@ -67,4 +68,23 @@ pub trait PipelineTask {
     ///
     /// Any conforming `std::error::Error`
     fn perform(&self, options: &Options) -> Result<(), Box<dyn Error>>;
+
+    /// A helper to ensure an output path exists
+    ///
+    /// # Errors
+    ///
+    /// Will error with `std::io::Error` if directory creation fails
+    ///
+    /// # Panics
+    ///
+    /// Will panic if parsing a file but the parent directory cannot be derived
+    fn ensure_dir(path: &PathBuf) -> Result<(), std::io::Error> {
+        let output_dir = if path.is_dir() {
+            path
+        } else {
+            path.parent().expect("Should be a directory")
+        };
+
+        fs::create_dir_all(output_dir)
+    }
 }
