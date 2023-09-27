@@ -75,12 +75,12 @@ impl Pipeline {
     /// # Errors
     ///
     /// Returns a `std::error::Error` on any failures
-    pub fn run(&mut self) -> Result<AssetMap, Box<dyn Error>> {
+    pub fn run(&mut self) -> Result<(), Box<dyn Error>> {
         let tasks = self.generate_tasks_from_processors()?;
 
         self.process_tasks(tasks)?;
 
-        Ok(self.finalize())
+        Ok(())
     }
 
     fn generate_tasks_from_processors(&mut self) -> Result<Vec<Task>, Box<dyn Error>> {
@@ -132,7 +132,9 @@ impl Pipeline {
         Ok(())
     }
 
-    fn finalize(&self) -> AssetMap {
-        self.asset_map.clone()
+    /// Consumes the `Pipeline` and retrieves all the processed assets.
+    #[must_use]
+    pub fn asset_map(self) -> AssetMap {
+        self.asset_map
     }
 }

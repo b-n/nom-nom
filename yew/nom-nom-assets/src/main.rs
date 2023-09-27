@@ -47,8 +47,10 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let mut pipeline = Pipeline::with_options(options);
     pipeline.add_processor(recipe_processor);
+    pipeline.run()?;
 
-    let assets = pipeline.run()?;
+    let assets = pipeline.asset_map();
+
     let assets_binary = to_bytes::<Assets, 1024>(&assets.into())?;
     let assets_file = target.join(ASSETS_PATH);
     std::fs::write(assets_file, &assets_binary)?;
