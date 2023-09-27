@@ -43,7 +43,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let target = target_root();
 
-    let options = Options::new(target.clone());
+    let options = Options::new(&target);
 
     let mut pipeline = Pipeline::with_options(options);
     pipeline.add_processor(recipe_processor);
