@@ -3,7 +3,7 @@ use rkyv::to_bytes;
 use std::collections::HashMap;
 use std::error::Error;
 use std::fs;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use crate::utils::{locale::flag_for, markdown_parser::RecipeParser};
 use nom_nom::models::i18n::LocalisedLink;
@@ -55,7 +55,7 @@ impl Processor for RecipeMarkdownProcessor {
         &self.paths
     }
 
-    fn parse(&mut self, path: PathBuf) -> Result<(), Box<dyn Error>> {
+    fn parse(&mut self, path: &Path) -> Result<(), Box<dyn Error>> {
         let contents = fs::read_to_string(path)?;
         let recipe = RecipeParser::default().parse(&contents)?;
 

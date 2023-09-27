@@ -1,6 +1,6 @@
 use std::error::Error;
 use std::fs;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use crate::{AssetKey, AssetValue, Options, Task};
 
@@ -22,7 +22,7 @@ pub trait Processor {
     /// processor. This can be used when the paths from `paths()` contains files
     /// that should not be processed by this processor as the pipeline recurses
     /// all directories.
-    fn filter(&self, _path: PathBuf) -> bool {
+    fn filter(&self, _path: &Path) -> bool {
         true
     }
 
@@ -36,7 +36,7 @@ pub trait Processor {
     /// # Errors
     ///
     /// Any conforming `std::error::Error`
-    fn parse(&mut self, path: PathBuf) -> Result<(), Box<dyn Error>>;
+    fn parse(&mut self, path: &Path) -> Result<(), Box<dyn Error>>;
 
     /// A hook to prior to the parse method. If not provided, `after_parse`
     /// does nothing.

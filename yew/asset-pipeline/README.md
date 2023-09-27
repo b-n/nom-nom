@@ -12,7 +12,7 @@ A plugable asset pipeline builder for generation Frontend assets.
 
 Pipeline:
 
-- [ ] Make sure `Processor::filter` is actually called
+- [x] Make sure `Processor::filter` is actually called
 - [ ] Make processor execution async
 - [ ] Make task execution async
 

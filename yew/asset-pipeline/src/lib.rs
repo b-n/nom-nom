@@ -98,7 +98,12 @@ impl Pipeline {
                 .filter_map(Result::ok)
                 .filter(|e| !e.file_type().is_dir())
             {
-                processor.parse(path.into_path())?;
+                let path = path.path();
+                // Give the processer the ability to filter this path. Default
+                // impl returns true for all paths.
+                if processor.filter(path) {
+                    processor.parse(path)?;
+                }
             }
 
             // Hook: after_parse
