@@ -34,5 +34,6 @@ dist
 # testing assets output folders
 static/data
 
-# asset builder cache
-.cache
+# .cache folder
+.cache/*
+!.cache/.keep

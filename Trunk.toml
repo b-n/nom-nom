@@ -7,3 +7,6 @@ dist = "dist"
 stage = "build"
 command = "cargo"
 command_arguments = ["run", "--release", "-p", "nom-nom-assets"]
+
+[watch]
+ignore = [".cache/"]
