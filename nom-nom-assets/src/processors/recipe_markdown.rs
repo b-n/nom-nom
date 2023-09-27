@@ -111,6 +111,7 @@ impl Processor for RecipeMarkdownProcessor {
             height: 250,
             width: 433,
             keep_aspect_ratio: true,
+            minimum_dimensions: true,
         };
 
         for (_, recipes) in self.recipes.iter() {
