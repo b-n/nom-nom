@@ -5,6 +5,7 @@ use std::path::PathBuf;
 use super::{Options, PipelineTask, Task};
 use crate::{AssetKey, AssetValue};
 
+#[derive(Hash)]
 pub struct CopyFile {
     pub source: PathBuf,
     pub target: PathBuf,

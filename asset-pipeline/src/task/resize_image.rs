@@ -15,7 +15,7 @@ use crate::{AssetKey, AssetValue};
 ///   dimensions when `keep_aspect_ratio` is set to `true`.
 ///
 /// \* These options may change the output width/height.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Hash)]
 pub struct ResizeOptions {
     pub width: u32,
     pub height: u32,
@@ -23,7 +23,7 @@ pub struct ResizeOptions {
     pub minimum_dimensions: bool,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Hash)]
 pub struct ResizeImage {
     pub source: PathBuf,
     pub options: ResizeOptions,
@@ -44,12 +44,23 @@ impl PipelineTask for ResizeImage {
 
     #[allow(clippy::cast_possible_truncation, clippy::cast_sign_loss)]
     fn perform(&self, options: &Options) -> Result<(), Box<dyn Error>> {
+        // Determine target path and ensure it exists
         let mut target = options.target_root.join(&options.image_root);
         target.push(&self.target);
-
         Self::ensure_dir(&target)?;
 
-        let image = ImageReader::open(&self.source)?.decode()?;
+        // Restore from cache if possible
+        if self.restore_from_cache(&target, options)? {
+            return Ok(());
+        }
+
+        // Read the image and perform resizing
+        let image_reader = ImageReader::open(&self.source)?;
+        let format = image_reader
+            .format()
+            .expect("Could not determine image format");
+        let image = image_reader.decode()?;
+
         let (s_width, s_height) = image.dimensions();
 
         let t_width = self.options.width;
@@ -88,8 +99,16 @@ impl PipelineTask for ResizeImage {
             image.thumbnail_exact(t_width, t_height)
         };
 
+        // Save the resized image
         println!("Saving: {}", target.display());
-        resized_image.save(target)?;
+        resized_image.save_with_format(&target, format)?;
+
+        // Save the image to the cache if we are using a cache
+        if options.use_cache {
+            let cache_path = self.cache_path(options);
+            Self::ensure_dir(&cache_path)?;
+            resized_image.save_with_format(&cache_path, format)?;
+        }
 
         Ok(())
     }

@@ -11,6 +11,7 @@ pub use copy_file::CopyFile;
 pub use resize_image::{ResizeImage, ResizeOptions};
 pub use write_bytes::WriteBytes;
 
+#[derive(Hash)]
 pub enum Task {
     CopyFile(CopyFile),
     WriteBytes(WriteBytes),

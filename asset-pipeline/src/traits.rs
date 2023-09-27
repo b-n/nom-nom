@@ -1,5 +1,8 @@
+use std::collections::hash_map::DefaultHasher;
 use std::error::Error;
 use std::fs;
+use std::hash::Hash;
+use std::hash::Hasher;
 use std::path::{Path, PathBuf};
 
 use crate::{AssetKey, AssetValue, Options, Task};
@@ -72,7 +75,7 @@ pub trait Processor {
 }
 
 /// A task which can be performed by the `Pipeline` in parallel.
-pub trait PipelineTask {
+pub trait PipelineTask: Hash {
     /// The key to reference this asset by.
     fn asset_key(&self) -> AssetKey;
 
@@ -99,7 +102,7 @@ pub trait PipelineTask {
     /// # Panics
     ///
     /// Will panic if parsing a file but the parent directory cannot be derived
-    fn ensure_dir(path: &PathBuf) -> Result<(), std::io::Error> {
+    fn ensure_dir(path: &Path) -> Result<(), std::io::Error> {
         let output_dir = if path.is_dir() {
             path
         } else {
@@ -107,5 +110,36 @@ pub trait PipelineTask {
         };
 
         fs::create_dir_all(output_dir)
+    }
+
+    fn cache_key(&self) -> u64 {
+        let mut hasher = DefaultHasher::new();
+        self.hash(&mut hasher);
+        hasher.finish()
+    }
+
+    fn cache_path(&self, options: &Options) -> PathBuf {
+        options
+            .cache_path
+            .clone()
+            .join(format!("{:x}", self.cache_key()))
+    }
+
+    /// Retrieve a file from cache and write to the target if it exists.
+    ///
+    /// Returns true if a file was read and written from cache.
+    ///
+    /// # Errors
+    ///
+    /// returns `std::io::Error` if copy or target directory creation fails.
+    fn restore_from_cache(&self, target: &Path, options: &Options) -> Result<bool, std::io::Error> {
+        let cache_path = self.cache_path(options);
+        if options.use_cache && cache_path.exists() {
+            println!("Using cache: {}", target.display());
+            fs::copy(&cache_path, target)?;
+            Ok(true)
+        } else {
+            Ok(false)
+        }
     }
 }

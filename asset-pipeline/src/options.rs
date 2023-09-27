@@ -1,6 +1,7 @@
 use std::path::{Path, PathBuf};
 
 const IMAGE_ROOT: &str = "images";
+const DEFAULT_CACHE_PATH: &str = ".cache/assets/";
 
 /// Options for the Pipeline.
 ///
@@ -9,6 +10,8 @@ const IMAGE_ROOT: &str = "images";
 pub struct Options {
     pub target_root: PathBuf,
     pub image_root: PathBuf,
+    pub use_cache: bool,
+    pub cache_path: PathBuf,
 }
 
 impl Options {
@@ -17,9 +20,13 @@ impl Options {
         let mut image_root = PathBuf::new();
         image_root.push(IMAGE_ROOT);
 
+        let cache_path = PathBuf::from(DEFAULT_CACHE_PATH);
+
         Self {
             target_root: target_root.to_owned(),
             image_root,
+            use_cache: true,
+            cache_path,
         }
     }
 

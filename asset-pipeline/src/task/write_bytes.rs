@@ -1,10 +1,11 @@
 use std::error::Error;
-use std::fs;
+use std::fs::write;
 use std::path::PathBuf;
 
 use super::{Options, PipelineTask, Task};
 use crate::{AssetKey, AssetValue};
 
+#[derive(Hash)]
 pub struct WriteBytes {
     pub id: String,
     pub source: Vec<u8>,
@@ -21,12 +22,22 @@ impl PipelineTask for WriteBytes {
     }
 
     fn perform(&self, options: &Options) -> Result<(), Box<dyn Error>> {
-        let output_path = options.target_root.join(&self.target);
+        let target = options.target_root.join(&self.target);
+        Self::ensure_dir(&target)?;
 
-        Self::ensure_dir(&output_path)?;
+        // Restore from cache if possible
+        if self.restore_from_cache(&target, options)? {
+            return Ok(());
+        }
 
-        fs::write(&output_path, &self.source)?;
+        write(&target, &self.source)?;
 
+        // Write to cache if using cache
+        if options.use_cache {
+            let cache_path = self.cache_path(options);
+            Self::ensure_dir(&cache_path)?;
+            write(cache_path, &self.source)?;
+        }
         Ok(())
     }
 }

@@ -15,6 +15,7 @@ Pipeline:
 - [x] Make sure `Processor::filter` is actually called
 - [ ] Make processor execution async
 - [ ] Make task execution async
+- [x] Caching mechanism for task execution
 
 Tasks:
 
