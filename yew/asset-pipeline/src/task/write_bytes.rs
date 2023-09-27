@@ -13,8 +13,7 @@ pub struct WriteBytes {
 
 impl PipelineTask for WriteBytes {
     fn asset_key(&self) -> AssetKey {
-        let id = &self.id;
-        id.into()
+        (&self.id).into()
     }
 
     fn asset_value(&self, _options: &Options) -> AssetValue {

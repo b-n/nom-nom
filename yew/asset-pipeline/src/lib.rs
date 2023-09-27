@@ -13,24 +13,23 @@
 #![warn(unused_qualifications)]
 #![warn(variant_size_difference)]
 
-use std::collections::HashMap;
 use std::error::Error;
 use walkdir::WalkDir;
 
+mod asset_map;
 mod options;
 pub mod task;
 mod traits;
 
+pub use asset_map::*;
 pub use options::Options;
 pub use task::Task;
 pub use traits::*;
 
-pub type AssetDictionary = HashMap<AssetKey, AssetValue>;
-
 /// The root
 pub struct Pipeline {
     options: Options,
-    dictionary: AssetDictionary,
+    asset_map: AssetMap,
     processors: Vec<Box<dyn Processor>>,
 }
 
@@ -40,7 +39,7 @@ impl Pipeline {
     pub fn with_options(options: Options) -> Self {
         Pipeline {
             processors: vec![],
-            dictionary: HashMap::new(),
+            asset_map: AssetMap::new(),
             options,
         }
     }
@@ -76,7 +75,7 @@ impl Pipeline {
     /// # Errors
     ///
     /// Returns a `std::error::Error` on any failures
-    pub fn run(&mut self) -> Result<AssetDictionary, Box<dyn Error>> {
+    pub fn run(&mut self) -> Result<AssetMap, Box<dyn Error>> {
         let tasks = self.generate_tasks_from_processors()?;
 
         self.process_tasks(tasks)?;
@@ -116,19 +115,19 @@ impl Pipeline {
             let key = task.asset_key();
 
             // No need to generate the same asset twice
-            if self.dictionary.get(&key).is_some() {
+            if self.asset_map.get(&key).is_some() {
                 continue;
             }
 
             task.perform(&self.options)?;
 
-            self.dictionary
+            self.asset_map
                 .insert(task.asset_key(), task.asset_value(&self.options));
         }
         Ok(())
     }
 
-    fn finalize(&self) -> AssetDictionary {
-        self.dictionary.clone()
+    fn finalize(&self) -> AssetMap {
+        self.asset_map.clone()
     }
 }

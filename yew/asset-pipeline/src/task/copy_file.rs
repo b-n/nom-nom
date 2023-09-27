@@ -12,8 +12,7 @@ pub struct CopyFile {
 
 impl PipelineTask for CopyFile {
     fn asset_key(&self) -> AssetKey {
-        let source = &self.source;
-        source.into()
+        (&self.source).into()
     }
 
     fn asset_value(&self, _options: &Options) -> AssetValue {

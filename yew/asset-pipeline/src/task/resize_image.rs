@@ -21,8 +21,7 @@ pub struct ResizeImage {
 
 impl PipelineTask for ResizeImage {
     fn asset_key(&self) -> AssetKey {
-        let source = &self.source;
-        source.into()
+        (&self.source).into()
     }
 
     fn asset_value(&self, options: &Options) -> AssetValue {

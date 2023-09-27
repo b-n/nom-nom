@@ -1,4 +1,4 @@
-use asset_pipeline::AssetDictionary;
+use asset_pipeline::AssetMap;
 use rkyv::{to_bytes, Archive, Serialize};
 use std::collections::HashMap;
 use std::error::Error;
@@ -16,8 +16,8 @@ const ASSETS_PATH: &str = "assets-dict";
 #[derive(Archive, Serialize)]
 pub struct Assets(HashMap<String, String>);
 
-impl From<AssetDictionary> for Assets {
-    fn from(dict: AssetDictionary) -> Self {
+impl From<AssetMap> for Assets {
+    fn from(dict: AssetMap) -> Self {
         Assets(dict.iter().map(|(k, v)| (k.into(), v.into())).collect())
     }
 }

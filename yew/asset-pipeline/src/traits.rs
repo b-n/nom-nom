@@ -2,71 +2,7 @@ use std::error::Error;
 use std::fs;
 use std::path::PathBuf;
 
-#[derive(PartialEq, Hash, Eq, Clone)]
-pub struct AssetKey(String);
-
-impl From<&str> for AssetKey {
-    fn from(input: &str) -> Self {
-        Self(input.to_string())
-    }
-}
-
-impl From<&String> for AssetKey {
-    fn from(input: &String) -> Self {
-        Self(input.clone())
-    }
-}
-
-impl From<&PathBuf> for AssetKey {
-    fn from(path: &PathBuf) -> Self {
-        Self(path.to_str().expect("Should be a path").to_string())
-    }
-}
-
-// Allowed since we only want to allow conversion to HashMap<String, String>
-#[allow(clippy::from_over_into)]
-impl Into<String> for &AssetKey {
-    fn into(self) -> String {
-        self.clone().0
-    }
-}
-
-#[derive(Clone)]
-pub struct AssetValue(String);
-
-impl From<String> for AssetValue {
-    fn from(input: String) -> Self {
-        Self(input)
-    }
-}
-
-impl From<&str> for AssetValue {
-    fn from(input: &str) -> Self {
-        Self(input.to_string())
-    }
-}
-
-impl From<&PathBuf> for AssetValue {
-    fn from(path: &PathBuf) -> Self {
-        Self(path.to_str().expect("Should be a path").to_string())
-    }
-}
-
-impl From<PathBuf> for AssetValue {
-    fn from(path: PathBuf) -> Self {
-        Self(path.to_str().expect("Should be a path").to_string())
-    }
-}
-
-// Allowed since we only want to allow conversion to HashMap<String, String>
-#[allow(clippy::from_over_into)]
-impl Into<String> for &AssetValue {
-    fn into(self) -> String {
-        self.clone().0
-    }
-}
-
-use super::{Options, Task};
+use crate::{AssetKey, AssetValue, Options, Task};
 
 /// Implemented by Processors in order to generate Tasks for the `Pipeline`.
 ///
