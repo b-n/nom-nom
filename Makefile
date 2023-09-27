@@ -14,4 +14,7 @@ setup:
 	cargo install --locked trunk && \
 	cargo install --locked miniserve
 
-.PHONY: build dev serve-build setup
+doc:
+	cargo doc --all --open --no-deps
+
+.PHONY: build dev serve-build setup doc
