@@ -17,4 +17,7 @@ setup:
 doc:
 	cargo doc --all --open --no-deps
 
+clean-asset-cache:
+	rm -rf .cache
+
 .PHONY: build dev serve-build setup doc
