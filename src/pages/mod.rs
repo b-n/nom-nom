@@ -8,4 +8,5 @@ mod recipe;
 mod root;
 
 pub use home::Home;
+pub use inspiration::Inspiration;
 pub use recipe::Recipe;

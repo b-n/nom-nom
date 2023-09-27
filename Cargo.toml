@@ -37,6 +37,9 @@ rkyv = { version = "0.7.42", default_features = false, features = ['alloc', 'siz
 gloo-net = { version = "0.4.0", default_features = false, features = ['http'] }
 # Debugging (console logging)
 web-sys = { version = "0.3.64" }
+# For randomness
+rand = { version = "0.8.5" }
+getrandom = { version = "0.2.10", features = ["js"] }
 
 [profile.release]
 # less code to include into binary

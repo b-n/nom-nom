@@ -74,7 +74,7 @@ pub fn Navigation(props: &NavigationProps) -> Html {
         let navigator = navigator.clone();
         let locale = locale.clone();
         let onclick = Callback::from(move |_| {
-            navigator.push(&Route::Home {
+            navigator.push(&Route::Inspiration {
                 locale: locale.clone(),
             });
         });

@@ -10,6 +10,8 @@ pub enum Route {
     Base,
     #[at("/:locale/")]
     Home { locale: String },
+    #[at("/:locale/inspiration")]
+    Inspiration { locale: String },
     #[at("/:locale/:recipe")]
     Recipe { locale: String, recipe: String },
 }
@@ -22,12 +24,13 @@ mod services;
 mod utils;
 
 use hooks::{AssetsProvider, LocaleProvider, LowResImageProvider};
-use pages::{Home, Recipe};
+use pages::{Home, Inspiration, Recipe};
 
 fn switch(routes: Route) -> Html {
     match routes {
         Route::Base => html!(<Home locale={AttrValue::from("en")} />),
         Route::Home { locale } => html!(<Home locale={AttrValue::from(locale)} />),
+        Route::Inspiration { locale } => html!(<Inspiration locale={AttrValue::from(locale)} />),
         Route::Recipe { locale, recipe } => html!(<Recipe locale={locale} recipe={recipe} />),
     }
 }
