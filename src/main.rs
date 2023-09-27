@@ -21,7 +21,7 @@ mod pages;
 mod services;
 mod utils;
 
-use hooks::{assets::AssetsProvider, i18n::LocaleProvider};
+use hooks::{AssetsProvider, LocaleProvider, LowResImageProvider};
 use pages::{Home, Recipe};
 
 fn switch(routes: Route) -> Html {
@@ -35,13 +35,15 @@ fn switch(routes: Route) -> Html {
 #[function_component]
 fn App() -> Html {
     html! {
-        <AssetsProvider>
-            <LocaleProvider default_locale={AttrValue::from("en")}>
-                <BrowserRouter>
-                    <Switch<Route> render={switch} />
-                </BrowserRouter>
-            </LocaleProvider>
-        </AssetsProvider>
+        <LowResImageProvider>
+            <AssetsProvider>
+                <LocaleProvider default_locale={AttrValue::from("en")}>
+                    <BrowserRouter>
+                        <Switch<Route> render={switch} />
+                    </BrowserRouter>
+                </LocaleProvider>
+            </AssetsProvider>
+        </LowResImageProvider>
     }
 }
 

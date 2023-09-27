@@ -10,7 +10,7 @@ pub mod utils;
 const RECIPE_ROOT: &str = "data/recipes";
 const STATIC_OUTPUT_ROOT: &str = "static/";
 const ASSETS_PATH: &str = "assets-dict";
-const LOW_RES_IMAGES: &str = "low-res-assets";
+const LOW_RES_IMAGES: &str = "low-res-images";
 
 #[derive(Archive, Serialize)]
 pub struct Assets(HashMap<String, String>);
@@ -30,6 +30,7 @@ fn target_root() -> PathBuf {
 fn write_assets_map(map: HashMap<String, String>, path: &Path) -> Result<(), Box<dyn Error>> {
     let wrapped = Assets(map);
     let data = to_bytes::<Assets, 1024>(&wrapped)?;
+    println!("Writing asset map to: {}", path.display());
     std::fs::write(path, &data)?;
     Ok(())
 }
@@ -64,7 +65,7 @@ fn main() -> Result<(), Box<dyn Error>> {
             (HashMap::new(), HashMap::new()),
             |(mut asset_map, mut low_res_assets), (key, value)| {
                 if key.ends_with("-low-res") {
-                    low_res_assets.insert(key, value)
+                    low_res_assets.insert(key[0..key.len() - 8].to_string(), value)
                 } else {
                     asset_map.insert(key, value)
                 };

@@ -1,6 +1,7 @@
 use stylist::yew::use_style;
 use yew::{
-    classes, function_component, html, virtual_dom::AttrValue, Children, Classes, Html, Properties,
+    classes, function_component, html, virtual_dom::AttrValue, Callback, Children, Classes, Html,
+    MouseEvent, Properties,
 };
 
 #[derive(Properties, PartialEq)]
@@ -60,7 +61,9 @@ pub struct CardImageProps {
     pub class: Classes,
     pub src: AttrValue,
     #[prop_or_default]
-    pub low_res: AttrValue,
+    pub low_res: Option<AttrValue>,
+    #[prop_or_default]
+    pub onclick: Callback<MouseEvent>,
 }
 
 #[function_component]
@@ -94,8 +97,8 @@ pub fn CardImage(props: &CardImageProps) -> Html {
     );
 
     html!(
-        <div class={classes!(style, props.class.clone())}>
-            if !props.low_res.is_empty() {
+        <div class={classes!(style, props.class.clone())} onclick={props.onclick.clone()}>
+            if props.low_res.is_some() {
                 <img src={props.low_res.clone()} class={image_style.clone()} />
             }
             <img class={image_style.clone()} src={props.src.clone()} />
