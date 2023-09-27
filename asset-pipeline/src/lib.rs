@@ -116,7 +116,7 @@ impl Pipeline {
     }
 
     fn process_tasks(&mut self, tasks: Vec<Task>) -> Result<(), Box<dyn Error>> {
-        for task in tasks {
+        for mut task in tasks {
             let key = task.asset_key();
 
             // No need to generate the same asset twice

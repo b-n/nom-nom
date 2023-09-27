@@ -21,7 +21,7 @@ impl PipelineTask for WriteBytes {
         PathBuf::from("/").join(&self.target).into()
     }
 
-    fn perform(&self, options: &Options) -> Result<(), Box<dyn Error>> {
+    fn perform(&mut self, options: &Options) -> Result<(), Box<dyn Error>> {
         let target = options.target_root.join(&self.target);
         Self::ensure_dir(&target)?;
 

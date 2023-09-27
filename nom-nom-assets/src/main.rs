@@ -1,26 +1,19 @@
-use asset_pipeline::AssetMap;
+use asset_pipeline::{AssetKey, AssetValue, Options, Pipeline};
 use rkyv::{to_bytes, Archive, Serialize};
 use std::collections::HashMap;
 use std::error::Error;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 mod processors;
 pub mod utils;
 
-use asset_pipeline::{Options, Pipeline};
-
 const RECIPE_ROOT: &str = "data/recipes";
 const STATIC_OUTPUT_ROOT: &str = "static/";
 const ASSETS_PATH: &str = "assets-dict";
+const LOW_RES_IMAGES: &str = "low-res-assets";
 
 #[derive(Archive, Serialize)]
 pub struct Assets(HashMap<String, String>);
-
-impl From<AssetMap> for Assets {
-    fn from(dict: AssetMap) -> Self {
-        Assets(dict.iter().map(|(k, v)| (k.into(), v.into())).collect())
-    }
-}
 
 // serialize markdown into binaries which can be imported by the frontend
 fn target_root() -> PathBuf {
@@ -32,6 +25,13 @@ fn target_root() -> PathBuf {
     });
 
     res
+}
+
+fn write_assets_map(map: HashMap<String, String>, path: &Path) -> Result<(), Box<dyn Error>> {
+    let wrapped = Assets(map);
+    let data = to_bytes::<Assets, 1024>(&wrapped)?;
+    std::fs::write(path, &data)?;
+    Ok(())
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
@@ -49,11 +49,32 @@ fn main() -> Result<(), Box<dyn Error>> {
     pipeline.add_processor(recipe_processor);
     pipeline.run()?;
 
+    // Retrieve assets from pipeline, split by low-res assets
     let assets = pipeline.asset_map();
 
-    let assets_binary = to_bytes::<Assets, 1024>(&assets.into())?;
-    let assets_file = target.join(ASSETS_PATH);
-    std::fs::write(assets_file, &assets_binary)?;
+    let (asset_map, low_res_assets) = assets
+        .iter()
+        .map(|(k, v)| {
+            (
+                <&AssetKey as Into<String>>::into(k),
+                <&AssetValue as Into<String>>::into(v),
+            )
+        })
+        .fold(
+            (HashMap::new(), HashMap::new()),
+            |(mut asset_map, mut low_res_assets), (key, value)| {
+                if key.ends_with("-low-res") {
+                    low_res_assets.insert(key, value)
+                } else {
+                    asset_map.insert(key, value)
+                };
+
+                (asset_map, low_res_assets)
+            },
+        );
+
+    write_assets_map(asset_map, &target.join(ASSETS_PATH))?;
+    write_assets_map(low_res_assets, &target.join(LOW_RES_IMAGES))?;
 
     Ok(())
 }

@@ -91,7 +91,7 @@ pub trait PipelineTask: Hash {
     /// # Errors
     ///
     /// Any conforming `std::error::Error`
-    fn perform(&self, options: &Options) -> Result<(), Box<dyn Error>>;
+    fn perform(&mut self, options: &Options) -> Result<(), Box<dyn Error>>;
 
     /// A helper to ensure an output path exists
     ///

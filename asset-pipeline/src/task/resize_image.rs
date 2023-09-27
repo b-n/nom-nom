@@ -1,7 +1,7 @@
 use image::io::Reader as ImageReader;
 use image::GenericImageView;
 use std::error::Error;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use super::{Options, PipelineTask, Task};
 use crate::{AssetKey, AssetValue};
@@ -23,11 +23,34 @@ pub struct ResizeOptions {
     pub minimum_dimensions: bool,
 }
 
+impl ResizeOptions {
+    #[must_use]
+    pub fn new(width: u32, height: u32) -> Self {
+        Self {
+            width,
+            height,
+            keep_aspect_ratio: true,
+            minimum_dimensions: true,
+        }
+    }
+}
+
 #[derive(Clone, Debug, Hash)]
 pub struct ResizeImage {
     pub source: PathBuf,
     pub options: ResizeOptions,
     pub target: PathBuf,
+}
+
+impl ResizeImage {
+    #[must_use]
+    pub fn new(source: &Path, target: &Path, options: &ResizeOptions) -> Self {
+        Self {
+            source: source.to_owned(),
+            target: target.to_owned(),
+            options: options.clone(),
+        }
+    }
 }
 
 impl PipelineTask for ResizeImage {
@@ -43,7 +66,7 @@ impl PipelineTask for ResizeImage {
     }
 
     #[allow(clippy::cast_possible_truncation, clippy::cast_sign_loss)]
-    fn perform(&self, options: &Options) -> Result<(), Box<dyn Error>> {
+    fn perform(&mut self, options: &Options) -> Result<(), Box<dyn Error>> {
         // Determine target path and ensure it exists
         let mut target = options.target_root.join(&options.image_root);
         target.push(&self.target);

@@ -120,28 +120,32 @@ impl Processor for RecipeMarkdownProcessor {
                 target.push(&recipe.locale);
                 target.push(&recipe.slug);
 
-                let task = task::WriteBytes {
-                    id: format!("{}-{}", &recipe.locale, &recipe.slug),
-                    source: to_bytes::<_, SCRATCH_SPACE>(recipe)
-                        .expect("Failed converting Recipe to bytes")
-                        .to_vec(),
-                    target,
-                };
-
-                tasks.push(task.into());
+                tasks.push(
+                    task::WriteBytes {
+                        id: format!("{}-{}", &recipe.locale, &recipe.slug),
+                        source: to_bytes::<_, SCRATCH_SPACE>(recipe)
+                            .expect("Failed converting Recipe to bytes")
+                            .to_vec(),
+                        target,
+                    }
+                    .into(),
+                );
 
                 let image_source = PathBuf::from(recipe.image.clone());
                 let file_name = image_source
                     .file_name()
                     .expect("An image should have been specified");
 
-                let task = task::ResizeImage {
-                    source: image_source.clone(),
-                    options: image_options.clone(),
-                    target: PathBuf::from(file_name),
-                };
+                tasks.push(
+                    task::ResizeImage::new(
+                        &image_source,
+                        &PathBuf::from(file_name),
+                        &image_options,
+                    )
+                    .into(),
+                );
 
-                tasks.push(task.into());
+                tasks.push(task::ResizeLowRes::new(&image_source, 20, 13).into());
             }
         }
 

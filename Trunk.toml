@@ -5,8 +5,10 @@ dist = "dist"
 [[hooks]]
 # Execute the custom asset pipeline for recipes and other assets
 stage = "build"
-command = "cargo"
-command_arguments = ["run", "--release", "-p", "nom-nom-assets"]
+command = "bin/nom-nom-assets"
+# Use the following lines instead to debug the asset pipeline
+#command = "cargo"
+#command_arguments = ["run", "--release", "-p", "nom-nom-assets"]
 
 [watch]
 ignore = [".cache/"]

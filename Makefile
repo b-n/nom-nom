@@ -3,7 +3,7 @@ default: dev
 build:
 	trunk build --release
 
-dev:
+dev: assets
 	trunk serve
 
 serve-build: build
@@ -17,7 +17,11 @@ setup:
 doc:
 	cargo doc --all --open --no-deps
 
+assets: 
+	cargo build --release -p nom-nom-assets
+	cp ./target/release/nom-nom-assets bin/nom-nom-assets
+
 clean-asset-cache:
 	rm -rf .cache/assets
 
-.PHONY: build dev serve-build setup doc
+.PHONY: build dev serve-build setup doc clean-asset-cache assets

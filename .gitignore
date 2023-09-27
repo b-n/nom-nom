@@ -37,3 +37,7 @@ static/data
 # .cache folder
 .cache/*
 !.cache/.keep
+
+# bin folder
+bin/*
+!bin/.keep
