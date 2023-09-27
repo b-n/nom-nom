@@ -18,9 +18,9 @@ Pipeline:
 
 Tasks:
 
-- [ ] ImageResizer
+- [x] ImageResizer
 - [ ] IconResizer
-- [ ] CopyFile
+- [x] CopyFile
 
 Meta:
 

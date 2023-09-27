@@ -69,6 +69,10 @@ impl Pipeline {
     ///
     /// Run each task. See `task` for more info.
     ///
+    /// `Task::asset_key()` is called on each task prior to invocation. If the
+    /// returned key is already in the asset dictionary, processing of the task
+    /// will be skipped.
+    ///
     /// # Errors
     ///
     /// Returns a `std::error::Error` on any failures
