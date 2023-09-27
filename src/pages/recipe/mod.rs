@@ -27,7 +27,7 @@ pub fn Recipe(props: &PageProps) -> Html {
 
     let locale_context = use_locale_context();
 
-    let recipe_name = format!("{}-{}", props.locale.clone(), props.recipe.clone());
+    let recipe_name = format!("{}-{}", &props.locale, &props.recipe);
     let recipe_location = use_asset(&recipe_name);
 
     let recipe_info = {

@@ -22,7 +22,7 @@ pub fn Layout(props: &LayoutProps) -> Html {
     html!(
         <>
             <section class={style}>{ for props.children.iter() }</section>
-            <Navigation title={props.title.clone()} />
+            <Navigation title={&props.title} />
         </>
     )
 }

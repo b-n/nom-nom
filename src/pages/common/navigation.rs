@@ -67,7 +67,7 @@ pub fn Navigation(props: &NavigationProps) -> Html {
                 locale: locale.clone(),
             });
         });
-        html!(<Icon onclick={onclick} icon={IconType::Home} class={classes!(icon_style.clone())} />)
+        html!(<Icon onclick={onclick} icon={IconType::Home} class={icon_style.clone()} />)
     };
 
     let inspiration_icon = {
@@ -78,14 +78,14 @@ pub fn Navigation(props: &NavigationProps) -> Html {
                 locale: locale.clone(),
             });
         });
-        html!(<Icon onclick={onclick} icon={IconType::Inspiration} class={classes!(icon_style.clone())} />)
+        html!(<Icon onclick={onclick} icon={IconType::Inspiration} class={icon_style.clone()} />)
     };
 
     html!(
         <nav class={style}>
             {home_icon}
             <Typography variant={TypographyVariant::SubTitle} class={classes!("title")}>
-                <span>{ props.title.clone() }</span>
+                <span>{ &props.title }</span>
             </Typography>
             <LocaleSelector />
             {inspiration_icon}

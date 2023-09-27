@@ -30,7 +30,7 @@ pub fn AssetsProvider(props: &AssetsProviderProps) -> Html {
 
     html!(
         <ContextProvider<AssetsContext> context={ctx}>
-            { for props.children.clone() }
+            { for props.children.iter() }
         </ContextProvider<AssetsContext>>
     )
 }
@@ -71,7 +71,7 @@ pub fn LowResImageProvider(props: &LowResImageProviderProps) -> Html {
 
     html!(
         <ContextProvider<LowResImageContext> context={ctx}>
-            { for props.children.clone() }
+            { for props.children.iter() }
         </ContextProvider<LowResImageContext>>
     )
 }

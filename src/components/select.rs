@@ -67,7 +67,7 @@ pub fn Select(props: &SelectProps) -> Html {
 
     html! {
         <div class={ style }>
-            <span class="select-label">{ props.label.clone() }</span>
+            <span class="select-label">{ &props.label }</span>
             <div class="select-items">
                 { for props.children.iter() }
             </div>
@@ -104,7 +104,7 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
     let selected = if props.selected { "selected" } else { "" };
 
     html! {
-        <div class={classes!(style, selected)} onclick={props.onclick.clone()}>
+        <div class={classes!(style, selected)} onclick={&props.onclick}>
             { for props.children.iter() }
         </div>
     }

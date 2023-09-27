@@ -73,7 +73,7 @@ pub fn LocaleProvider(props: &LocaleProviderProps) -> Html {
 
     html!(
         <ContextProvider<LocaleContext> context={ctx}>
-            { for props.children.clone() }
+            { for props.children.iter() }
         </ContextProvider<LocaleContext>>
     )
 }

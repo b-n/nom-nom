@@ -30,7 +30,7 @@ pub fn LocaleSelector() -> Html {
                 })
             };
 
-            html!(<SelectItem onclick={onclick.clone()} selected={active_locale.locale == alternate.locale}>{alternate.label.clone()}</SelectItem>)
+            html!(<SelectItem onclick={&onclick} selected={active_locale.locale == alternate.locale}>{&alternate.label}</SelectItem>)
         });
 
         html!(

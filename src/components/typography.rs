@@ -18,11 +18,11 @@ pub struct TypographyProps {
 #[function_component]
 pub fn Typography(props: &TypographyProps) -> Html {
     let class = props.class.clone();
-    let children = props.children.clone();
+    //let children = props.children.clone();
 
     match props.variant {
-        TypographyVariant::Title => html!(<h1 class={class}>{ children }</h1>),
-        TypographyVariant::SubTitle => html!(<h3 class={class}>{ children }</h3>),
-        TypographyVariant::Body => html!(<p class={class}>{ children }</p>),
+        TypographyVariant::Title => html!(<h1 class={class}>{ for props.children.iter() }</h1>),
+        TypographyVariant::SubTitle => html!(<h3 class={class}>{ for props.children.iter() }</h3>),
+        TypographyVariant::Body => html!(<p class={class}>{ for props.children.iter() }</p>),
     }
 }

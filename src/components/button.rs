@@ -60,7 +60,7 @@ pub fn Button(props: &ButtonProps) -> Html {
     };
 
     html!(
-    <button onclick={props.onclick.clone()} class={classes!(style, props.class.clone())}>
+    <button onclick={&props.onclick} class={classes!(style, props.class.clone())}>
         { for props.children.iter() }
     </button>
     )

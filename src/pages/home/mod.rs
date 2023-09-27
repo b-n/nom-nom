@@ -21,7 +21,7 @@ pub fn Home(props: &PageProps) -> Html {
     rust_i18n::set_locale(&props.locale);
     let locale_context = use_locale_context();
 
-    let index_name = format!("{}-index", props.locale.clone());
+    let index_name = format!("{}-index", &props.locale);
     let index_location = use_asset(&index_name);
 
     let index_info = {

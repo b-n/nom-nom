@@ -69,7 +69,7 @@ pub fn Container(props: &ContainerProps) -> Html {
                 steps_per_page={chunk_size}
                 steps={steps.to_vec()}
                 width={window_width}
-                on_page_change={change_page.clone()}
+                on_page_change={&change_page}
                 total_pages={total_pages}
             />
             )

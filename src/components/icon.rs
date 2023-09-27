@@ -37,7 +37,7 @@ pub fn Icon(props: &Props) -> Html {
     let style = use_style!();
 
     html! {
-        <div class={classes!(style, props.class.clone())} onclick={props.onclick.clone()}>
+        <div class={classes!(style, props.class.clone())} onclick={&props.onclick}>
             { props.icon.clone() }
         </div>
     }

@@ -97,11 +97,11 @@ pub fn CardImage(props: &CardImageProps) -> Html {
     );
 
     html!(
-        <div class={classes!(style, props.class.clone())} onclick={props.onclick.clone()}>
+        <div class={classes!(style, props.class.clone())} onclick={&props.onclick}>
             if props.low_res.is_some() {
-                <img src={props.low_res.clone()} class={image_style.clone()} />
+                <img src={&props.low_res} class={image_style.clone()} />
             }
-            <img class={image_style.clone()} src={props.src.clone()} />
+            <img src={&props.src} class={image_style.clone()} />
         </div>
     )
 }
