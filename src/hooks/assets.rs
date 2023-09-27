@@ -69,8 +69,6 @@ pub fn LowResImageProvider(props: &LowResImageProviderProps) -> Html {
             .unwrap()
     };
 
-    web_sys::console::log_1(&format!("{ctx:?}").into());
-
     html!(
         <ContextProvider<LowResImageContext> context={ctx}>
             { for props.children.clone() }
@@ -80,6 +78,5 @@ pub fn LowResImageProvider(props: &LowResImageProviderProps) -> Html {
 
 #[hook]
 pub fn use_low_res_image(key: &str) -> Option<String> {
-    web_sys::console::log_1(&format!("{key:?}").into());
     use_context::<LowResImageContext>().unwrap().get(key)
 }
