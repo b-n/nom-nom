@@ -59,8 +59,6 @@ pub fn Recipe(props: &PageProps) -> Html {
         ("...".to_string(), html!({ "Loading" }))
     };
 
-    web_sys::console::log_1(&format!("{content:?}").into());
-
     html!(
         <Layout title={title}>
             {content}
