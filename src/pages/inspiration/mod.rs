@@ -28,8 +28,8 @@ pub fn Inspiration(props: &PageProps) -> Html {
         use_async(async move { get_deserialized_index(&location).await })
     };
 
+    // Initiate get
     {
-        // Re-fetch if the locale changes
         let index_info = index_info.clone();
         use_effect_with_deps(
             move |_| {

@@ -19,15 +19,17 @@ where
     let res = Request::get(location)
         .send()
         .await
-        .unwrap()
+        .expect("Failed to create or send request");
+
+    let bytes = res
         .binary()
         .await
-        .unwrap();
+        .expect("Failed to convert response body to binary");
 
     // Safety: The bytes are serialized, stored as bytes, then read directly.
     //         There should "in theory" be nothing unsafe here.
     unsafe {
-        let res = rkyv::from_bytes_unchecked::<T>(&res).expect("Invalid deserialization");
+        let res = rkyv::from_bytes_unchecked::<T>(&bytes).expect("Invalid deserialization");
         Ok(res)
     }
 }

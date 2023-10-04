@@ -31,7 +31,7 @@ pub fn Recipe(props: &PageProps) -> Html {
         use_async(async move { get_deserialized_recipe(&location).await })
     };
 
-    // Get the recipe info
+    // Initiate get
     {
         let recipe_info = recipe_info.clone();
         use_effect_with_deps(
