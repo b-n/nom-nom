@@ -12,10 +12,10 @@ use crate::hooks::{
     assets::use_asset,
     i18n::{use_locale_context, LocaleConfig, LocaleConfigAction},
 };
-use crate::services::asset::get_recipe;
+use crate::services::asset::get_deserialized_recipe;
 use container::Container;
 
-#[derive(PartialEq, Properties)]
+#[derive(PartialEq, Properties, Debug)]
 pub struct PageProps {
     pub locale: AttrValue,
     pub recipe: AttrValue,
@@ -24,19 +24,15 @@ pub struct PageProps {
 #[function_component]
 pub fn Recipe(props: &PageProps) -> Html {
     rust_i18n::set_locale(&props.locale);
-
     let locale_context = use_locale_context();
 
-    let recipe_name = format!("{}-{}", &props.locale, &props.recipe);
-    let recipe_location = use_asset(&recipe_name);
-
     let recipe_info = {
-        let location = recipe_location.clone();
-        use_async(async move { get_recipe(location.unwrap()).await })
+        let location = use_asset(&[&props.locale, "-", &props.recipe].concat()).unwrap();
+        use_async(async move { get_deserialized_recipe(&location).await })
     };
 
+    // Get the recipe info
     {
-        // Re-fetch if the locale changes
         let recipe_info = recipe_info.clone();
         use_effect_with_deps(
             move |_| {

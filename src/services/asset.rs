@@ -1,28 +1,22 @@
 use gloo_net::http::Request;
-use rkyv::{archived_root, Deserialize};
+use rkyv::{Archive, Deserialize};
 
 use crate::models::{index::Index, recipe::Recipe};
 
-//TODO: There should be a way to do this generically, rkyv is hard
-
-pub async fn get_index(location: String) -> Result<Index, ()> {
-    let res = Request::get(&location)
-        .send()
-        .await
-        .unwrap()
-        .binary()
-        .await
-        .unwrap();
-
-    unsafe {
-        Ok(archived_root::<Index>(&res)
-            .deserialize(&mut rkyv::Infallible)
-            .unwrap())
-    }
+pub async fn get_deserialized_index(location: &str) -> Result<Index, ()> {
+    get_deserialized_asset::<Index>(location).await
 }
 
-pub async fn get_recipe(location: String) -> Result<Recipe, ()> {
-    let res = Request::get(&location)
+pub async fn get_deserialized_recipe(location: &str) -> Result<Recipe, ()> {
+    get_deserialized_asset::<Recipe>(location).await
+}
+
+async fn get_deserialized_asset<T>(location: &str) -> Result<T, ()>
+where
+    T: Archive,
+    T::Archived: Deserialize<T, rkyv::de::deserializers::SharedDeserializeMap>,
+{
+    let res = Request::get(location)
         .send()
         .await
         .unwrap()
@@ -30,9 +24,10 @@ pub async fn get_recipe(location: String) -> Result<Recipe, ()> {
         .await
         .unwrap();
 
+    // Safety: The bytes are serialized, stored as bytes, then read directly.
+    //         There should "in theory" be nothing unsafe here.
     unsafe {
-        Ok(archived_root::<Recipe>(&res)
-            .deserialize(&mut rkyv::Infallible)
-            .unwrap())
+        let res = rkyv::from_bytes_unchecked::<T>(&res).expect("Invalid deserialization");
+        Ok(res)
     }
 }
