@@ -1,5 +1,8 @@
 default: dev
 
+upload-dev: build
+	aws s3 cp --recursive dist s3://dev.nom-nom.nl/
+
 build:
 	trunk build --release
 
