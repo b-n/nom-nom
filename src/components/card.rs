@@ -15,15 +15,16 @@ pub struct CardProps {
 pub fn Card(props: &CardProps) -> Html {
     let style = use_style!(
         r#"
-        border-radius: 5px;
-        border: 3px solid black;
-        box-shadow: 1px 1px 3px black;
+        border-radius: 15px;
+        border: 5px solid black;
+        box-shadow: 6px 5px 5px darkgray;
         background-color: white;
         margin-bottom: 12px;
 
         display: flex;
         flex-direction: column;
         width: 100%;
+        justify-content: space-between;
         "#
     );
 
@@ -79,6 +80,8 @@ pub fn CardImage(props: &CardImageProps) -> Html {
         object-fit: cover;
         object-position: center center;
         height: 250px;
+        border-top-left-radius: 7px;
+        border-top-right-radius: 7px;
         "#
     );
 

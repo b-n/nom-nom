@@ -98,6 +98,7 @@ impl Processor for RecipeMarkdownProcessor {
 
         for index in self.indexes.values_mut() {
             index.alternate_locales = index_links.clone();
+            index.recipes.sort();
         }
     }
 
