@@ -53,11 +53,13 @@ pub fn Recipe(props: &PageProps) -> Html {
 
         (
             recipe.name.clone(),
-            html!(<Container recipe={recipe.clone()} />),
+            html!(<Container recipe={recipe.clone()} key={recipe.locale.clone()}/>),
         )
     } else {
         ("...".to_string(), html!({ "Loading" }))
     };
+
+    web_sys::console::log_1(&format!("{content:?}").into());
 
     html!(
         <Layout title={title}>
