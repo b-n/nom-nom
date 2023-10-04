@@ -18,6 +18,7 @@ use walkdir::WalkDir;
 
 mod asset_map;
 mod options;
+pub mod processor;
 pub mod task;
 mod traits;
 

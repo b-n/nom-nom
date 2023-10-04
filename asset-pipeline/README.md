@@ -26,3 +26,10 @@ Tasks:
 Meta:
 
 - [ ] Task docs
+
+Configuration loader:
+
+- [ ] Toml parser for asset parsing configuration
+- [ ] Pipeline should enable impl Processors to be registered
+- [ ] Processor shouldn't need a fn paths function, the pipeline should register paths to processors
+- [ ] Default processors with deserializable options would be nice
