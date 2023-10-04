@@ -7,8 +7,8 @@ use std::path::{Path, PathBuf};
 mod processors;
 pub mod utils;
 
+const DEFAULT_OUTPUT_ROOT: &str = "dist/";
 const RECIPE_ROOT: &str = "data/recipes";
-const STATIC_OUTPUT_ROOT: &str = "static/";
 const ASSETS_MAP_FILENAME: &str = "assets-dict";
 const LR_IMAGES_MAP_FILENAME: &str = "low-res-images";
 const ASSET_MAP_PATH: &str = ".cache/maps/";
@@ -22,7 +22,7 @@ fn target_root() -> PathBuf {
 
     res.push(match std::env::var("TRUNK_STAGING_DIR") {
         Ok(val) => val,
-        Err(_) => STATIC_OUTPUT_ROOT.to_string(),
+        Err(_) => DEFAULT_OUTPUT_ROOT.to_string(),
     });
 
     res
