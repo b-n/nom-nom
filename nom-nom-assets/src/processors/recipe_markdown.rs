@@ -24,9 +24,9 @@ pub struct RecipeMarkdownProcessor {
 }
 
 impl RecipeMarkdownProcessor {
-    pub fn new_with_path(path: PathBuf) -> Self {
+    pub fn new_with_paths(paths: &[PathBuf]) -> Self {
         RecipeMarkdownProcessor {
-            paths: vec![path],
+            paths: paths.to_vec(),
             recipes: HashMap::new(),
             indexes: HashMap::new(),
         }

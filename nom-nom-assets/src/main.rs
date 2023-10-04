@@ -40,7 +40,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let recipe_processor = {
         let mut recipe_path = PathBuf::new();
         recipe_path.push(RECIPE_ROOT);
-        processors::RecipeMarkdownProcessor::new_with_path(recipe_path)
+        processors::RecipeMarkdownProcessor::new_with_paths(&[recipe_path])
     };
 
     let target = target_root();
