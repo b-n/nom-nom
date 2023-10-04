@@ -72,7 +72,13 @@ impl PipelineTask for ResizeLowRes {
             )
             .blur(0.5f32);
 
-        let buf = image.into_bytes();
+        // render the image to a byte buffer
+        let mut buf: Vec<u8> = vec![];
+        image
+            .write_to(&mut std::io::Cursor::new(&mut buf), format)
+            .unwrap();
+
+        // Encode as base64 so it can be rendered in an image data url
         let base64_data = general_purpose::STANDARD.encode(buf);
         let target = format!("data:{};base64,{}", format.to_mime_type(), base64_data);
 
