@@ -31,9 +31,6 @@ gatsby/.cache
 target
 dist
 
-# testing assets output folders
-static/data
-
 # .cache things
 .cache/maps/*
 !.cache/maps/.keep
