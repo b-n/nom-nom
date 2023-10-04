@@ -1,7 +1,7 @@
 use stylist::yew::use_style;
 use yew::{
-    classes, function_component, html, virtual_dom::AttrValue, Callback, Children, Classes, Html,
-    MouseEvent, Properties,
+    classes, function_component, html, use_state, virtual_dom::AttrValue, Callback, Children,
+    Classes, Html, MouseEvent, Properties,
 };
 
 #[derive(Properties, PartialEq)]
@@ -95,16 +95,27 @@ pub fn CardImage(props: &CardImageProps) -> Html {
         height: 100%;
         object-fit: cover;
         object-position: center center;
-        opacity: 1;
+        opacity: 0;
+        transition: opacity 500ms ease 0s;
         "#
     );
+
+    let opacity = use_state(|| 0);
+
+    let fadein = {
+        let opacity = opacity.clone();
+
+        Callback::from(move |_| {
+            opacity.set(1);
+        })
+    };
 
     html!(
         <div class={classes!(style, props.class.clone())} onclick={&props.onclick}>
             if props.low_res.is_some() {
-                <img src={&props.low_res} class={image_style.clone()} />
+                <img src={&props.low_res} class={image_style.clone()} style={"opacity: 1;"}/>
             }
-            <img src={&props.src} class={image_style.clone()} />
+            <img src={&props.src} class={image_style.clone()} onload={fadein} loading={"lazy"} style={format!("opacity: {};", *opacity)}/>
         </div>
     )
 }
