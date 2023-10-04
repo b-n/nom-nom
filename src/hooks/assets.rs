@@ -20,7 +20,7 @@ pub struct AssetsProviderProps {
 
 #[function_component]
 pub fn AssetsProvider(props: &AssetsProviderProps) -> Html {
-    let assets_dictionary = include_bytes!("../../dist/assets-dict");
+    let assets_dictionary = include_bytes!("../../.cache/maps/assets-dict");
 
     let ctx: AssetsContext = unsafe {
         archived_root::<AssetsContext>(&assets_dictionary[0..])
@@ -61,7 +61,7 @@ pub struct LowResImageProviderProps {
 
 #[function_component]
 pub fn LowResImageProvider(props: &LowResImageProviderProps) -> Html {
-    let bytes = include_bytes!("../../dist/low-res-images");
+    let bytes = include_bytes!("../../.cache/maps/low-res-images");
 
     let ctx: LowResImageContext = unsafe {
         archived_root::<LowResImageContext>(&bytes[0..])

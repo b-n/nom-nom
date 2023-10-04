@@ -34,9 +34,11 @@ dist
 # testing assets output folders
 static/data
 
-# .cache folder
-.cache/*
-!.cache/.keep
+# .cache things
+.cache/maps/*
+!.cache/maps/.keep
+.cache/assets/*
+!.cache/assets/.keep
 
 # bin folder
 bin/*

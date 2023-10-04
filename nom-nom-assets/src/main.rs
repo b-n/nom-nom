@@ -9,8 +9,9 @@ pub mod utils;
 
 const RECIPE_ROOT: &str = "data/recipes";
 const STATIC_OUTPUT_ROOT: &str = "static/";
-const ASSETS_PATH: &str = "assets-dict";
-const LOW_RES_IMAGES: &str = "low-res-images";
+const ASSETS_MAP_FILENAME: &str = "assets-dict";
+const LR_IMAGES_MAP_FILENAME: &str = "low-res-images";
+const ASSET_MAP_PATH: &str = ".cache/maps/";
 
 #[derive(Archive, Serialize)]
 pub struct Assets(HashMap<String, String>);
@@ -74,8 +75,10 @@ fn main() -> Result<(), Box<dyn Error>> {
             },
         );
 
-    write_assets_map(asset_map, &target.join(ASSETS_PATH))?;
-    write_assets_map(low_res_assets, &target.join(LOW_RES_IMAGES))?;
+    // Write the serialized asset maps out so they can be included by the app
+    let assets_path = PathBuf::from(ASSET_MAP_PATH);
+    write_assets_map(asset_map, &assets_path.join(ASSETS_MAP_FILENAME))?;
+    write_assets_map(low_res_assets, &assets_path.join(LR_IMAGES_MAP_FILENAME))?;
 
     Ok(())
 }
