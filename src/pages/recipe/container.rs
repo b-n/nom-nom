@@ -25,8 +25,8 @@ pub fn Container(props: &ContainerProps) -> Html {
     let window_width = window_width as usize;
 
     let chunk_size = match window_width {
-        0..=575 => 1,
-        576..=1024 => 2,
+        0..=767 => 1,
+        768..=1365 => 2,
         _ => 3,
     };
 
