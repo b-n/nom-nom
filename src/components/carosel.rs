@@ -20,7 +20,7 @@ pub struct CaroselProps {
     pub children: Children,
     pub current_page: usize,
     #[prop_or_default]
-    pub on_swipe: Callback<(SwipeDirection, usize, usize)>,
+    pub on_swipe: Callback<(Option<SwipeDirection>, usize, usize)>,
 }
 
 #[function_component]
@@ -73,12 +73,12 @@ pub fn Carosel(props: &CaroselProps) -> Html {
 
                 match **direction {
                     UseSwipeDirection::Right => {
-                        on_swipe.emit((SwipeDirection::Prev, current_page, total_pages))
+                        on_swipe.emit((Some(SwipeDirection::Prev), current_page, total_pages))
                     }
                     UseSwipeDirection::Left => {
-                        on_swipe.emit((SwipeDirection::Next, current_page, total_pages))
+                        on_swipe.emit((Some(SwipeDirection::Next), current_page, total_pages))
                     }
-                    _ => (),
+                    _ => on_swipe.emit((None, current_page, total_pages)),
                 }
             },
             state.direction,
