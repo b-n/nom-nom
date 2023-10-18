@@ -15,7 +15,7 @@ pub fn Layout(props: &LayoutProps) -> Html {
         r#"
         padding-top: 60px;
         display: grid;
-        grid-template-columns: 1fr auto 1fr;
+        grid-template-columns: 1fr minmax(1px, max-content) 1fr;
 
         & > * {
             grid-column: 2;
