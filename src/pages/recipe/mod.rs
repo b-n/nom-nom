@@ -4,7 +4,6 @@ use yew::{
 use yew_hooks::use_async;
 
 mod container;
-mod page;
 mod step;
 
 use super::common::Layout;
@@ -14,6 +13,7 @@ use crate::hooks::{
 };
 use crate::services::asset::get_deserialized_recipe;
 use container::Container;
+use step::Step;
 
 #[derive(PartialEq, Properties, Debug)]
 pub struct PageProps {
@@ -47,9 +47,18 @@ pub fn Recipe(props: &PageProps) -> Html {
             config: LocaleConfig::from(recipe),
         });
 
+        let steps = recipe
+            .steps
+            .iter()
+            .map(|step| html!(<Step recipe_step={step.clone()} />));
+
         (
             recipe.name.clone(),
-            html!(<Container recipe={recipe.clone()} key={recipe.locale.clone()}/>),
+            html!(
+                <Container>
+                    { for steps }
+                </Container>
+            ),
         )
     } else {
         ("...".to_string(), html!({ "Loading" }))
