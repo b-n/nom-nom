@@ -1,5 +1,8 @@
 use stylist::yew::use_style;
-use yew::{function_component, html, use_state, Callback, Children, Html, Properties};
+use yew::{
+    function_component, html, use_node_ref, use_state, Callback, Children, Html, MouseEvent,
+    Properties,
+};
 
 use crate::components as c;
 
@@ -20,27 +23,55 @@ pub fn Container(props: &ContainerProps) -> Html {
         "#
     );
 
+    let node = use_node_ref();
+
     let on_swipe_handler = {
+        let node = node.clone();
         let current_page = current_page.clone();
         let total_pages = total_pages.clone();
-        Callback::from(move |(direction, page, total)| {
+        Callback::from(move |direction| {
+            let total = node
+                .cast::<web_sys::HtmlElement>()
+                .map(|element| {
+                    let content_width = element.scroll_width();
+                    let display_width = element.offset_width();
+
+                    let mut res = content_width / display_width;
+                    if content_width % display_width > 0 {
+                        res += 1;
+                    }
+                    res as usize
+
+                    // This should work, but it doesn't, even thought toolchain 1.73.0
+                    //content_width.div_ceil(display_width) as usize
+                })
+                .expect("Should have a swiped element");
+
             total_pages.set(total);
             match direction {
-                Some(c::SwipeDirection::Next) if page < total - 1 => {
+                Some(c::SwipeDirection::Next) if *current_page < total - 1 => {
                     current_page.set(*current_page + 1);
                 }
-                Some(c::SwipeDirection::Prev) if page > 0 => {
+                Some(c::SwipeDirection::Prev) if *current_page > 0 => {
                     current_page.set(*current_page - 1);
                 }
-                Some(c::SwipeDirection::Next) | Some(c::SwipeDirection::Prev) if page >= total => {
+                Some(c::SwipeDirection::Next) | Some(c::SwipeDirection::Prev)
+                    if *current_page >= total =>
+                {
                     current_page.set(0);
-                }
-                None => {
-                    current_page.set(page);
                 }
                 _ => {}
             }
         })
+    };
+
+    let left_handler = {
+        let handler = on_swipe_handler.clone();
+        Callback::from(move |_: MouseEvent| handler.emit(Some(c::SwipeDirection::Prev)))
+    };
+    let right_handler = {
+        let handler = on_swipe_handler.clone();
+        Callback::from(move |_: MouseEvent| handler.emit(Some(c::SwipeDirection::Next)))
     };
 
     let triangle = use_style!(
@@ -84,36 +115,19 @@ pub fn Container(props: &ContainerProps) -> Html {
         "#
     );
 
-    let left_handler = {
-        let current_page = current_page.clone();
-        let total_pages = total_pages.clone();
-        let handler = on_swipe_handler.clone();
-        Callback::from(move |_| {
-            handler.emit((Some(c::SwipeDirection::Prev), *current_page, *total_pages))
-        })
-    };
-    let right_handler = {
-        let current_page = current_page.clone();
-        let total_pages = total_pages.clone();
-        let handler = on_swipe_handler.clone();
-        Callback::from(move |_| {
-            handler.emit((Some(c::SwipeDirection::Next), *current_page, *total_pages))
-        })
-    };
-
     html!(
-    <>
-        <c::Carosel class={style} on_swipe={on_swipe_handler} current_page={*current_page}>
-            { for props.children.iter() }
-        </c::Carosel>
-        <section>
-            <div class={triangle.clone()} style={"left: 0;"}>
-                <div class={triange_left} onclick={left_handler}>{"↜"}</div>
-            </div>
-            <div class={triangle.clone()} style={"right: 0;"}>
-                <div class={triange_right} onclick={right_handler}>{"↝"}</div>
-            </div>
-        </section>
-    </>
+        <>
+            <c::Carosel class={style} on_swipe={on_swipe_handler} current_page={*current_page} r#ref={&node}>
+                { for props.children.iter() }
+            </c::Carosel>
+            <section>
+                <div class={triangle.clone()} style={"left: 0;"}>
+                    <div class={triange_left} onclick={left_handler}>{"↜"}</div>
+                </div>
+                <div class={triangle.clone()} style={"right: 0;"}>
+                    <div class={triange_right} onclick={right_handler}>{"↝"}</div>
+                </div>
+            </section>
+        </>
     )
 }

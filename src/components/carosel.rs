@@ -1,7 +1,7 @@
 use stylist::yew::use_style;
 use yew::{
-    classes, function_component, html, use_effect_with_deps, use_node_ref, Callback, Children,
-    Classes, Html, Properties,
+    classes, function_component, html, use_effect_with_deps, Callback, Children, Classes, Html,
+    NodeRef, Properties,
 };
 use yew_hooks::{use_swipe, UseSwipeDirection};
 
@@ -20,7 +20,9 @@ pub struct CaroselProps {
     pub children: Children,
     pub current_page: usize,
     #[prop_or_default]
-    pub on_swipe: Callback<(Option<SwipeDirection>, usize, usize)>,
+    pub on_swipe: Callback<Option<SwipeDirection>>,
+    #[prop_or_default]
+    pub r#ref: NodeRef,
 }
 
 #[function_component]
@@ -44,51 +46,24 @@ pub fn Carosel(props: &CaroselProps) -> Html {
         "#
     );
 
-    let node = use_node_ref();
-    let state = use_swipe(node.clone());
-
+    let state = use_swipe(props.r#ref.clone());
     {
-        let node = node.clone();
-        let current_page = props.current_page;
         let state = state.clone();
         let on_swipe = props.on_swipe.clone();
         use_effect_with_deps(
-            move |direction| {
-                let total_pages = node
-                    .cast::<web_sys::HtmlElement>()
-                    .map(|element| {
-                        let content_width = element.scroll_width();
-                        let display_width = element.offset_width();
-
-                        let mut res = content_width / display_width;
-                        if content_width % display_width > 0 {
-                            res += 1;
-                        }
-                        res as usize
-
-                        // This should work, but it doesn't, even thought toolchain 1.73.0
-                        //content_width.div_ceil(display_width) as usize
-                    })
-                    .expect("Should have a swiped element");
-
-                match **direction {
-                    UseSwipeDirection::Right => {
-                        on_swipe.emit((Some(SwipeDirection::Prev), current_page, total_pages))
-                    }
-                    UseSwipeDirection::Left => {
-                        on_swipe.emit((Some(SwipeDirection::Next), current_page, total_pages))
-                    }
-                    _ => on_swipe.emit((None, current_page, total_pages)),
-                }
+            move |direction| match **direction {
+                UseSwipeDirection::Right => on_swipe.emit(Some(SwipeDirection::Prev)),
+                UseSwipeDirection::Left => on_swipe.emit(Some(SwipeDirection::Next)),
+                _ => on_swipe.emit(None),
             },
             state.direction,
         );
     }
 
     html!(
-        <div class={classes!(props.class.clone(), style)} ref={node}>
-             <div class={inner_style} style={format!("left: calc(100% * -{})", props.current_page)}>
-                 { for props.children.iter() }
+        <div class={classes!(props.class.clone(), style)} ref={&props.r#ref}>
+            <div class={inner_style} style={format!("left: calc(100% * -{})", props.current_page)}>
+                { for props.children.iter() }
              </div>
         </div>
     )
