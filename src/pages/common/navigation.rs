@@ -29,6 +29,7 @@ pub fn Navigation(props: &NavigationProps) -> Html {
         top: 0;
         width: 100%;
         box-shadow: 0px 1px 5px black;
+        z-index: 1;
 
         & .title {
             display: flex;

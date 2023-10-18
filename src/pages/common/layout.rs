@@ -14,15 +14,19 @@ pub fn Layout(props: &LayoutProps) -> Html {
     let style = use_style!(
         r#"
         padding-top: 60px;
-        display: flex;
-        justify-content: center;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+
+        & > * {
+            grid-column: 2;
+        }
         "#
     );
 
     html!(
         <>
-            <section class={style}>{ for props.children.iter() }</section>
             <Navigation title={&props.title} />
+            <section class={style}>{ for props.children.iter() }</section>
         </>
     )
 }
