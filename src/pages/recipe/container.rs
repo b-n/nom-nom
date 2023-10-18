@@ -69,8 +69,11 @@ pub fn Container(props: &ContainerProps) -> Html {
                         //content_width.div_ceil(display_width) as usize
                     })
                     .expect("Should have a swiped element");
-                total_pages.set(total);
-                current_page.set(0);
+
+                if total != *total_pages {
+                    total_pages.set(total);
+                    current_page.set(0);
+                }
             },
             window_width,
         )
