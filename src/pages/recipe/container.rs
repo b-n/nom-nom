@@ -1,8 +1,9 @@
 use stylist::yew::use_style;
 use yew::{
-    function_component, html, use_node_ref, use_state, Callback, Children, Html, MouseEvent,
-    Properties,
+    function_component, html, use_effect_with_deps, use_node_ref, use_state, Callback, Children,
+    Html, MouseEvent, Properties,
 };
+use yew_hooks::use_window_size;
 
 use crate::components as c;
 
@@ -14,7 +15,7 @@ pub struct ContainerProps {
 #[function_component]
 pub fn Container(props: &ContainerProps) -> Html {
     let current_page = use_state(|| 0);
-    let total_pages = use_state(|| 0);
+    let total_pages = use_state(|| 1);
 
     let style = use_style!(
         r#"
@@ -26,44 +27,54 @@ pub fn Container(props: &ContainerProps) -> Html {
     let node = use_node_ref();
 
     let on_swipe_handler = {
+        let current_page = current_page.clone();
+        let total_pages = *total_pages;
+        Callback::from(move |direction| match direction {
+            Some(c::SwipeDirection::Next) if *current_page < total_pages - 1 => {
+                current_page.set(*current_page + 1);
+            }
+            Some(c::SwipeDirection::Prev) if *current_page > 0 => {
+                current_page.set(*current_page - 1);
+            }
+            Some(c::SwipeDirection::Next) | Some(c::SwipeDirection::Prev)
+                if *current_page >= total_pages =>
+            {
+                current_page.set(0);
+            }
+            _ => {}
+        })
+    };
+
+    let (window_width, _) = use_window_size();
+
+    {
         let node = node.clone();
         let current_page = current_page.clone();
         let total_pages = total_pages.clone();
-        Callback::from(move |direction| {
-            let total = node
-                .cast::<web_sys::HtmlElement>()
-                .map(|element| {
-                    let content_width = element.scroll_width();
-                    let display_width = element.offset_width();
+        use_effect_with_deps(
+            move |_| {
+                let total = node
+                    .cast::<web_sys::HtmlElement>()
+                    .map(|element| {
+                        let content_width = element.scroll_width();
+                        let display_width = element.offset_width();
 
-                    let mut res = content_width / display_width;
-                    if content_width % display_width > 0 {
-                        res += 1;
-                    }
-                    res as usize
+                        let mut res = content_width / display_width;
+                        if content_width % display_width > 0 {
+                            res += 1;
+                        }
+                        res as usize
 
-                    // This should work, but it doesn't, even thought toolchain 1.73.0
-                    //content_width.div_ceil(display_width) as usize
-                })
-                .expect("Should have a swiped element");
-
-            total_pages.set(total);
-            match direction {
-                Some(c::SwipeDirection::Next) if *current_page < total - 1 => {
-                    current_page.set(*current_page + 1);
-                }
-                Some(c::SwipeDirection::Prev) if *current_page > 0 => {
-                    current_page.set(*current_page - 1);
-                }
-                Some(c::SwipeDirection::Next) | Some(c::SwipeDirection::Prev)
-                    if *current_page >= total =>
-                {
-                    current_page.set(0);
-                }
-                _ => {}
-            }
-        })
-    };
+                        // This should work, but it doesn't, even thought toolchain 1.73.0
+                        //content_width.div_ceil(display_width) as usize
+                    })
+                    .expect("Should have a swiped element");
+                total_pages.set(total);
+                current_page.set(0);
+            },
+            window_width,
+        )
+    }
 
     let left_handler = {
         let handler = on_swipe_handler.clone();
